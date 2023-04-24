@@ -1,5 +1,4 @@
 {
-    "extends": ["prettier"],
     "plugins": ["prettier"],
     "tabWidth": 4,
     "printWidth": 120,

@@ -1,0 +1,11 @@
+.next
+.git
+.husky
+.vscode
+*.md
+*.yml
+*.yaml
+*.xml
+*.csv
+*.css
+*.scss
