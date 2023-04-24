@@ -26,8 +26,11 @@
 - `src/pages/api` - API routes
 - `src/styles` - Global styles
 - `src/utils` - Utility functions
-## Tools
+
+## Libs
 - Nextjs
 - React
 - Typescript
 - EsLint
+- Prettier
+- Husky
