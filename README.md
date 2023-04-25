@@ -5,6 +5,7 @@
 - `yarn build` - Build the app for production
 - `yarn start` - Start the production server
 - `yarn lint` - Run ESLint
+- `yarn test` - Run unit tests
 
 ## Apllication paths
 - `http://localhost:3000` - Development server
@@ -15,6 +16,7 @@
 
 ## Folder structure
 - `public` - Static files (images, fonts, etc.)
+- `src/__tests__` - Tests for page files
 - `src/components` - React components
 - `src/constants` - Constants values
 - `src/contexts` - React contexts
@@ -25,7 +27,6 @@
 - `src/pages/_document.tsx` - Document wrapper
 - `src/pages/api` - API routes
 - `src/styles` - Global styles
-- `src/utils` - Utility functions
 
 ## Libs
 - Nextjs
@@ -34,3 +35,5 @@
 - EsLint
 - Prettier
 - Husky
+- Jest
+- React Testing Library

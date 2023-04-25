@@ -9,7 +9,7 @@ export default function Home() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main>The magic happens here</main>
+            <main data-testid="content">The magic happens here</main>
         </>
     );
 }
