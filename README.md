@@ -38,3 +38,7 @@
 - Jest
 - React Testing Library
 - Tailwindcss
+
+## Links
+- [Custom theme](https://tailwindcss.com/docs/theme)
+- [Custom colors](https://tailwindcss.com/docs/customizing-colors)
