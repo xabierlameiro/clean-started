@@ -37,3 +37,4 @@
 - Husky
 - Jest
 - React Testing Library
+- Tailwindcss
