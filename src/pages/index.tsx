@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Head from 'next/head';
 
-export default function Login() {
+const Login = () => {
     return (
         <>
             <Head>
@@ -71,4 +71,6 @@ export default function Login() {
             </main>
         </>
     );
-}
+};
+
+export default Login;
