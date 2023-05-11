@@ -13,7 +13,6 @@ export default function Login() {
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                         <Image src="/logo.png" alt="logo" width={250} height={250} className="mx-auto" />
                     </div>
-
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form className="space-y-6" action="#" method="POST">
                             <div>
