@@ -8,7 +8,7 @@ const Employees = ({ user }: { user: string }) => {
 
 export async function getServerSideProps() {
     // Get user from server
-    const user = null;
+    const user = 'John Doe';
 
     if (!user) {
         return {
