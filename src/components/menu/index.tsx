@@ -7,10 +7,11 @@ type Item = {
 };
 
 type MenuItems = {
+    currentPage: string;
     items: Item[];
 };
 
-function Menu({ items }: MenuItems) {
+function Menu({ currentPage, items }: MenuItems) {
     return (
         <aside
             id="default-sidebar"
@@ -23,9 +24,13 @@ function Menu({ items }: MenuItems) {
                         <li key={id}>
                             <a
                                 href={item.path}
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                                className={` flex items-center p-2 rounded-lg ${
+                                    item.path == currentPage
+                                        ? 'text-menu-secondary-color bg-menu-primary-color'
+                                        : 'text-menu-primary-color '
+                                }   hover:bg-menu-primary-color  hover:text-menu-secondary-color`}
                             >
-                                <div className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                                <div className="w-6 h-6  transition duration-75 dark:text-gray-400 group-hover:text-menu-secondary-color dark:group-hover:text-white">
                                     {item.icon}
                                 </div>
 
