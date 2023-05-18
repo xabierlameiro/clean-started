@@ -42,3 +42,8 @@
 ## Links
 - [Custom theme](https://tailwindcss.com/docs/theme)
 - [Custom colors](https://tailwindcss.com/docs/customizing-colors)
+
+## Style Guide
+- Hooks
+- Tailwind theme for colors
+
