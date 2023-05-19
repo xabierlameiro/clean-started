@@ -1,12 +1,16 @@
-import Menu from '@/components/Menu';
-import menuItems from '@/constants/menuItems';
+import { Layout } from '@/components/Layout';
 
 const Plan = ({ user }: { user: string }) => {
+    console.log(user);
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
-            <h1 className="text-2xl font-semibold text-gray-900">Bienvenido, {user}</h1>
-            <Menu items={menuItems} />
-        </div>
+        <Layout>
+            <>
+                <div className="border-2 border-green-500 bg-white h-20 mb-4">Filtros</div>
+                <button className="text-white rounded  bg-green-600 p-2 w-full mb-6">Buscar</button>
+                <div className="border-2 border-green-500 bg-white h-full">tabla</div>
+            </>
+        </Layout>
     );
 };
 
