@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { itemsList } from './data';
+import Link from 'next/link';
+
 import { icons } from 'src/constants/icons';
+import { itemsList } from '@/mocks/mockDropdownHeaderList';
 
 export const Dropdown = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -17,9 +19,9 @@ export const Dropdown = () => {
                 <div className="bg-white border-2 absolute right-5 top-12 flex flex-col items-start rounded-lg p-4 gap-2 w-60">
                     {itemsList.map(({ label }, index) => (
                         <div key={index}>
-                            <a href="" className="text-sm hover:font-medium cursor-pointer">
+                            <Link className="text-sm hover:font-medium cursor-pointer" href={'/'}>
                                 {label}
-                            </a>
+                            </Link>
                         </div>
                     ))}
                 </div>

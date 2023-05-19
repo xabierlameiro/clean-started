@@ -1,16 +1,11 @@
 import { useRouter } from 'next/router';
-import { Crumb } from './components/crumb';
+import { Crumb } from '../Crumb';
 
-export const BreadCrumbs = () => {
+export const Breadcrumbs = () => {
     const location = useRouter();
     let currentLink = '';
 
-    const crumbs = location.pathname
-        .split('/')
-        .filter((crumb) => crumb !== '')
-        .map((crumb) => {
-            return crumb;
-        });
+    const crumbs = location.pathname.split('/').filter((crumb) => crumb !== '');
 
     return (
         <ol className="inline-flex items-center">

@@ -21,6 +21,7 @@
             "@/pages/*": ["src/pages/*"],
             "@/components/*": ["src/components/*"],
             "@/constants/*": ["src/constants/*"],
+            "@/mocks/*": ["src/mocks/*"],
             "@/test": ["./jest.setup.js"]
         }
     },
