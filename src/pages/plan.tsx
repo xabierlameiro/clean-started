@@ -1,6 +1,6 @@
-import { Header } from '@/components/Header';
-import Menu from '@/components/menu';
+import Menu from '@/components/Other';
 import menuItems from '@/constants/menuItems';
+import { Header } from '@/components/Header';
 
 const Plan = ({ user }: { user: string }) => {
     return (
