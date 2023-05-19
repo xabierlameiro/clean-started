@@ -1,3 +1,5 @@
+import Menu from '@/components/menu';
+import menuItems from '@/constants/menuItems';
 import { Header } from '@/components/header';
 
 const Plan = ({ user }: { user: string }) => {
@@ -7,6 +9,7 @@ const Plan = ({ user }: { user: string }) => {
 
             <div className="flex flex-col items-center justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
                 <h1 className="text-2xl font-semibold text-gray-900">Bienvenido, {user}</h1>
+                <Menu items={menuItems} />
             </div>
         </>
     );
