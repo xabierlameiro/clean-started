@@ -1,4 +1,4 @@
-import { Header } from '@/components/header';
+import { Header } from '@/components/Header';
 import Menu from '@/components/menu';
 import menuItems from '@/constants/menuItems';
 
