@@ -1,5 +1,5 @@
-import Menu from '../components/menu';
-import menuItems from 'src/constants/menuItems';
+import Menu from '@/components/Menu';
+import menuItems from '@/constants/menuItems';
 
 const Plan = ({ user }: { user: string }) => {
     return (

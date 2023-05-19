@@ -46,4 +46,6 @@
 ## Style Guide
 - Hooks
 - Tailwind theme for colors
+- Components naming convention src/components/ComponentName/index.tsx
+- Imports @/components/ComponentName
 
