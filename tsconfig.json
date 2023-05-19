@@ -20,6 +20,7 @@
             "@/styles/*": ["src/styles/*"],
             "@/pages/*": ["src/pages/*"],
             "@/components/*": ["src/components/*"],
+            "@/constants/*": ["src/constants/*"],
             "@/test": ["./jest.setup.js"]
         }
     },
