@@ -1,7 +1,7 @@
-import Menu from '@/components/menu';
-import menuItems from '@/constants/menuItems';
 import DialogModal from '@/components/modal';
 import modalItems from '@/constants/modalItems';
+import Menu from '@/components/Other';
+import menuItems from '@/constants/menuItems';
 
 const Plan = ({ user }: { user: string }) => {
     return (

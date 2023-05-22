@@ -12,7 +12,7 @@ type MenuItems = {
     items: Item[];
 };
 
-function Menu({ items }: MenuItems) {
+const Menu = ({ items }: MenuItems) => {
     // routing page for active state
     const router = useRouter();
     const currentPage = router.pathname;
@@ -46,6 +46,6 @@ function Menu({ items }: MenuItems) {
             </div>
         </aside>
     );
-}
+};
 
 export default Menu;
