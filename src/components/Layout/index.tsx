@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import menuItems from '@/constants/menuItems';
 import { Header } from '../Header';
-import Menu from '../Other';
+import { Menu } from '../Menu';
 
 type Props = {
     children: ReactElement;
