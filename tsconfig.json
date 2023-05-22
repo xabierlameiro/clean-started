@@ -17,11 +17,14 @@
         "incremental": true,
         "baseUrl": ".",
         "paths": {
+            "@/components/*": ["src/components/*"],
             "@/styles/*": ["src/styles/*"],
             "@/pages/*": ["src/pages/*"],
-            "@/components/*": ["src/components/*"],
             "@/constants/*": ["src/constants/*"],
-            "@/test": ["./jest.setup.js"]
+            "@/mocks/*": ["src/mocks/*"],
+            "@/test": ["./jest.setup.js"],
+            "@/helpers/*": ["src/helpers/*"]
+            
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

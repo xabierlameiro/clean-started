@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Head from 'next/head';
+import { image } from '@/constants/images';
 
 const Login = () => {
     return (
@@ -11,7 +12,13 @@ const Login = () => {
             <main data-testid="content">
                 <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                        <Image src="/logo.png" alt="logo" width={250} height={250} className="mx-auto" />
+                        <Image
+                            src={image.logo.url}
+                            alt={image.logo.name}
+                            width={250}
+                            height={250}
+                            className="mx-auto"
+                        />
                     </div>
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form className="space-y-6" action="#" method="POST">
