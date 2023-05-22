@@ -1,7 +1,7 @@
-import { Dropdown } from './components/dropdown';
 import { icons } from '@/constants/icons';
-import { Breadcrumbs } from './components/breadcrumbs';
-import { Logo } from './components/logo';
+import { Dropdown } from './components/Dropdown';
+import { Breadcrumbs } from './components/Breadcrumbs';
+import { Logo } from './components/Logo';
 
 export const Header = () => {
     return (
