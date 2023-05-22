@@ -2,17 +2,17 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-type Item = {
+type MenuItem = {
     icon: string | React.ReactElement;
     label: string;
     path: string;
 };
 
-type MenuItems = {
-    items: Item[];
+type MenuList = {
+    menuList: MenuItem[];
 };
 
-const Menu = ({ items }: MenuItems) => {
+const Menu = ({ menuList }: MenuList) => {
     // routing page for active state
     const router = useRouter();
     const currentPage = router.pathname;
@@ -25,8 +25,8 @@ const Menu = ({ items }: MenuItems) => {
         >
             <div className="h-full px-3 py-4 overflow-y-auto bg-white">
                 <ul className="space-y-2 font-medium">
-                    {items.map(({ path, icon, label }, id) => (
-                        <li key={id}>
+                    {menuList.map(({ path, icon, label }, id) => (
+                        <li key={`menuitem-${id}`}>
                             <Link
                                 href={path}
                                 className={` flex items-center p-2 rounded-lg ${
