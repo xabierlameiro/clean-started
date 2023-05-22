@@ -2,7 +2,6 @@
 .git
 .husky
 .vscode
-*.md
 *.yml
 *.yaml
 *.xml
