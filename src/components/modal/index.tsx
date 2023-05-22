@@ -28,7 +28,7 @@ function DialogModal({ modal }: Props) {
                 className={`${
                     open ? 'visible' : 'hidden'
                 } fixed inset-0 bg-terciary-color-light bg-opacity-60 transition-opacity`}
-            ></div>
+            />
 
             {/* Modal panel */}
             <div ref={dialogRef} className="fixed inset-0 z-40 overflow-y-auto">
