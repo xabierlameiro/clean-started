@@ -44,4 +44,4 @@ const Menu = ({ items }: MenuItems) => {
     );
 };
 
-export default Menu;
+export { Menu };
