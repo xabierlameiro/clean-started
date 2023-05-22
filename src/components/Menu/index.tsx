@@ -13,7 +13,6 @@ type MenuList = {
 };
 
 const Menu = ({ menuList }: MenuList) => {
-    // routing page for active state
     const router = useRouter();
     const currentPage = router.pathname;
 
