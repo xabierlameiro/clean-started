@@ -2,45 +2,18 @@ import React, { ReactNode } from 'react';
 
 type ModalProps = {
     dialogRef?: React.RefObject<HTMLDivElement>;
-    className?: string;
     open?: boolean;
-    withPadding?: boolean;
-    modalMode?: boolean;
+    large?: boolean;
     header?: ReactNode;
     body?: ReactNode;
     footer?: ReactNode;
-    large?: boolean;
 };
 
-type Modal = {
+type Props = {
     modal: ModalProps;
 };
 
-/**
- * @example
- *     <Dialog
- *         dialogRef={dialogRef}
- *         open={open}
- *         withPadding={withPadding}
- *         modalMode={modalMode}
- *         header={<h1>Header</h1>}
- *         body={<p>Body</p>}
- *         footer={<button>Footer</button>}
- *         large={large}
- *     />;
- *
- * @param {React.RefObject<HTMLDivElement>} dialogRef - Ref to the dialog element
- * @param {boolean} open - If true, the dialog will be open
- * @param {boolean} withPadding - If true, the dialog will have padding
- * @param {boolean} modalMode - If true, the dialog will be not complete screen
- * @param {ReactNode} header - The header of the dialog
- * @param {ReactNode} body - The body of the dialog
- * @param {ReactNode} footer - The footer of the dialog
- * @param {boolean} large - If true, the dialog will be large
- * @returns {JSX.Element}
- */
-
-function DialogModal({ modal }: Modal) {
+function DialogModal({ modal }: Props) {
     const { dialogRef, open, large, header, body, footer } = modal;
 
     return (

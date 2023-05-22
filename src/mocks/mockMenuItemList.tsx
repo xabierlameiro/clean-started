@@ -1,10 +1,10 @@
-type Item = {
+export type MenuItem = {
     icon: string | React.ReactElement;
     label: string;
     path: string;
 };
 
-const menuItems: Item[] = [
+export const menuList: MenuItem[] = [
     {
         icon: (
             <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -38,5 +38,3 @@ const menuItems: Item[] = [
         path: '/auditoriaventa',
     },
 ];
-
-export default menuItems;
