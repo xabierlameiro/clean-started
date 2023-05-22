@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { icons } from 'src/constants/icons';
 import { itemsList } from '@/mocks/mockDropdownHeaderList';
+import { icons } from '@/constants/icons';
 
 export const Dropdown = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);

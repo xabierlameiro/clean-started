@@ -1,5 +1,5 @@
+import { capitalize } from '@/helpers/capitalize.helper';
 import Link from 'next/link';
-import { capitalize } from 'src/helpers/capitalize';
 
 interface Props {
     crumb: string;

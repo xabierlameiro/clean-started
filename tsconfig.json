@@ -22,7 +22,9 @@
             "@/pages/*": ["src/pages/*"],
             "@/constants/*": ["src/constants/*"],
             "@/mocks/*": ["src/mocks/*"],
-            "@/test": ["./jest.setup.js"]
+            "@/test": ["./jest.setup.js"],
+            "@/helpers/*": ["src/helpers/*"]
+            
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
