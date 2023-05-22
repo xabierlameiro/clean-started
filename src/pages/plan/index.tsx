@@ -1,8 +1,14 @@
-const Plan = ({ user }: { user: string }) => {
+import { Layout } from '@/components/Layout';
+
+const Plan = () => {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
-            <h1 className="text-2xl font-semibold text-gray-900">Bienvenido, {user}</h1>
-        </div>
+        <Layout>
+            <>
+                <div className="bg-white h-20 mb-4">Filtros</div>
+                <button className="text-white rounded  bg-green-600 p-2 w-full mb-6">Buscar</button>
+                <div className="bg-white h-full">tabla</div>
+            </>
+        </Layout>
     );
 };
 

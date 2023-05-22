@@ -1,9 +1,10 @@
 import Image from 'next/image';
 
 interface Props {
-    img: string;
+    name: string;
+    url: string;
 }
 
-export const Logo = ({ img }: Props) => {
-    return <Image src={img} alt="logo" width={90} height={0} />;
+export const Logo = ({ name, url }: Props) => {
+    return <Image src={url} alt={name} width={90} height={0} />;
 };
