@@ -31,6 +31,7 @@ export const Filters = () => {
         }));
     };
 
+    // TODO: ADD FUNCTION LOGIC
     const handleSearch = () => {};
 
     // DISABLED WHEN FILE TYPE NOT SELECTED
@@ -62,7 +63,7 @@ export const Filters = () => {
                     <input
                         type="text"
                         placeholder="Campaña"
-                        className={` px-2 py-1 border rounded flex-1 ${!documentType ? 'bg-gray-200' : null}`}
+                        className={`px-2 py-1 border rounded flex-1 ${!documentType ? 'bg-gray-200' : null}`}
                         name="campaign"
                         value={campaign}
                         onChange={(e) => handleInputChange(e)}
@@ -71,7 +72,7 @@ export const Filters = () => {
                     <input
                         type={!documentType ? 'text' : 'date'}
                         placeholder="Fecha Contable Desde"
-                        className={`w-24 px-2 py-1 border rounded lg:w-44 ${!documentType ? 'bg-gray-200' : null}`}
+                        className={`px-2 py-1 border rounded w-24 lg:w-44 ${!documentType ? 'bg-gray-200' : null}`}
                         name="startDate"
                         value={startDate}
                         onChange={(e) => handleInputChange(e)}
@@ -80,7 +81,7 @@ export const Filters = () => {
                     <input
                         type={!documentType ? 'text' : 'date'}
                         placeholder="Fecha Contable Hasta"
-                        className={`w-24 px-2 py-1 border rounded lg:w-44 ${!documentType ? 'bg-gray-200' : null}`}
+                        className={`px-2 py-1 border rounded w-24 lg:w-44 ${!documentType ? 'bg-gray-200' : null}`}
                         name="endDate"
                         value={endDate}
                         onChange={(e) => handleInputChange(e)}
