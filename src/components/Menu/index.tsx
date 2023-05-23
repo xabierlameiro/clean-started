@@ -12,7 +12,7 @@ type MenuList = {
     menuList: MenuItem[];
 };
 
-const Menu = ({ menuList }: MenuList) => {
+export const Menu = ({ menuList }: MenuList) => {
     const router = useRouter();
     const currentPage = router.pathname;
 
@@ -42,5 +42,3 @@ const Menu = ({ menuList }: MenuList) => {
         </aside>
     );
 };
-
-export { Menu };
