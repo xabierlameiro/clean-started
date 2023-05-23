@@ -8,3 +8,4 @@
 -   If the type is big, create a file in src/types/ComponentName.ts
 -   Icons [Heroicons](https://heroicons.com/) search the icon and copy the svg code and paste it in the component
 -   pages are in src/pages without folders and the name of the file is the name of the route ( minus )
+-   All components must be in src/components
