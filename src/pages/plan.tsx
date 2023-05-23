@@ -1,13 +1,12 @@
-import Filters from '@/components/Filters';
+import { Layout } from '@/components/Layout';
 
-const Plan = ({ user }: { user: string }) => {
+const Plan = () => {
     return (
-        <>
-            <div className="flex flex-col items-center justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
-                <h1 className="text-2xl font-semibold text-gray-900">Bienvenido, {user}</h1>
-                <Filters />
-            </div>
-        </>
+        <Layout>
+            <>
+                <div className="bg-white h-full">tabla</div>
+            </>
+        </Layout>
     );
 };
 
