@@ -29,14 +29,10 @@ const Menu = ({ menuList }: MenuList) => {
                             <Link
                                 href={path}
                                 className={` flex items-center p-2 rounded-lg ${
-                                    path == currentPage
-                                        ? 'text-secondary-color bg-primary-color'
-                                        : 'text-primary-color '
-                                }   hover:bg-primary-color  hover:text-secondary-color`}
+                                    path == currentPage ? 'text-white bg-primary-color' : 'text-primary-color '
+                                }   hover:bg-primary-color  hover:text-white`}
                             >
-                                <div className="w-6 h-6  transition duration-75 group-hover:text-secondary-color">
-                                    {icon}
-                                </div>
+                                <div className="w-6 h-6  transition duration-75 group-hover:text-white">{icon}</div>
                                 <span className="ml-3">{label}</span>
                             </Link>
                         </li>

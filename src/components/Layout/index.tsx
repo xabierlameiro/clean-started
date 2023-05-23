@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
+import { Filters } from '@/components/Filters';
 type Props = {
     children: ReactElement;
 };
@@ -15,8 +16,9 @@ export const Layout: React.FC<Props> = ({ children }) => {
             <div className="w-full flex flex-col">
                 <Header />
                 <main className="border-2 border-gray-200 bg-gray-100 h-full p-5 pt-3 flex flex-col">
-                    <div className="bg-white h-20 mb-4">Filtros</div>
-                    <button className="text-white rounded  bg-green-600 p-2 w-full mb-6">Buscar</button>
+                    <div className=" h-auto mb-4">
+                        <Filters />
+                    </div>
                     {children}
                 </main>
             </div>
