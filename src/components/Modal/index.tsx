@@ -13,7 +13,7 @@ type Props = {
     modalProps: ModalProps;
 };
 
-function DialogModal({ modalProps }: Props) {
+export const DialogModal = ({ modalProps }: Props) => {
     const { dialogRef, open, large, header, body, footer } = modalProps;
 
     return (
@@ -52,6 +52,4 @@ function DialogModal({ modalProps }: Props) {
             </div>
         </div>
     );
-}
-
-export default DialogModal;
+};
