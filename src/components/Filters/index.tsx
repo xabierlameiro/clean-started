@@ -10,7 +10,7 @@ type FilterParams = {
     channelName: string | undefined;
 };
 
-const Filters = () => {
+export const Filters = () => {
     //FIX TYPES & COMBINED STATE?
     const [filterParams, setFilterParams] = useState<FilterParams>({
         documentType: '',
@@ -38,8 +38,8 @@ const Filters = () => {
 
     // DISABLED WHEN FILE TYPE NOT SELECTED
     return (
-        <section className="p-4">
-            <div className="flex flex-col w-full gap-4">
+        <section>
+            <div className="flex flex-col w-full gap-5 bg-white mb-8 px-6 py-8">
                 <div className="flex items-center gap-4">
                     <h3 className="w-20 font-bold">Documento</h3>
                     <select
@@ -56,7 +56,7 @@ const Filters = () => {
                     <input
                         type="text"
                         placeholder="Nº Documento"
-                        className="w-32 px-2 py-1 border rounded"
+                        className={`w-32 px-2 py-1 border rounded ${!documentType ? 'bg-gray-200' : null}`}
                         name="documentNumber"
                         value={documentNumber}
                         onChange={(e) => handleInputChange(e)}
@@ -65,25 +65,25 @@ const Filters = () => {
                     <input
                         type="text"
                         placeholder="Campaña"
-                        className="w-1/3 px-2 py-1 border rounded"
+                        className={`w-1/3 px-2 py-1 border rounded ${!documentType ? 'bg-gray-200' : null}`}
                         name="campaign"
                         value={campaign}
                         onChange={(e) => handleInputChange(e)}
                         disabled={!documentType}
                     />
                     <input
-                        type="date"
+                        type={!documentType ? 'text' : 'date'}
                         placeholder="Fecha Contable Desde"
-                        className="w-40 px-2 py-1 border rounded"
+                        className={`w-40 px-2 py-1 border rounded ${!documentType ? 'bg-gray-200' : null}`}
                         name="startDate"
                         value={startDate}
                         onChange={(e) => handleInputChange(e)}
                         disabled={!documentType}
                     />
                     <input
-                        type="date"
+                        type={!documentType ? 'text' : 'date'}
                         placeholder="Fecha Contlable Hasta"
-                        className="w-40 px-2 py-1 border rounded"
+                        className={`w-40 px-2 py-1 border rounded ${!documentType ? 'bg-gray-200' : null}`}
                         name="endDate"
                         value={endDate}
                         onChange={(e) => handleInputChange(e)}
@@ -95,7 +95,7 @@ const Filters = () => {
                     <input
                         type="text"
                         placeholder="Nombre"
-                        className="w-full px-2 py-1 border rounded md:w-2/3"
+                        className={`w-full px-2 py-1 border rounded md:w-2/3 ${!documentType ? 'bg-gray-200' : null}`}
                         name="clientName"
                         value={clientName}
                         onChange={(e) => handleInputChange(e)}
@@ -107,22 +107,20 @@ const Filters = () => {
                     <input
                         type="text"
                         placeholder="Nombre del Canal"
-                        className="w-full  px-2 py-1 border rounded md:w-2/3 "
+                        className={`w-full px-2 py-1 border rounded md:w-2/3 ${!documentType ? 'bg-gray-200' : null}`}
                         name="channelName"
                         value={channelName}
                         onChange={(e) => handleInputChange(e)}
                         disabled={!documentType}
                     />
                 </div>
-                <button
-                    className="w-full h-10 bg-green-500 text-white font-bold rounded hover:bg-green-400"
-                    onClick={handleSearch}
-                >
-                    Buscar
-                </button>
             </div>
+            <button
+                className="w-full h-10 bg-primary-color text-white font-bold rounded hover:bg-primary-color-light"
+                onClick={handleSearch}
+            >
+                Buscar
+            </button>
         </section>
     );
 };
-
-export default Filters;
