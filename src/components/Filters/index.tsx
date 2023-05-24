@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
+import { Submenu } from '@/components/Submenu';
 
 type FilterParams = {
     documentType: string | undefined;
@@ -37,7 +38,8 @@ export const Filters = () => {
     // DISABLED WHEN FILE TYPE NOT SELECTED
     return (
         <section>
-            <div className="flex flex-col w-full gap-5 bg-white mb-8 px-4 py-8">
+            <Submenu />
+            <div className="flex flex-col w-full gap-5 bg-white mb-8 px-4 py-8 border border-gray-300">
                 <div className="flex items-center gap-3">
                     <h3 className="w-20 font-bold">Documento</h3>
                     <select
@@ -105,7 +107,7 @@ export const Filters = () => {
                     <input
                         type="text"
                         placeholder="Nombre del Canal"
-                        className={`px-2 py-1 border rounded w-full lg:w-1/2 ${!documentType ? 'bg-gray-200' : null}`}
+                        className={`px-2 py-1 border rounded w-full ${!documentType ? 'bg-gray-200' : null}`}
                         name="channelName"
                         value={channelName}
                         onChange={(e) => handleInputChange(e)}
@@ -114,7 +116,7 @@ export const Filters = () => {
                 </div>
             </div>
             <button
-                className="w-full h-10 bg-primary-color text-white font-bold rounded hover:bg-primary-color-light"
+                className="w-full h-10 bg-primary-color text-white font-bold rounded shadow hover:bg-primary-color-light"
                 onClick={handleSearch}
             >
                 Buscar
