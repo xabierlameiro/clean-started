@@ -81,75 +81,84 @@ function Table({
 
     // Render the UI for your table
     return (
-        <>
-            <table {...getTableProps()}>
-                <thead>
-                    {headerGroups.map((headerGroup: any) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column: any) => (
-                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {page.map((row, i) => {
-                        prepareRow(row);
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map((cell: any) => {
-                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
-                                })}
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-            <div className="pagination">
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                    {'<<'}
-                </button>{' '}
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                    {'<'}
-                </button>{' '}
-                <button onClick={() => nextPage()} disabled={!canNextPage}>
-                    {'>'}
-                </button>{' '}
-                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                    {'>>'}
-                </button>{' '}
-                <span>
-                    Page{' '}
-                    <strong>
-                        {pageIndex + 1} of {pageOptions.length}
-                    </strong>{' '}
-                </span>
-                <span>
-                    | Go to page:{' '}
-                    <input
-                        type="number"
-                        defaultValue={pageIndex + 1}
-                        onChange={(e) => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                            gotoPage(page);
-                        }}
-                        style={{ width: '100px' }}
-                    />
-                </span>{' '}
-                <select
-                    value={pageSize}
-                    onChange={(e) => {
-                        setPageSize(Number(e.target.value));
-                    }}
+        <div>
+            <div className="w-52">
+                <table
+                    className="bg-black border border-solid rounded-lg ml-auto mr-auto overflow-hidden"
+                    {...getTableProps()}
                 >
-                    {[10, 20, 30, 40, 50].map((pageSize) => (
-                        <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                        </option>
-                    ))}
-                </select>
+                    <thead>
+                        {headerGroups.map((headerGroup: any, index: number) => (
+                            <tr key={`header_${index}`} {...headerGroup.getHeaderGroupProps()}>
+                                {headerGroup.headers.map((column: any, index: number) => (
+                                    <th key={`headerCol_${index}`} {...column.getHeaderProps()}>
+                                        {column.render('Header')}
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
+                    </thead>
+                    <tbody className="text-center" {...getTableBodyProps()}>
+                        {page.map((row: any, i: number) => {
+                            prepareRow(row);
+                            return (
+                                <tr key={`page_${i}`} {...row.getRowProps()}>
+                                    {row.cells.map((cell: any, i: number) => {
+                                        return (
+                                            <td key={`cell_${i}`} {...cell.getCellProps()}>
+                                                {cell.render('Cell')}
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
             </div>
-        </>
+            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                {'<<'}
+            </button>{' '}
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                {'<'}
+            </button>{' '}
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+                {'>'}
+            </button>{' '}
+            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                {'>>'}
+            </button>{' '}
+            <span>
+                Page{' '}
+                <strong>
+                    {pageIndex + 1} of {pageOptions.length}
+                </strong>{' '}
+            </span>
+            <span>
+                | Go to page:{' '}
+                <input
+                    type="number"
+                    defaultValue={pageIndex + 1}
+                    onChange={(e) => {
+                        const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                        gotoPage(page);
+                    }}
+                    style={{ width: '100px' }}
+                />
+            </span>{' '}
+            <select
+                value={pageSize}
+                onChange={(e) => {
+                    setPageSize(Number(e.target.value));
+                }}
+            >
+                {[10, 20, 30, 40, 50].map((pageSize) => (
+                    <option key={pageSize} value={pageSize}>
+                        Show {pageSize}
+                    </option>
+                ))}
+            </select>
+        </div>
     );
 }
 
@@ -188,6 +197,32 @@ function App() {
                         Header: 'Profile Progress',
                         accessor: 'progress',
                     },
+                    {
+                        Header: 'Actionss',
+                        accessor: '',
+                        Cell: ({ row }) => {
+                            return (
+                                <div className="action-buttons-table">
+                                    <button onClick={() => deleteRow(row)}>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth={1.5}
+                                            stroke="currentColor"
+                                            className="w-6 h-6"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
+                            );
+                        },
+                    },
                 ],
             },
         ],
@@ -219,7 +254,12 @@ function App() {
             })
         );
     };
-
+    const deleteRow = (row: any) => {
+        data.splice(row.index, 1);
+        console.log('data', data);
+        setSkipPageReset(true);
+        setData(data);
+    };
     // After data changes, we turn the flag back off
     // so that if data actually changes when we're not
     // editing it, the page is reset
@@ -233,8 +273,13 @@ function App() {
 
     return (
         <>
-            <button onClick={resetData}>Reset Data</button>
-            <Table columns={columns} data={data} updateMyData={updateMyData} skipPageReset={skipPageReset} />
+            <Table
+                columns={columns}
+                data={data}
+                updateMyData={updateMyData}
+                deleteRow={deleteRow}
+                skipPageReset={skipPageReset}
+            />
         </>
     );
 }

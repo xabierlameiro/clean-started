@@ -15,7 +15,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
             </div>
             <div className="w-full flex flex-col">
                 <Header />
-                <main className="border-2 border-gray-200 bg-gray-100 h-full p-5 pt-3 flex flex-col">
+                <main className="border-2 border-gray-200 bg-gray-100 h-full p-5 pt-3 flex flex-col mr-[3%]">
                     <div className=" h-auto mb-4">
                         <Filters />
                     </div>

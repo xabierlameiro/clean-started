@@ -1,11 +1,12 @@
 import { Layout } from '@/components/Layout';
+import ReactTable from '../components/react-table/index';
 
 const Plan = () => {
     return (
         <Layout>
-            <>
-                <div className="bg-white h-full">tabla</div>
-            </>
+            <div className="h-full">
+                <ReactTable />
+            </div>
         </Layout>
     );
 };
