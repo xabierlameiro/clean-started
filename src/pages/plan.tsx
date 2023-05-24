@@ -3,9 +3,7 @@ import { Layout } from '@/components/Layout';
 const Plan = () => {
     return (
         <Layout>
-            <>
-                <div className="bg-white h-full">tabla</div>
-            </>
+            <> </>
         </Layout>
     );
 };
