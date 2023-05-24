@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useTable, usePagination, Column } from 'react-table';
-import defaultData from './makeData';
+import defaultData from '@/mocks/mockMakeDataList';
 
 // Create an editable cell renderer
 interface EditableCellProps {
@@ -82,11 +82,8 @@ function Table({
     // Render the UI for your table
     return (
         <div>
-            <div className="w-52">
-                <table
-                    className="bg-black border border-solid rounded-lg ml-auto mr-auto overflow-hidden"
-                    {...getTableProps()}
-                >
+            <div>
+                <table className="bg-white border border-solid rounded-lg overflow-hidden" {...getTableProps()}>
                     <thead>
                         {headerGroups.map((headerGroup: any, index: number) => (
                             <tr key={`header_${index}`} {...headerGroup.getHeaderGroupProps()}>
@@ -98,11 +95,11 @@ function Table({
                             </tr>
                         ))}
                     </thead>
-                    <tbody className="text-center" {...getTableBodyProps()}>
+                    <tbody className="text-center border border-solid" {...getTableBodyProps()}>
                         {page.map((row: any, i: number) => {
                             prepareRow(row);
                             return (
-                                <tr key={`page_${i}`} {...row.getRowProps()}>
+                                <tr className="border border-solid" key={`page_${i}`} {...row.getRowProps()}>
                                     {row.cells.map((cell: any, i: number) => {
                                         return (
                                             <td key={`cell_${i}`} {...cell.getCellProps()}>
@@ -198,11 +195,11 @@ function App() {
                         accessor: 'progress',
                     },
                     {
-                        Header: 'Actionss',
+                        Header: 'Actions',
                         accessor: '',
                         Cell: ({ row }) => {
                             return (
-                                <div className="action-buttons-table">
+                                <div>
                                     <button onClick={() => deleteRow(row)}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
