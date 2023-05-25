@@ -3,19 +3,8 @@ import { useTable, usePagination, Column } from 'react-table';
 import defaultData from '@/mocks/mockMakeDataList';
 
 // Create an editable cell renderer
-interface EditableCellProps {
-    value: any;
-    row: { index: number };
-    column: { id: string };
-    updateMyData: (rowIndex: number, columnId: string, value: any) => void;
-}
 
-const EditableCell: React.FC<EditableCellProps> = ({
-    value: initialValue,
-    row: { index },
-    column: { id },
-    updateMyData,
-}) => {
+const EditableCell = ({ value: initialValue, row: { index }, column: { id }, updateMyData }: any) => {
     // We need to keep and update the state of the cell normally
     const [value, setValue] = useState(initialValue);
 
@@ -42,17 +31,18 @@ const defaultColumn: Partial<Column> = {
 };
 
 // Be sure to pass our updateMyData and the skipPageReset option
-function Table({
+
+export const Table = ({
     columns,
     data,
     updateMyData,
     skipPageReset,
 }: {
-    columns: Column[];
-    data: any[];
-    updateMyData: (rowIndex: number, columnId: string, value: any) => void;
+    columns: any;
+    data: any;
+    updateMyData: any;
     skipPageReset: boolean;
-}) {
+}) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -75,9 +65,9 @@ function Table({
             defaultColumn,
             autoResetPage: !skipPageReset,
             updateMyData,
-        },
+        } as any,
         usePagination
-    );
+    ) as any;
 
     // Render the UI for your table
     return (
@@ -157,7 +147,7 @@ function Table({
             </select>
         </div>
     );
-}
+};
 
 function App() {
     const columns = useMemo(
@@ -197,7 +187,8 @@ function App() {
                     {
                         Header: 'Actions',
                         accessor: '',
-                        Cell: ({ row }) => {
+                        // TODO: type here
+                        Cell: ({ row }: { row: any }) => {
                             return (
                                 <div>
                                     <button onClick={() => deleteRow(row)}>
@@ -227,7 +218,8 @@ function App() {
     );
 
     const [data, setData] = useState(defaultData);
-    const [originalData] = useState(data);
+    // TODO: This value is not used
+    //const [originalData] = useState(data);
     const [skipPageReset, setSkipPageReset] = useState(false);
 
     // We need to keep the table from resetting the pageIndex when we
@@ -266,7 +258,8 @@ function App() {
 
     // Let's add a data resetter/randomizer to help
     // illustrate that flow...
-    const resetData = () => setData(originalData);
+    // TODO: this function is not used
+    // const resetData = () => setData(originalData);
 
     return (
         <>
@@ -274,7 +267,8 @@ function App() {
                 columns={columns}
                 data={data}
                 updateMyData={updateMyData}
-                deleteRow={deleteRow}
+                // TODO : this component dont have deleteRow
+                //deleteRow={deleteRow}
                 skipPageReset={skipPageReset}
             />
         </>
