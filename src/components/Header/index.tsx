@@ -5,7 +5,7 @@ import { image } from '@/constants/images';
 
 export const Header = () => {
     return (
-        <header className="flex items-center justify-between w-full px-8 border-b-2">
+        <header className="flex items-center justify-between w-full h-16 pl-12 pr-8 border-b-2 bg-white">
             <nav aria-label="Breadcrumb">
                 <Breadcrumbs />
             </nav>

@@ -17,7 +17,7 @@ export const Menu = ({ menuList }: MenuList) => {
     const currentPage = router.pathname;
 
     return (
-        <main className="h-full px-3 py-4 bg-white" aria-label="Sidebar">
+        <main className="w-60 px-3 py-4 bg-white" aria-label="Sidebar">
             <ul className="space-y-2 font-medium">
                 {menuList.map(({ path, icon, label }, id) => (
                     <li key={`menuitem-${id}`}>

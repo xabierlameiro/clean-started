@@ -40,8 +40,8 @@ export const Filters = () => {
         <>
             <section className="w-full mb-4 border-2 shadow-lg">
                 <Submenu />
-                <div className="flex flex-col gap-5 bg-white p-4">
-                    <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex flex-col gap-4 bg-white p-4">
+                    <div className="flex items-center gap-2 gap-y-4 flex-wrap">
                         <h3 className="w-24 font-bold">Documento</h3>
                         <select
                             className="w-24 px-2 py-1 text-sm font-semibold border-2 rounded"
@@ -63,10 +63,11 @@ export const Filters = () => {
                             onChange={(e) => handleInputChange(e)}
                             disabled={!documentType}
                         />
+
                         <input
                             type="text"
                             placeholder="Campaña"
-                            className={`px-2 py-1 border rounded w-28 flex-grow ${
+                            className={`px-2 py-1 border rounded w-32 flex-grow ${
                                 !documentType ? 'bg-gray-200' : null
                             }`}
                             name="campaign"
@@ -74,26 +75,30 @@ export const Filters = () => {
                             onChange={(e) => handleInputChange(e)}
                             disabled={!documentType}
                         />
-                        <input
-                            type={!documentType ? 'text' : 'date'}
-                            placeholder="Fecha Contable Desde"
-                            className={`ml-auto text-sm px-2 py-1 border rounded w-40 ${
-                                !documentType ? 'bg-gray-200' : null
-                            }`}
-                            name="startDate"
-                            value={startDate}
-                            onChange={(e) => handleInputChange(e)}
-                            disabled={!documentType}
-                        />
-                        <input
-                            type={!documentType ? 'text' : 'date'}
-                            placeholder="Fecha Contable Hasta"
-                            className={`text-sm px-2 py-1 border rounded w-40 ${!documentType ? 'bg-gray-200' : null}`}
-                            name="endDate"
-                            value={endDate}
-                            onChange={(e) => handleInputChange(e)}
-                            disabled={!documentType}
-                        />
+                        <div className="ml-auto flex gap-2">
+                            <input
+                                type={!documentType ? 'text' : 'date'}
+                                placeholder="Fecha Contable Desde"
+                                className={`text-sm px-2 py-1 border rounded w-40 ${
+                                    !documentType ? 'bg-gray-200' : null
+                                }`}
+                                name="startDate"
+                                value={startDate}
+                                onChange={(e) => handleInputChange(e)}
+                                disabled={!documentType}
+                            />
+                            <input
+                                type={!documentType ? 'text' : 'date'}
+                                placeholder="Fecha Contable Hasta"
+                                className={`text-sm px-2 py-1 border rounded w-40 ${
+                                    !documentType ? 'bg-gray-200' : null
+                                }`}
+                                name="endDate"
+                                value={endDate}
+                                onChange={(e) => handleInputChange(e)}
+                                disabled={!documentType}
+                            />
+                        </div>
                     </div>
                     <div className="flex items-center gap-2">
                         <h3 className="w-24 font-bold">Cliente</h3>
@@ -126,7 +131,7 @@ export const Filters = () => {
                 </div>
             </section>
             <button
-                className="w-full h-10 bg-primary-color text-white font-bold rounded shadow hover:bg-primary-color-light"
+                className="w-full h-10 mb-4 bg-primary-color text-white font-bold rounded shadow hover:bg-primary-color-light"
                 onClick={handleSearch}
             >
                 Buscar
