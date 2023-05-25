@@ -13,6 +13,8 @@
         "test": "jest"
     },
     "dependencies": {
+        "@faker-js/faker": "^8.0.1",
+        "@tanstack/react-table": "^8.9.1",
         "@types/node": "18.16.0",
         "@types/react": "18.0.38",
         "@types/react-dom": "18.0.11",
@@ -21,14 +23,12 @@
         "next": "13.3.1",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "react-table": "^7.8.0",
         "typescript": "5.0.4"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.3",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^14.0.0",
-        "@types/react-table": "^7.7.14",
         "autoprefixer": "^10.4.14",
         "eslint-config-prettier": "^8.8.0",
         "eslint-plugin-prettier": "^4.2.1",

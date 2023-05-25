@@ -3,7 +3,7 @@ import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { Filters } from '@/components/Filters';
-import Table from '@/components/Table';
+import { Table } from '@/components/Table';
 
 type Props = {
     children: ReactElement;
@@ -23,7 +23,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
                             <Filters />
                         </div>
                         {children}
-                        <div>
+                        <div className="p-10">
                             <Table />
                         </div>
                     </main>

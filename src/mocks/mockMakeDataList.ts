@@ -1,108 +1,44 @@
-const defaultData = [
-    {
-        firstName: 'tanner',
-        lastName: 'linsley',
-        age: 24,
-        visits: 100,
-        status: 'In Relationship',
-        progress: 50,
-    },
-    {
-        firstName: 'tandy',
-        lastName: 'miller',
-        age: 40,
-        visits: 40,
-        status: 'Single',
-        progress: 80,
-    },
-    {
-        firstName: 'joe',
-        lastName: 'dirte',
-        age: 45,
-        visits: 20,
-        status: 'Complicated',
-        progress: 10,
-    },
-    {
-        firstName: 'tandy',
-        lastName: 'miller',
-        age: 40,
-        visits: 40,
-        status: 'Single',
-        progress: 80,
-    },
-    {
-        firstName: 'joe',
-        lastName: 'dirte',
-        age: 45,
-        visits: 20,
-        status: 'Complicated',
-        progress: 10,
-    },
-    {
-        firstName: 'tandy',
-        lastName: 'miller',
-        age: 40,
-        visits: 40,
-        status: 'Single',
-        progress: 80,
-    },
-    {
-        firstName: 'joe',
-        lastName: 'dirte',
-        age: 45,
-        visits: 20,
-        status: 'Complicated',
-        progress: 10,
-    },
-    {
-        firstName: 'tandy',
-        lastName: 'miller',
-        age: 40,
-        visits: 40,
-        status: 'Single',
-        progress: 80,
-    },
-    {
-        firstName: 'joe',
-        lastName: 'dirte',
-        age: 45,
-        visits: 20,
-        status: 'Complicated',
-        progress: 10,
-    },
-    {
-        firstName: 'tandy',
-        lastName: 'miller',
-        age: 40,
-        visits: 40,
-        status: 'Single',
-        progress: 80,
-    },
-    {
-        firstName: 'joe',
-        lastName: 'dirte',
-        age: 45,
-        visits: 20,
-        status: 'Complicated',
-        progress: 10,
-    },
-    {
-        firstName: 'tandy',
-        lastName: 'miller',
-        age: 40,
-        visits: 40,
-        status: 'Single',
-        progress: 80,
-    },
-    {
-        firstName: 'joe',
-        lastName: 'dirte',
-        age: 45,
-        visits: 20,
-        status: 'Complicated',
-        progress: 10,
-    },
-];
+import { faker } from '@faker-js/faker';
 
-export default defaultData;
+export type Person = {
+    firstName: string;
+    lastName: string;
+    age: number;
+    visits: number;
+    progress: number;
+    status: 'relationship' | 'complicated' | 'single';
+    subRows?: Person[];
+};
+
+const range = (len: number) => {
+    const arr = [];
+    for (let i = 0; i < len; i++) {
+        arr.push(i);
+    }
+    return arr;
+};
+
+const newPerson = (): Person => {
+    return {
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        age: faker.datatype.number(40),
+        visits: faker.datatype.number(1000),
+        progress: faker.datatype.number(100),
+        status: faker.helpers.shuffle<Person['status']>(['relationship', 'complicated', 'single'])[0]!,
+    };
+};
+
+export function makeData(...lens: number[]) {
+    const makeDataLevel = (depth = 0): Person[] => {
+        const len = lens[depth]!;
+        return range(len).map((d): Person => {
+            return {
+                ...newPerson(),
+                subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+            };
+        });
+    };
+
+    return makeDataLevel();
+}

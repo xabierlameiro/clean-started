@@ -40,7 +40,7 @@ export const Filters = () => {
     return (
         <section>
             <div className="flex flex-col w-full gap-5 bg-white mb-8 px-6 py-8">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 flex-wrap">
                     <h3 className="w-20 font-bold">Documento</h3>
                     <select
                         className="w-24 px-2 py-1 font-semibold border-2 rounded"

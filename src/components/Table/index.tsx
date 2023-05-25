@@ -1,109 +1,238 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { useTable, usePagination, Column } from 'react-table';
-import defaultData from '@/mocks/mockMakeDataList';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
 
-// Create an editable cell renderer
-interface EditableCellProps {
-    value: any;
-    row: { index: number };
-    column: { id: string };
-    updateMyData: (rowIndex: number, columnId: string, value: any) => void;
+//
+import {
+    Column,
+    Table,
+    ColumnDef,
+    useReactTable,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    flexRender,
+    RowData,
+} from '@tanstack/react-table';
+import { makeData } from '@/mocks/mockMakeDataList';
+
+type Person = {
+    firstName: string;
+    lastName: string;
+    age: number;
+    visits: number;
+    status: string;
+    progress: number;
+};
+declare module '@tanstack/react-table' {
+    interface TableMeta<TData extends RowData> {
+        updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+    }
 }
 
-const EditableCell: React.FC<EditableCellProps> = ({
-    value: initialValue,
-    row: { index },
-    column: { id },
-    updateMyData,
-}) => {
-    // We need to keep and update the state of the cell normally
-    const [value, setValue] = useState(initialValue);
+// Give our default column cell renderer editing superpowers!
+const defaultColumn: Partial<ColumnDef<Person>> = {
+    cell: ({ getValue, row: { index }, column: { id }, table }) => {
+        const initialValue = getValue();
+        // We need to keep and update the state of the cell normally
+        const [value, setValue] = useState(initialValue);
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-    };
+        // When the input is blurred, we'll call our table meta's updateData function
+        const onBlur = () => {
+            table.options.meta?.updateData(index, id, value);
+        };
 
-    // We'll only update the external data when the input is blurred
-    const onBlur = () => {
-        updateMyData(index, id, value);
-    };
+        // If the initialValue is changed external, sync it up with our state
+        useEffect(() => {
+            setValue(initialValue);
+        }, [initialValue]);
 
-    // If the initialValue is changed externally, sync it up with our state
-    useEffect(() => {
-        setValue(initialValue);
-    }, [initialValue]);
-
-    return <input value={value} onChange={onChange} onBlur={onBlur} />;
+        return <input value={value as string} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />;
+    },
 };
 
-// Set our editable cell renderer as the default Cell renderer
-const defaultColumn: Partial<Column> = {
-    Cell: EditableCell,
-};
+function useSkipper() {
+    const shouldSkipRef = React.useRef(true);
+    const shouldSkip = shouldSkipRef.current;
 
-// Be sure to pass our updateMyData and the skipPageReset option
-function Table({
-    columns,
-    data,
-    updateMyData,
-    skipPageReset,
-}: {
-    columns: Column[];
-    data: any[];
-    updateMyData: (rowIndex: number, columnId: string, value: any) => void;
-    skipPageReset: boolean;
-}) {
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        prepareRow,
-        page,
-        canPreviousPage,
-        canNextPage,
-        pageOptions,
-        pageCount,
-        gotoPage,
-        nextPage,
-        previousPage,
-        setPageSize,
-        state: { pageIndex, pageSize },
-    } = useTable(
-        {
-            columns,
-            data,
-            defaultColumn,
-            autoResetPage: !skipPageReset,
-            updateMyData,
-        },
-        usePagination
+    // Wrap a function with this to skip a pagination reset temporarily
+    const skip = React.useCallback(() => {
+        shouldSkipRef.current = false;
+    }, []);
+
+    React.useEffect(() => {
+        shouldSkipRef.current = true;
+    });
+
+    return [shouldSkip, skip] as const;
+}
+
+export function Table() {
+    const rerender = React.useReducer(() => ({}), {})[1];
+    const [data, setData] = React.useState(() => makeData(1000));
+    const refreshData = () => setData(() => makeData(1000));
+
+    const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
+    const handleRemoveRow = (row: any) => {
+        const a = data.filter(
+            (d) => `${d.firstName}${d.lastName}` !== `${row.original.firstName}${row.original.lastName}`
+        );
+        setData(a);
+    };
+    const handleAddRow = () => {
+        data.push({
+            firstName: '',
+            lastName: '',
+            age: 0,
+            visits: 0,
+            status: 'single',
+            progress: 0,
+        });
+        setData([...data]);
+        console.log('data', data);
+    };
+    const columns = React.useMemo<ColumnDef<Person>[]>(
+        () => [
+            {
+                header: '',
+                id: 'Header',
+                columns: [
+                    {
+                        accessorKey: 'firstName',
+                        footer: (props) => props.column.id,
+                    },
+                    {
+                        accessorFn: (row) => row.lastName,
+                        id: 'lastName',
+                        header: () => <span>Last Name</span>,
+                        footer: (props) => props.column.id,
+                    },
+                    {
+                        accessorKey: 'age',
+                        header: () => 'Age',
+                        footer: (props) => props.column.id,
+                    },
+                    {
+                        accessorKey: 'visits',
+                        header: () => <span>Visits</span>,
+                        footer: (props) => props.column.id,
+                    },
+                    {
+                        accessorKey: 'status',
+                        header: 'Status',
+                        footer: (props) => props.column.id,
+                    },
+                    {
+                        accessorKey: 'progress',
+                        header: 'Profile Progress',
+                        footer: (props) => props.column.id,
+                    },
+                    {
+                        header: 'Actions',
+                        footer: (props) => props.column.id,
+                        cell: ({ row }) => {
+                            return (
+                                <button onClick={() => handleRemoveRow(row)}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-6 h-6"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                                        />
+                                    </svg>
+                                </button>
+                            );
+                        },
+                    },
+                ],
+            },
+        ],
+        [handleRemoveRow]
     );
 
-    // Render the UI for your table
+    const table = useReactTable({
+        data,
+        columns,
+        defaultColumn,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        autoResetPageIndex,
+        // Provide our updateData function to our table meta
+        meta: {
+            updateData: (rowIndex, columnId, value) => {
+                // Skip page index reset until after next rerender
+                skipAutoResetPageIndex();
+                setData((old) =>
+                    old.map((row, index) => {
+                        if (index === rowIndex) {
+                            return {
+                                ...old[rowIndex]!,
+                                [columnId]: value,
+                            };
+                        }
+                        return row;
+                    })
+                );
+            },
+        },
+        debugTable: true,
+    });
+
     return (
-        <div>
-            <div>
-                <table className="bg-white border border-solid rounded-lg overflow-hidden" {...getTableProps()}>
+        <>
+            <div className="h-2">
+                <button className="ml-5 mb-15 pb-30 text-white bg-primary-color-light" onClick={() => handleAddRow()}>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                </button>
+            </div>
+            <div className="overflow-x-scroll overflow-y-hidden">
+                <table className="bg-white border border-solid rounded-lg w-auto h-auto">
                     <thead>
-                        {headerGroups.map((headerGroup: any, index: number) => (
-                            <tr key={`header_${index}`} {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map((column: any, index: number) => (
-                                    <th key={`headerCol_${index}`} {...column.getHeaderProps()}>
-                                        {column.render('Header')}
-                                    </th>
-                                ))}
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <tr key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+                                    return (
+                                        <th key={header.id} colSpan={header.colSpan}>
+                                            {header.isPlaceholder ? null : (
+                                                <div>
+                                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                                    {header.column.getCanFilter() ? (
+                                                        <div>
+                                                            <Filter column={header.column} table={table} />
+                                                        </div>
+                                                    ) : null}
+                                                </div>
+                                            )}
+                                        </th>
+                                    );
+                                })}
                             </tr>
                         ))}
                     </thead>
-                    <tbody className="text-center border border-solid" {...getTableBodyProps()}>
-                        {page.map((row: any, i: number) => {
-                            prepareRow(row);
+                    <tbody>
+                        {table.getRowModel().rows.map((row) => {
                             return (
-                                <tr className="border border-solid" key={`page_${i}`} {...row.getRowProps()}>
-                                    {row.cells.map((cell: any, i: number) => {
+                                <tr className="border" key={row.id}>
+                                    {row.getVisibleCells().map((cell) => {
                                         return (
-                                            <td key={`cell_${i}`} {...cell.getCellProps()}>
-                                                {cell.render('Cell')}
+                                            <td key={cell.id}>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </td>
                                         );
                                     })}
@@ -112,173 +241,105 @@ function Table({
                         })}
                     </tbody>
                 </table>
+                <div className="h-2" />
+                <div className="flex items-center gap-2">
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.setPageIndex(0)}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {'<<'}
+                    </button>
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {'<'}
+                    </button>
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {'>'}
+                    </button>
+                    <button
+                        className="border rounded p-1"
+                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {'>>'}
+                    </button>
+                    <span className="flex items-center gap-1">
+                        <div>Page</div>
+                        <strong>
+                            {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+                        </strong>
+                    </span>
+                    <span className="flex items-center gap-1">
+                        | Go to page:
+                        <input
+                            type="number"
+                            defaultValue={table.getState().pagination.pageIndex + 1}
+                            onChange={(e) => {
+                                const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                                table.setPageIndex(page);
+                            }}
+                            className="border p-1 rounded w-16"
+                        />
+                    </span>
+                    <select
+                        value={table.getState().pagination.pageSize}
+                        onChange={(e) => {
+                            table.setPageSize(Number(e.target.value));
+                        }}
+                    >
+                        {[10, 20, 30, 40, 50].map((pageSize) => (
+                            <option key={pageSize} value={pageSize}>
+                                Show {pageSize}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>{table.getRowModel().rows.length} Rows</div>
+                <div>
+                    <button onClick={() => rerender()}>Force Rerender</button>
+                </div>
+                <div>
+                    <button onClick={() => refreshData()}>Refresh Data</button>
+                </div>
             </div>
-            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                {'<<'}
-            </button>{' '}
-            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                {'<'}
-            </button>{' '}
-            <button onClick={() => nextPage()} disabled={!canNextPage}>
-                {'>'}
-            </button>{' '}
-            <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                {'>>'}
-            </button>{' '}
-            <span>
-                Page{' '}
-                <strong>
-                    {pageIndex + 1} of {pageOptions.length}
-                </strong>{' '}
-            </span>
-            <span>
-                | Go to page:{' '}
-                <input
-                    type="number"
-                    defaultValue={pageIndex + 1}
-                    onChange={(e) => {
-                        const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                        gotoPage(page);
-                    }}
-                    style={{ width: '100px' }}
-                />
-            </span>{' '}
-            <select
-                value={pageSize}
-                onChange={(e) => {
-                    setPageSize(Number(e.target.value));
-                }}
-            >
-                {[10, 20, 30, 40, 50].map((pageSize) => (
-                    <option key={pageSize} value={pageSize}>
-                        Show {pageSize}
-                    </option>
-                ))}
-            </select>
-        </div>
-    );
-}
-
-function App() {
-    const columns = useMemo(
-        () => [
-            {
-                Header: ' ',
-                columns: [
-                    {
-                        Header: 'First Name',
-                        accessor: 'firstName',
-                    },
-                    {
-                        Header: 'Last Name',
-                        accessor: 'lastName',
-                    },
-                ],
-            },
-            {
-                Header: ' ',
-                columns: [
-                    {
-                        Header: 'Age',
-                        accessor: 'age',
-                    },
-                    {
-                        Header: 'Visits',
-                        accessor: 'visits',
-                    },
-                    {
-                        Header: 'Status',
-                        accessor: 'status',
-                    },
-                    {
-                        Header: 'Profile Progress',
-                        accessor: 'progress',
-                    },
-                    {
-                        Header: 'Actions',
-                        accessor: '',
-                        Cell: ({ row }) => {
-                            return (
-                                <div>
-                                    <button onClick={() => deleteRow(row)}>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth={1.5}
-                                            stroke="currentColor"
-                                            className="w-6 h-6"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                                            />
-                                        </svg>
-                                    </button>
-                                </div>
-                            );
-                        },
-                    },
-                ],
-            },
-        ],
-        []
-    );
-
-    const [data, setData] = useState(defaultData);
-    const [originalData] = useState(data);
-    const [skipPageReset, setSkipPageReset] = useState(false);
-
-    // We need to keep the table from resetting the pageIndex when we
-    // update data. So we can keep track of that flag with a ref.
-
-    // When our cell renderer calls updateMyData, we'll use
-    // the rowIndex, columnId, and new value to update the
-    // original data
-    const updateMyData = (rowIndex: number, columnId: string, value: any) => {
-        // We also turn on the flag to not reset the page
-        setSkipPageReset(true);
-        setData((old: any) =>
-            old.map((row: any, index: any) => {
-                if (index === rowIndex) {
-                    return {
-                        ...old[rowIndex],
-                        [columnId]: value,
-                    };
-                }
-                return row;
-            })
-        );
-    };
-    const deleteRow = (row: any) => {
-        data.splice(row.index, 1);
-        console.log('data', data);
-        setSkipPageReset(true);
-        setData(data);
-    };
-    // After data changes, we turn the flag back off
-    // so that if data actually changes when we're not
-    // editing it, the page is reset
-    useEffect(() => {
-        setSkipPageReset(false);
-    }, [data]);
-
-    // Let's add a data resetter/randomizer to help
-    // illustrate that flow...
-    const resetData = () => setData(originalData);
-
-    return (
-        <>
-            <Table
-                columns={columns}
-                data={data}
-                updateMyData={updateMyData}
-                deleteRow={deleteRow}
-                skipPageReset={skipPageReset}
-            />
         </>
     );
 }
-
-export default App;
+function Filter({ column, table }: { column: Column<any, any>; table: Table<any> }) {
+    const firstValue = table.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
+    const columnFilterValue = column.getFilterValue();
+    return typeof firstValue === 'number' ? (
+        <div className="flex space-x-2">
+            <input
+                type="number"
+                value={(columnFilterValue as [number, number])?.[0] ?? ''}
+                onChange={(e) => column.setFilterValue((old: [number, number]) => [e.target.value, old?.[1]])}
+                placeholder={`Min`}
+                className="w-24 border shadow rounded"
+            />
+            <input
+                type="number"
+                value={(columnFilterValue as [number, number])?.[1] ?? ''}
+                onChange={(e) => column.setFilterValue((old: [number, number]) => [old?.[0], e.target.value])}
+                placeholder={`Max`}
+                className="w-24 border shadow rounded"
+            />
+        </div>
+    ) : (
+        <input
+            type="text"
+            value={(columnFilterValue ?? '') as string}
+            onChange={(e) => column.setFilterValue(e.target.value)}
+            placeholder={`Search...`}
+            className="w-36 border shadow rounded"
+        />
+    );
+}
