@@ -1,10 +1,18 @@
 import { Layout } from '@/components/Layout';
+import { Header } from '@/components/Header';
+import { Menu } from '@/components/Menu';
+import { menuList } from '@/mocks/mockMenuItemList';
+import { Filters } from '@/components/Filters';
+import Table from '@/components/Table';
 
 const Plan = () => {
     return (
-        <Layout>
-            <> </>
-        </Layout>
+        <Layout
+            sidebar={<Menu menuList={menuList} />}
+            header={<Header />}
+            subheader={<Filters />}
+            content={<Table />}
+        />
     );
 };
 

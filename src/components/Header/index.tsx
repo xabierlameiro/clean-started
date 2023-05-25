@@ -5,14 +5,14 @@ import { image } from '@/constants/images';
 
 export const Header = () => {
     return (
-        <header className="flex items-center w-full shadow-gray-500 pl-4 pr-4">
-            <nav className="w-2/5" aria-label="Breadcrumb">
+        <header className="flex items-center justify-between w-full px-8 border-b-2">
+            <nav aria-label="Breadcrumb">
                 <Breadcrumbs />
             </nav>
-            <div className="w-1/5">
+            <div>
                 <Logo {...image.logo} />
             </div>
-            <div className="w-2/5 flex place-content-end">
+            <div className="flex place-content-end">
                 <Dropdown />
             </div>
         </header>

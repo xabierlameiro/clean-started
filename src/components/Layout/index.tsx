@@ -1,34 +1,23 @@
 import { ReactElement } from 'react';
-import { Header } from '@/components/Header';
-import { Menu } from '@/components/Menu';
-import { menuList } from '@/mocks/mockMenuItemList';
-import { Filters } from '@/components/Filters';
-import Table from '@/components/Table';
 
 type Props = {
-    children: ReactElement;
+    sidebar: ReactElement;
+    header: ReactElement;
+    subheader: ReactElement;
+    content: ReactElement;
 };
 
-export const Layout: React.FC<Props> = ({ children }) => {
+export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content }) => {
     return (
-        <>
-            <div className="h-screen w-screen flex">
-                <div className="w-auto">
-                    <Menu menuList={menuList} />
-                </div>
-                <div className="w-full flex flex-col">
-                    <Header />
-                    <main className="border-2 border-gray-200 bg-gray-100 h-full p-5 pt-3 flex flex-col mr-[3%]">
-                        <div className=" h-auto mb-4">
-                            <Filters />
-                        </div>
-                        {children}
-                        <div>
-                            <Table />
-                        </div>
-                    </main>
-                </div>
-            </div>
-        </>
+        <div className="flex">
+            <aside className="border-r-2 w-[30%] lg:w-2/12">{sidebar}</aside>
+            <section className="w-[70%] lg:w-10/12">
+                {header}
+                <main className="flex flex-col p-4 bg-gray-100">
+                    {subheader}
+                    {content}
+                </main>
+            </section>
+        </div>
     );
 };
