@@ -57,7 +57,9 @@ export const Filters = () => {
                         <input
                             type="text"
                             placeholder="Nº Documento"
-                            className={`text-md px-2 py-1 border rounded w-32 flex-grow ${!documentType ? 'bg-gray-200' : null}`}
+                            className={`text-md px-2 py-1 border rounded w-32 flex-grow ${
+                                !documentType ? 'bg-gray-200' : null
+                            }`}
                             name="documentNumber"
                             value={documentNumber}
                             onChange={(e) => handleInputChange(e)}

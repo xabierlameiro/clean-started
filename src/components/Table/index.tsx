@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { useCallback } from 'react';
 
-//
 import {
     Column,
     Table,
@@ -11,7 +9,6 @@ import {
     getFilteredRowModel,
     getPaginationRowModel,
     flexRender,
-    RowData,
 } from '@tanstack/react-table';
 import { makeData } from '@/mocks/mockMakeDataList';
 
@@ -23,15 +20,12 @@ type Person = {
     status: string;
     progress: number;
 };
-declare module '@tanstack/react-table' {
-    interface TableMeta<TData extends RowData> {
-        updateData: (rowIndex: number, columnId: string, value: unknown) => void;
-    }
-}
 
+// TODO: React Hook "useState" is called in function "cell" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use".eslintreact-hooks/rules-of-hooks
+// TODO: No se puede usar hooks dentro de funciones que no sean componentes de react o custom hooks con el prefijo useBLABLA
 // Give our default column cell renderer editing superpowers!
 const defaultColumn: Partial<ColumnDef<Person>> = {
-    cell: ({ getValue, row: { index }, column: { id }, table }) => {
+    /*     cell: ({ getValue, row: { index }, column: { id }, table }) => {
         const initialValue = getValue();
         // We need to keep and update the state of the cell normally
         const [value, setValue] = useState(initialValue);
@@ -47,7 +41,7 @@ const defaultColumn: Partial<ColumnDef<Person>> = {
         }, [initialValue]);
 
         return <input value={value as string} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />;
-    },
+    }, */
 };
 
 function useSkipper() {
@@ -67,17 +61,20 @@ function useSkipper() {
 }
 
 export default function Table() {
-    const rerender = React.useReducer(() => ({}), {})[1];
     const [data, setData] = React.useState(() => makeData(1000));
-    const refreshData = () => setData(() => makeData(1000));
 
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
-    const handleRemoveRow = (row: any) => {
-        const a = data.filter(
-            (d) => `${d.firstName}${d.lastName}` !== `${row.original.firstName}${row.original.lastName}`
-        );
-        setData(a);
-    };
+
+    const handleRemoveRow = useCallback(
+        (row: any) => {
+            const a = data.filter(
+                (d) => `${d.firstName}${d.lastName}` !== `${row.original.firstName}${row.original.lastName}`
+            );
+            setData(a);
+        },
+        [data]
+    );
+
     const handleAddRow = () => {
         data.push({
             firstName: '',
@@ -165,7 +162,7 @@ export default function Table() {
         autoResetPageIndex,
         // Provide our updateData function to our table meta
         meta: {
-            updateData: (rowIndex, columnId, value) => {
+            updateData: (rowIndex: number, columnId: string, value: any) => {
                 // Skip page index reset until after next rerender
                 skipAutoResetPageIndex();
                 setData((old) =>
