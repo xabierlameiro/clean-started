@@ -88,7 +88,6 @@ export default function Table() {
             progress: 0,
         });
         setData([...data]);
-        console.log('data', data);
     };
     const columns = React.useMemo<ColumnDef<Person>[]>(
         () => [
