@@ -14,7 +14,9 @@ export const Crumb = ({ crumbs, crumb, currentLink, index }: Props) => {
     return (
         <div className="inline-flex items-end" key={crumb}>
             <Link
-                className={`text-sm ${index < crumbs.length - 1 ? 'text-gray-400' : 'text-blue-600'} hover:font-medium`}
+                className={`text-sm font-semibold ${
+                    index < crumbs.length - 1 ? 'text-terciary-color' : 'text-primary-color'
+                } hover:font-bold`}
                 href={currentLink}
             >
                 {capitalize(crumb)}

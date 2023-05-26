@@ -66,7 +66,7 @@ function useSkipper() {
     return [shouldSkip, skip] as const;
 }
 
-export function Table() {
+export default function Table() {
     const rerender = React.useReducer(() => ({}), {})[1];
     const [data, setData] = React.useState(() => makeData(1000));
     const refreshData = () => setData(() => makeData(1000));
@@ -187,30 +187,16 @@ export function Table() {
 
     return (
         <>
-            <div className="h-2">
-                <button className="ml-5 mb-15 pb-30 text-white bg-primary-color-light" onClick={() => handleAddRow()}>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                </button>
-            </div>
             <div className="overflow-x-scroll overflow-y-hidden">
-                <table className="bg-white border border-solid rounded-lg w-auto h-auto">
+                <table className="bg-white border border-solid rounded-lg w-full h-auto">
                     <thead>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <th key={header.id} colSpan={header.colSpan}>
+                                        <th className="text-center" key={header.id} colSpan={header.colSpan}>
                                             {header.isPlaceholder ? null : (
-                                                <div>
+                                                <div className="text-center">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                     {header.column.getCanFilter() ? (
                                                         <div>
@@ -243,29 +229,16 @@ export function Table() {
                 </table>
                 <div className="h-2" />
                 <div className="flex items-center gap-2">
-                    <button
-                        className="border rounded p-1"
-                        onClick={() => table.setPageIndex(0)}
-                        disabled={!table.getCanPreviousPage()}
-                    >
+                    <button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
                         {'<<'}
                     </button>
-                    <button
-                        className="border rounded p-1"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
+                    <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                         {'<'}
                     </button>
-                    <button
-                        className="border rounded p-1"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
+                    <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
                         {'>'}
                     </button>
                     <button
-                        className="border rounded p-1"
                         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                         disabled={!table.getCanNextPage()}
                     >
@@ -286,7 +259,7 @@ export function Table() {
                                 const page = e.target.value ? Number(e.target.value) - 1 : 0;
                                 table.setPageIndex(page);
                             }}
-                            className="border p-1 rounded w-16"
+                            className="border p-1 rounded w-16 text-center"
                         />
                     </span>
                     <select
@@ -301,14 +274,23 @@ export function Table() {
                             </option>
                         ))}
                     </select>
+                    <div className="h-2 mb-5">
+                        <button
+                            className="w-36 h-8 bg-primary-color rounded text-white font-bold"
+                            onClick={() => handleAddRow()}
+                        >
+                            <span>Añadir Fila</span>
+                        </button>
+                    </div>
                 </div>
-                <div>{table.getRowModel().rows.length} Rows</div>
+
+                {/* <div>{table.getRowModel().rows.length} Rows</div>
                 <div>
                     <button onClick={() => rerender()}>Force Rerender</button>
                 </div>
                 <div>
                     <button onClick={() => refreshData()}>Refresh Data</button>
-                </div>
+                </div> */}
             </div>
         </>
     );
@@ -317,20 +299,20 @@ function Filter({ column, table }: { column: Column<any, any>; table: Table<any>
     const firstValue = table.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
     const columnFilterValue = column.getFilterValue();
     return typeof firstValue === 'number' ? (
-        <div className="flex space-x-2">
+        <div className="flex ml-10 space-x-2">
             <input
                 type="number"
                 value={(columnFilterValue as [number, number])?.[0] ?? ''}
                 onChange={(e) => column.setFilterValue((old: [number, number]) => [e.target.value, old?.[1]])}
                 placeholder={`Min`}
-                className="w-24 border shadow rounded"
+                className="w-20 border shadow rounded"
             />
             <input
                 type="number"
                 value={(columnFilterValue as [number, number])?.[1] ?? ''}
                 onChange={(e) => column.setFilterValue((old: [number, number]) => [old?.[0], e.target.value])}
                 placeholder={`Max`}
-                className="w-24 border shadow rounded"
+                className="w-20 border shadow rounded"
             />
         </div>
     ) : (
