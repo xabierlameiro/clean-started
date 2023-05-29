@@ -163,7 +163,7 @@ export const EditableTable = () => {
 
     return (
         <>
-            <div className="overflow-x-scroll overflow-y-hidden">
+            <div className="flex justify-center flex-col overflow-x-scroll overflow-y-hidden">
                 <table className="bg-white border border-solid rounded-lg h-auto">
                     <thead>
                         {table.getHeaderGroups().map((headerGroup) => (
