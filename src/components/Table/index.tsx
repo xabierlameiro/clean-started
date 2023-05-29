@@ -1,48 +1,20 @@
-import React, { useCallback } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useCallback, useEffect, useState } from 'react';
 
 import {
     Column,
-    Table,
-    ColumnDef,
     useReactTable,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     flexRender,
+    createColumnHelper,
+    Table,
 } from '@tanstack/react-table';
-import { makeData } from '@/mocks/mockMakeDataList';
-
-type Person = {
-    firstName: string;
-    lastName: string;
-    age: number;
-    visits: number;
-    status: string;
-    progress: number;
-};
+import { newPerson, Person } from '@/mocks/mockMakeDataList';
 
 // TODO: React Hook "useState" is called in function "cell" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use".eslintreact-hooks/rules-of-hooks
 // TODO: No se puede usar hooks dentro de funciones que no sean componentes de react o custom hooks con el prefijo useBLABLA
-// Give our default column cell renderer editing superpowers!
-const defaultColumn: Partial<ColumnDef<Person>> = {
-    /*     cell: ({ getValue, row: { index }, column: { id }, table }) => {
-        const initialValue = getValue();
-        // We need to keep and update the state of the cell normally
-        const [value, setValue] = useState(initialValue);
-
-        // When the input is blurred, we'll call our table meta's updateData function
-        const onBlur = () => {
-            table.options.meta?.updateData(index, id, value);
-        };
-
-        // If the initialValue is changed external, sync it up with our state
-        useEffect(() => {
-            setValue(initialValue);
-        }, [initialValue]);
-
-        return <input value={value as string} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />;
-    }, */
-};
 
 function useSkipper() {
     const shouldSkipRef = React.useRef(true);
@@ -60,16 +32,14 @@ function useSkipper() {
     return [shouldSkip, skip] as const;
 }
 
-export default function Table() {
-    const [data, setData] = React.useState(() => makeData(1000));
+export const EditableTable = () => {
+    const [data, setData] = React.useState(newPerson);
 
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
     const handleRemoveRow = useCallback(
         (row: any) => {
-            const a = data.filter(
-                (d) => `${d.firstName}${d.lastName}` !== `${row.original.firstName}${row.original.lastName}`
-            );
+            const a = data.filter((d) => d.id !== row.original.id);
             setData(a);
         },
         [data]
@@ -77,85 +47,95 @@ export default function Table() {
 
     const handleAddRow = () => {
         data.push({
-            firstName: '',
-            lastName: '',
-            age: 0,
-            visits: 0,
-            status: 'single',
-            progress: 0,
+            id: Math.random(),
+            name: '',
+            dateOfBirth: '',
+            major: '',
         });
         setData([...data]);
     };
-    const columns = React.useMemo<ColumnDef<Person>[]>(
-        () => [
-            {
-                header: '',
-                id: 'Header',
-                columns: [
-                    {
-                        accessorKey: 'firstName',
-                        footer: (props) => props.column.id,
+    const EditableCell = ({ getValue, row, column, table }: any) => {
+        console.log('table', table);
+        const initialValue = getValue();
+        const [value, setValue] = useState(initialValue);
+        const onBlur = () => {
+            table.options.meta?.updateData(row.index, column.id, value);
+        };
+        useEffect(() => {
+            setValue(initialValue);
+        }, [initialValue]);
+
+        return <input value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />;
+    };
+    const columnHelper = createColumnHelper<Person>();
+    const columns = [
+        {
+            header: '',
+            id: 'Header',
+            columns: [
+                columnHelper.accessor('id', {
+                    header: () => <span>Id</span>,
+                    footer: (props) => props.column.id,
+                    cell: EditableCell,
+                    meta: {
+                        type: 'text',
                     },
-                    {
-                        accessorFn: (row) => row.lastName,
-                        id: 'lastName',
-                        header: () => <span>Last Name</span>,
-                        footer: (props) => props.column.id,
+                }),
+                columnHelper.accessor('name', {
+                    footer: (props) => props.column.id,
+                    header: () => <span>Name</span>,
+                    cell: EditableCell,
+                    meta: {
+                        type: 'text',
                     },
-                    {
-                        accessorKey: 'age',
-                        header: () => 'Age',
-                        footer: (props) => props.column.id,
+                }),
+                columnHelper.accessor('dateOfBirth', {
+                    footer: (props) => props.column.id,
+                    header: () => <span>Date of BIrth</span>,
+                    cell: EditableCell,
+                    meta: {
+                        type: 'date',
                     },
-                    {
-                        accessorKey: 'visits',
-                        header: () => <span>Visits</span>,
-                        footer: (props) => props.column.id,
+                }),
+                columnHelper.accessor('major', {
+                    footer: (props) => props.column.id,
+                    header: () => <span>Major</span>,
+                    cell: EditableCell,
+                    meta: {
+                        type: 'text',
                     },
-                    {
-                        accessorKey: 'status',
-                        header: 'Status',
-                        footer: (props) => props.column.id,
+                }),
+                columnHelper.accessor('major', {
+                    header: () => <span>Actions</span>,
+                    cell: ({ row }) => {
+                        return (
+                            <button onClick={() => handleRemoveRow(row)}>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-6 h-6"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                                    />
+                                </svg>
+                            </button>
+                        );
                     },
-                    {
-                        accessorKey: 'progress',
-                        header: 'Profile Progress',
-                        footer: (props) => props.column.id,
-                    },
-                    {
-                        header: 'Actions',
-                        footer: (props) => props.column.id,
-                        cell: ({ row }) => {
-                            return (
-                                <button onClick={() => handleRemoveRow(row)}>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={1.5}
-                                        stroke="currentColor"
-                                        className="w-6 h-6"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                                        />
-                                    </svg>
-                                </button>
-                            );
-                        },
-                    },
-                ],
-            },
-        ],
-        [handleRemoveRow]
-    );
+                }),
+            ],
+        },
+    ];
 
     const table = useReactTable({
         data,
         columns,
-        defaultColumn,
+        //defaultColumn,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -184,7 +164,7 @@ export default function Table() {
     return (
         <>
             <div className="overflow-x-scroll overflow-y-hidden">
-                <table className="bg-white border border-solid rounded-lg w-full h-auto">
+                <table className="bg-white border border-solid rounded-lg h-auto">
                     <thead>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
@@ -290,7 +270,7 @@ export default function Table() {
             </div>
         </>
     );
-}
+};
 function Filter({ column, table }: { column: Column<any, any>; table: Table<any> }) {
     const firstValue = table.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
     const columnFilterValue = column.getFilterValue();
