@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import {
     Column,
+    ColumnDef,
     useReactTable,
     getCoreRowModel,
     getFilteredRowModel,
@@ -45,7 +46,7 @@ export const EditableTable = () => {
 
     const handleAddRow = () => {
         data.push({
-            id: Math.random(),
+            id: `${Math.floor(Math.random() * 9999)}`,
             name: '',
             dateOfBirth: '',
             major: '',
@@ -65,69 +66,75 @@ export const EditableTable = () => {
         return <input value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />;
     };
     const columnHelper = createColumnHelper<Person>();
-    const columns = [
-        {
-            header: '',
-            id: 'Header',
-            columns: [
-                columnHelper.accessor('id', {
-                    header: () => <span>Id</span>,
-                    footer: (props) => props.column.id,
-                    cell: EditableCell,
-                    meta: {
-                        type: 'text',
-                    },
-                }),
-                columnHelper.accessor('name', {
-                    footer: (props) => props.column.id,
-                    header: () => <span>Name</span>,
-                    cell: EditableCell,
-                    meta: {
-                        type: 'text',
-                    },
-                }),
-                columnHelper.accessor('dateOfBirth', {
-                    footer: (props) => props.column.id,
-                    header: () => <span>Date of BIrth</span>,
-                    cell: EditableCell,
-                    meta: {
-                        type: 'date',
-                    },
-                }),
-                columnHelper.accessor('major', {
-                    footer: (props) => props.column.id,
-                    header: () => <span>Major</span>,
-                    cell: EditableCell,
-                    meta: {
-                        type: 'text',
-                    },
-                }),
-                columnHelper.accessor('major', {
-                    header: () => <span>Actions</span>,
-                    cell: ({ row }) => {
-                        return (
-                            <button onClick={() => handleRemoveRow(row)}>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                                    />
-                                </svg>
-                            </button>
-                        );
-                    },
-                }),
-            ],
-        },
-    ];
+    const columns = React.useMemo<ColumnDef<Person, any>[]>(
+        () => [
+            {
+                id: 'Header',
+                columns: [
+                    columnHelper.accessor('id', {
+                        header: () => <span>Id</span>,
+                        footer: (props) => props.column.id,
+                        cell: EditableCell,
+                        meta: {
+                            type: 'number',
+                        },
+                    }),
+                    columnHelper.accessor('name', {
+                        footer: (props) => props.column.id,
+                        header: () => <span>Name</span>,
+                        cell: EditableCell,
+                        meta: {
+                            type: 'text',
+                        },
+                    }),
+                    columnHelper.accessor('dateOfBirth', {
+                        footer: (props) => props.column.id,
+                        header: () => <span>Date of BIrth</span>,
+                        cell: EditableCell,
+                        meta: {
+                            type: 'date',
+                        },
+                    }),
+                    columnHelper.accessor('major', {
+                        footer: (props) => props.column.id,
+                        header: () => <span>Major</span>,
+                        cell: EditableCell,
+                        meta: {
+                            type: 'text',
+                        },
+                    }),
+                    columnHelper.display({
+                        id: 'actions',
+                        header: () => <span>Actions</span>,
+                        cell: ({ row }) => {
+                            return (
+                                <button onClick={() => handleRemoveRow(row)}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-6 h-6"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                                        />
+                                    </svg>
+                                </button>
+                            );
+                        },
+                        meta: {
+                            type: 'button',
+                        },
+                    }),
+                ],
+            },
+        ],
+        [columnHelper, handleRemoveRow]
+    );
 
     const table = useReactTable({
         data,
@@ -201,9 +208,9 @@ export const EditableTable = () => {
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <th className="text-center" key={header.id} colSpan={header.colSpan}>
+                                        <th key={header.id} colSpan={header.colSpan}>
                                             {header.isPlaceholder ? null : (
-                                                <div className="text-center">
+                                                <div>
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                     {header.column.getCanFilter() ? (
                                                         <div>
@@ -302,19 +309,10 @@ export const EditableTable = () => {
         </>
     );
 };
-function Filter({ column, table }: { column: Column<any, any>; table: Table<any> }) {
-    const firstValue = table.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
+function Filter({ column }: { column: Column<any, any>; table: Table<any> }) {
     const columnFilterValue = column.getFilterValue();
-    return typeof firstValue === 'number' ? (
-        <div className="flex ml-10 space-x-2">
-            <input
-                type="number"
-                value={(columnFilterValue as [number, number])?.[0] ?? ''}
-                onChange={(e) => column.setFilterValue((old: [number, number]) => [e.target.value, old?.[1]])}
-                className="w-20 border shadow rounded"
-            />
-        </div>
-    ) : (
+
+    return (
         <input
             type="text"
             value={(columnFilterValue ?? '') as string}
