@@ -3,7 +3,7 @@ import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { Filters } from '@/components/Filters';
-import Table from '@/components/Table';
+import { EditableTable } from '@/components/Table';
 
 const Plan = () => {
     return (
@@ -11,7 +11,7 @@ const Plan = () => {
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
             subheader={<Filters />}
-            content={<Table />}
+            content={<EditableTable />}
         />
     );
 };
