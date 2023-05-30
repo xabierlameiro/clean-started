@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useCallback, useEffect, useState } from 'react';
 
 import {
@@ -12,9 +11,6 @@ import {
     Table,
 } from '@tanstack/react-table';
 import { newPerson, Person } from '@/mocks/mockMakeDataList';
-
-// TODO: React Hook "useState" is called in function "cell" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter. React Hook names must start with the word "use".eslintreact-hooks/rules-of-hooks
-// TODO: No se puede usar hooks dentro de funciones que no sean componentes de react o custom hooks con el prefijo useBLABLA
 
 function useSkipper() {
     const shouldSkipRef = React.useRef(true);
@@ -37,6 +33,8 @@ export const EditableTable = () => {
 
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
+    const [globalFilter, setGlobalFilter] = React.useState('');
+
     const handleRemoveRow = useCallback(
         (row: any) => {
             const a = data.filter((d) => d.id !== row.original.id);
@@ -55,7 +53,6 @@ export const EditableTable = () => {
         setData([...data]);
     };
     const EditableCell = ({ getValue, row, column, table }: any) => {
-        console.log('table', table);
         const initialValue = getValue();
         const [value, setValue] = useState(initialValue);
         const onBlur = () => {
@@ -135,7 +132,6 @@ export const EditableTable = () => {
     const table = useReactTable({
         data,
         columns,
-        //defaultColumn,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -160,10 +156,44 @@ export const EditableTable = () => {
         },
         debugTable: true,
     });
+    function DebouncedInput({
+        value: initialValue,
+        onChange,
+        debounce = 500,
+        ...props
+    }: {
+        value: string | number;
+        // eslint-disable-next-line no-unused-vars
+        onChange: (value: string | number) => void;
+        debounce?: number;
+    } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
+        const [value, setValue] = React.useState(initialValue);
 
+        React.useEffect(() => {
+            setValue(initialValue);
+        }, [initialValue]);
+
+        React.useEffect(() => {
+            const timeout = setTimeout(() => {
+                onChange(value);
+            }, debounce);
+
+            return () => clearTimeout(timeout);
+        }, [value, debounce, onChange]);
+
+        return <input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
+    }
     return (
         <>
             <div className="flex justify-center flex-col overflow-x-scroll overflow-y-hidden">
+                <div>
+                    <DebouncedInput
+                        value={globalFilter ?? ''}
+                        onChange={(value: any) => setGlobalFilter(String(value))}
+                        className="p-2 font-lg shadow border border-block"
+                        placeholder="Search all columns..."
+                    />
+                </div>
                 <table className="bg-white border border-solid rounded-lg h-auto">
                     <thead>
                         {table.getHeaderGroups().map((headerGroup) => (
