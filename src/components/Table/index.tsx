@@ -33,7 +33,7 @@ export const EditableTable = () => {
 
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
-    const [globalFilter, setGlobalFilter] = React.useState('');
+    //const [globalFilter, setGlobalFilter] = React.useState('');
 
     const handleRemoveRow = useCallback(
         (row: any) => {
@@ -156,10 +156,10 @@ export const EditableTable = () => {
         },
         debugTable: true,
     });
-    function DebouncedInput({
+    /* function DebouncedInput({
         value: initialValue,
         onChange,
-        debounce = 500,
+        debounce = 1500,
         ...props
     }: {
         value: string | number;
@@ -182,10 +182,11 @@ export const EditableTable = () => {
         }, [value, debounce, onChange]);
 
         return <input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
-    }
+    } */
     return (
         <>
             <div className="flex justify-center flex-col overflow-x-scroll overflow-y-hidden">
+                {/* TODO: GLOBAL FILTER NO ESTA FUNCIONANDO. Lo dejo para mas adelante seguir con el.
                 <div>
                     <DebouncedInput
                         value={globalFilter ?? ''}
@@ -193,7 +194,7 @@ export const EditableTable = () => {
                         className="p-2 font-lg shadow border border-block"
                         placeholder="Search all columns..."
                     />
-                </div>
+                </div> */}
                 <table className="bg-white border border-solid rounded-lg h-auto">
                     <thead>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -310,14 +311,6 @@ function Filter({ column, table }: { column: Column<any, any>; table: Table<any>
                 type="number"
                 value={(columnFilterValue as [number, number])?.[0] ?? ''}
                 onChange={(e) => column.setFilterValue((old: [number, number]) => [e.target.value, old?.[1]])}
-                placeholder={`Min`}
-                className="w-20 border shadow rounded"
-            />
-            <input
-                type="number"
-                value={(columnFilterValue as [number, number])?.[1] ?? ''}
-                onChange={(e) => column.setFilterValue((old: [number, number]) => [old?.[0], e.target.value])}
-                placeholder={`Max`}
                 className="w-20 border shadow rounded"
             />
         </div>
