@@ -16,7 +16,7 @@ export const Crumb = ({ crumbs, crumb, currentLink, index }: Props) => {
             <Link
                 className={`text-sm font-semibold ${
                     index < crumbs.length - 1 ? 'text-terciary-color' : 'text-primary-color'
-                } hover:font-bold`}
+                }`}
                 href={currentLink}
             >
                 {capitalize(crumb)}
