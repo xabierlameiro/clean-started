@@ -1,17 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 
 import {
-    Column,
-    ColumnDef,
     useReactTable,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     flexRender,
     createColumnHelper,
-    Table,
 } from '@tanstack/react-table';
-import { newPerson, Person } from '@/mocks/mockMakeDataList';
+import { PersonsDataList, Person } from '@/mocks/mockMakeDataList';
+import { Filter } from '@/components/Table/filterTable';
+import useColumns from '@/components/Table/columns';
 
 function useSkipper() {
     const shouldSkipRef = React.useRef(true);
@@ -30,7 +29,7 @@ function useSkipper() {
 }
 
 export const EditableTable = () => {
-    const [data, setData] = React.useState(newPerson);
+    const [data, setData] = React.useState(PersonsDataList);
 
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
@@ -43,7 +42,6 @@ export const EditableTable = () => {
         },
         [data]
     );
-
     const handleAddRow = () => {
         data.push({
             id: `${Math.floor(Math.random() * 9999)}`,
@@ -53,88 +51,9 @@ export const EditableTable = () => {
         });
         setData([...data]);
     };
-    const EditableCell = ({ getValue, row, column, table }: any) => {
-        const initialValue = getValue();
-        const [value, setValue] = useState(initialValue);
-        const onBlur = () => {
-            table.options.meta?.updateData(row.index, column.id, value);
-        };
-        useEffect(() => {
-            setValue(initialValue);
-        }, [initialValue]);
-
-        return <input value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />;
-    };
     const columnHelper = createColumnHelper<Person>();
-    const columns = React.useMemo<ColumnDef<Person, any>[]>(
-        () => [
-            {
-                id: 'Header',
-                columns: [
-                    columnHelper.accessor('id', {
-                        header: () => <span>Id</span>,
-                        footer: (props) => props.column.id,
-                        cell: EditableCell,
-                        meta: {
-                            type: 'number',
-                        },
-                    }),
-                    columnHelper.accessor('name', {
-                        footer: (props) => props.column.id,
-                        header: () => <span>Name</span>,
-                        cell: EditableCell,
-                        meta: {
-                            type: 'text',
-                        },
-                    }),
-                    columnHelper.accessor('dateOfBirth', {
-                        footer: (props) => props.column.id,
-                        header: () => <span>Date of BIrth</span>,
-                        cell: EditableCell,
-                        meta: {
-                            type: 'date',
-                        },
-                    }),
-                    columnHelper.accessor('major', {
-                        footer: (props) => props.column.id,
-                        header: () => <span>Major</span>,
-                        cell: EditableCell,
-                        meta: {
-                            type: 'text',
-                        },
-                    }),
-                    columnHelper.display({
-                        id: 'actions',
-                        header: () => <span>Actions</span>,
-                        cell: ({ row }) => {
-                            return (
-                                <button onClick={() => handleRemoveRow(row)}>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={1.5}
-                                        stroke="currentColor"
-                                        className="w-6 h-6"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                                        />
-                                    </svg>
-                                </button>
-                            );
-                        },
-                        meta: {
-                            type: 'button',
-                        },
-                    }),
-                ],
-            },
-        ],
-        [columnHelper, handleRemoveRow]
-    );
+
+    const columns = useColumns(columnHelper, handleRemoveRow);
 
     const table = useReactTable({
         data,
@@ -309,16 +228,16 @@ export const EditableTable = () => {
         </>
     );
 };
-function Filter({ column }: { column: Column<any, any>; table: Table<any> }) {
-    const columnFilterValue = column.getFilterValue();
+// function Filter({ column }: { column: Column<any, any>; table: Table<any> }) {
+//     const columnFilterValue = column.getFilterValue();
 
-    return (
-        <input
-            type="text"
-            value={(columnFilterValue ?? '') as string}
-            onChange={(e) => column.setFilterValue(e.target.value)}
-            placeholder={`Search...`}
-            className="w-36 border shadow rounded"
-        />
-    );
-}
+//     return (
+//         <input
+//             type="text"
+//             value={(columnFilterValue ?? '') as string}
+//             onChange={(e) => column.setFilterValue(e.target.value)}
+//             placeholder={`Search...`}
+//             className="w-36 border shadow rounded"
+//         />
+//     );
+// }

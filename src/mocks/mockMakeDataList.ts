@@ -5,9 +5,9 @@ export type Person = {
     major: string;
 };
 
-export const newPerson = [
+export const PersonsDataList = [
     {
-        id: '1111',
+        id: '8888',
         name: 'Bahar Constantia',
         dateOfBirth: '1984-01-04',
         major: 'Computer Science',

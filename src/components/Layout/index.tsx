@@ -1,7 +1,8 @@
 import { ReactElement, useState } from 'react';
 import { BarsArrowDown } from '../Icons/BarsArrowDown';
 import { Xmark } from '../Icons/Xmark';
-import Link from 'next/link';
+import { Plus } from '../Icons/plus';
+import { useRouter } from 'next/router';
 
 type Props = {
     sidebar: ReactElement;
@@ -12,7 +13,11 @@ type Props = {
 
 export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const router = useRouter();
+    const handleClick = (e: any) => {
+        e.preventDefault();
+        router.push('plan/newPlan');
+    };
     return (
         <div className="relative flex bg-gray-100">
             {isMenuOpen ? (
@@ -36,22 +41,11 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
                 <main className="flex flex-col p-4 bg-gray-100">
                     {subheader}
                     {content}
-                    <>
-                        <button className="flex justify-end ">
-                            <Link href="/new-plan">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    className="w-6 h-6 bg-primary-color text-white rounded-xl"
-                                >
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                </svg>
-                            </Link>
+                    {
+                        <button onClick={handleClick} className="flex justify-end ">
+                            <Plus className="bg-primary-color w-6 h-6 rounded-xl text-white" alt="icon-plus" />
                         </button>
-                    </>
+                    }
                 </main>
             </section>
         </div>
