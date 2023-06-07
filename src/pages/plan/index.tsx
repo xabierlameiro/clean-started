@@ -13,7 +13,7 @@ const Plan = () => {
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
             subheader={<Filters />}
-            content={<EditableTable dataList={PersonsDataList} useColumns={UseColumns} />}
+            content={<EditableTable dataList={PersonsDataList} useColumns={UseColumns} isEditable={true} />}
         />
     );
 };

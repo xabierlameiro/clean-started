@@ -12,7 +12,7 @@ const NewPlan = () => {
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
             subheader={<NewPlanForm />}
-            content={<EditableTable dataList={[]} useColumns={UseColumns} />}
+            content={<EditableTable dataList={[]} useColumns={UseColumns} isEditable={true} />}
         />
     );
 };

@@ -13,7 +13,6 @@ import {
 import { Person } from '@/mocks/mockMakeDataList';
 import { rankItem } from '@tanstack/match-sorter-utils';
 import { DebouncedInput } from '@/components/Table/utils/globalFIlter';
-import { useRouter } from 'next/router';
 
 interface EditableTableProps<T> {
     // eslint-disable-next-line no-unused-vars

@@ -13,7 +13,7 @@ const Logs = () => {
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
             subheader={<DateRangePicker />}
-            content={<EditableTable dataList={logData} useColumns={UseColumns} />}
+            content={<EditableTable dataList={logData} useColumns={UseColumns} isEditable={false} />}
         />
     );
 };
