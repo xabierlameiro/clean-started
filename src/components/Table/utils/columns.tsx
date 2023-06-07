@@ -29,6 +29,7 @@ const useColumns = (columnHelper: any, handleRemoveRow: any) => {
                         meta: {
                             type: 'number',
                         },
+                        filterFn: 'fuzzy',
                     }),
                     columnHelper.accessor('name', {
                         footer: (props: any) => props.column.id,
@@ -37,6 +38,7 @@ const useColumns = (columnHelper: any, handleRemoveRow: any) => {
                         meta: {
                             type: 'text',
                         },
+                        filterFn: 'fuzzy',
                     }),
                     columnHelper.accessor('dateOfBirth', {
                         footer: (props: any) => props.column.id,

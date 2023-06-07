@@ -7,11 +7,20 @@ import {
     getPaginationRowModel,
     flexRender,
     createColumnHelper,
+    ColumnFiltersState,
+    FilterFn,
 } from '@tanstack/react-table';
-import { PersonsDataList, Person } from '@/mocks/mockMakeDataList';
-import { Filter } from '@/components/Table/filterTable';
-import useColumns from '@/components/Table/columns';
+import { Person } from '@/mocks/mockMakeDataList';
+import { rankItem } from '@tanstack/match-sorter-utils';
+import { DebouncedInput } from '@/components/Table/utils/globalFIlter';
+import { useRouter } from 'next/router';
 
+interface EditableTableProps<T> {
+    // eslint-disable-next-line no-unused-vars
+    useColumns: (columnHelper: any, handleRemoveRow: any) => any;
+    dataList: T[];
+    isEditable: boolean;
+}
 function useSkipper() {
     const shouldSkipRef = React.useRef(true);
     const shouldSkip = shouldSkipRef.current;
@@ -28,12 +37,11 @@ function useSkipper() {
     return [shouldSkip, skip] as const;
 }
 
-export const EditableTable = () => {
-    const [data, setData] = React.useState(PersonsDataList);
-
+export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, dataList, isEditable }) => {
+    const [data, setData] = React.useState(dataList);
+    const [globalFilter, setGlobalFilter] = React.useState('');
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
-
-    //const [globalFilter, setGlobalFilter] = React.useState('');
 
     const handleRemoveRow = useCallback(
         (row: any) => {
@@ -51,17 +59,38 @@ export const EditableTable = () => {
         });
         setData([...data]);
     };
+    const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+        // Rank the item
+        const itemRank = rankItem(row.getValue(columnId), value);
+
+        // Store the itemRank info
+        addMeta({
+            itemRank,
+        });
+
+        // Return if the item should be filtered in/out
+        return itemRank.passed;
+    };
     const columnHelper = createColumnHelper<Person>();
-
     const columns = useColumns(columnHelper, handleRemoveRow);
-
+    //const columnFilterValue = columns.getFilterValue();
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        globalFilterFn: fuzzyFilter,
+        onGlobalFilterChange: setGlobalFilter,
+        onColumnFiltersChange: setColumnFilters,
         autoResetPageIndex,
+        filterFns: {
+            fuzzy: fuzzyFilter,
+        },
+        state: {
+            columnFilters,
+            globalFilter,
+        },
         // Provide our updateData function to our table meta
         meta: {
             updateData: (rowIndex: number, columnId: string, value: any) => {
@@ -82,45 +111,18 @@ export const EditableTable = () => {
         },
         debugTable: true,
     });
-    /* function DebouncedInput({
-        value: initialValue,
-        onChange,
-        debounce = 1500,
-        ...props
-    }: {
-        value: string | number;
-        // eslint-disable-next-line no-unused-vars
-        onChange: (value: string | number) => void;
-        debounce?: number;
-    } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-        const [value, setValue] = React.useState(initialValue);
-
-        React.useEffect(() => {
-            setValue(initialValue);
-        }, [initialValue]);
-
-        React.useEffect(() => {
-            const timeout = setTimeout(() => {
-                onChange(value);
-            }, debounce);
-
-            return () => clearTimeout(timeout);
-        }, [value, debounce, onChange]);
-
-        return <input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
-    } */
     return (
         <>
             <div className="flex justify-center flex-col overflow-x-scroll overflow-y-hidden">
-                {/* TODO: GLOBAL FILTER NO ESTA FUNCIONANDO. Lo dejo para mas adelante seguir con el.
                 <div>
                     <DebouncedInput
                         value={globalFilter ?? ''}
-                        onChange={(value: any) => setGlobalFilter(String(value))}
+                        onChange={(value) => setGlobalFilter(String(value))}
                         className="p-2 font-lg shadow border border-block"
                         placeholder="Search all columns..."
                     />
-                </div> */}
+                </div>
+                <div className="h-2" />
                 <table className="bg-white border border-solid rounded-lg h-auto">
                     <thead>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -131,11 +133,6 @@ export const EditableTable = () => {
                                             {header.isPlaceholder ? null : (
                                                 <div>
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
-                                                    {header.column.getCanFilter() ? (
-                                                        <div>
-                                                            <Filter column={header.column} table={table} />
-                                                        </div>
-                                                    ) : null}
                                                 </div>
                                             )}
                                         </th>
@@ -150,7 +147,7 @@ export const EditableTable = () => {
                                 <tr className="border" key={row.id}>
                                     {row.getVisibleCells().map((cell) => {
                                         return (
-                                            <td key={cell.id}>
+                                            <td className="text-center" key={cell.id}>
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </td>
                                         );
@@ -208,12 +205,14 @@ export const EditableTable = () => {
                         ))}
                     </select>
                     <div className="h-2 mb-5">
-                        <button
-                            className="w-36 h-8 bg-primary-color rounded text-white font-bold"
-                            onClick={() => handleAddRow()}
-                        >
-                            <span>Añadir Fila</span>
-                        </button>
+                        {isEditable && (
+                            <button
+                                className="w-36 h-8 bg-primary-color rounded text-white font-bold"
+                                onClick={() => handleAddRow()}
+                            >
+                                <span>Añadir Fila</span>
+                            </button>
+                        )}
                     </div>
                 </div>
 
@@ -228,16 +227,3 @@ export const EditableTable = () => {
         </>
     );
 };
-// function Filter({ column }: { column: Column<any, any>; table: Table<any> }) {
-//     const columnFilterValue = column.getFilterValue();
-
-//     return (
-//         <input
-//             type="text"
-//             value={(columnFilterValue ?? '') as string}
-//             onChange={(e) => column.setFilterValue(e.target.value)}
-//             placeholder={`Search...`}
-//             className="w-36 border shadow rounded"
-//         />
-//     );
-// }

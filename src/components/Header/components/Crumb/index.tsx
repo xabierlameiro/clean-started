@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import { icons } from '@/constants/icons';
 import { capitalize } from '@/helpers/capitalize.helper';
+import { ChevronRight } from '@/assets/icons/ChevronRight';
 
 interface Props {
     crumb: string;
@@ -21,15 +20,7 @@ export const Crumb = ({ crumbs, crumb, currentLink, index }: Props) => {
             >
                 {capitalize(crumb)}
             </Link>
-            {index < crumbs.length - 1 && (
-                <Image
-                    src={icons.chevronRight.url}
-                    alt={icons.chevronRight.name}
-                    width={15}
-                    height={0}
-                    className="mx-auto"
-                />
-            )}
+            {index < crumbs.length - 1 && <ChevronRight />}
         </div>
     );
 };

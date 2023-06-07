@@ -23,7 +23,8 @@
             "@/constants/*": ["src/constants/*"],
             "@/mocks/*": ["src/mocks/*"],
             "@/test": ["./jest.setup.js"],
-            "@/helpers/*": ["src/helpers/*"]
+            "@/helpers/*": ["src/helpers/*"],
+            "@/assets/*": ["src/assets/*"]
             
         }
     },
