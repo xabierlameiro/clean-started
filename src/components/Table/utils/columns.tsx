@@ -31,26 +31,66 @@ const useColumns = (columnHelper: any, handleRemoveRow: any) => {
                         },
                         filterFn: 'fuzzy',
                     }),
-                    columnHelper.accessor('name', {
+                    columnHelper.accessor('titular', {
                         footer: (props: any) => props.column.id,
-                        header: () => <span>Name</span>,
+                        header: () => <span>Titular</span>,
                         cell: EditableCell,
                         meta: {
                             type: 'text',
                         },
                         filterFn: 'fuzzy',
                     }),
-                    columnHelper.accessor('dateOfBirth', {
+                    columnHelper.accessor('stateDoc', {
                         footer: (props: any) => props.column.id,
-                        header: () => <span>Date of BIrth</span>,
+                        header: () => <span>Estado Doc.</span>,
                         cell: EditableCell,
                         meta: {
-                            type: 'date',
+                            type: 'text',
                         },
                     }),
-                    columnHelper.accessor('major', {
+                    columnHelper.accessor('numDoc', {
                         footer: (props: any) => props.column.id,
-                        header: () => <span>Major</span>,
+                        header: () => <span>Nº Documento</span>,
+                        cell: EditableCell,
+                        meta: {
+                            type: 'text',
+                        },
+                    }),
+                    columnHelper.accessor('customer', {
+                        footer: (props: any) => props.column.id,
+                        header: () => <span>Cliente</span>,
+                        cell: EditableCell,
+                        meta: {
+                            type: 'text',
+                        },
+                    }),
+                    columnHelper.accessor('campaing', {
+                        footer: (props: any) => props.column.id,
+                        header: () => <span>Campaña</span>,
+                        cell: EditableCell,
+                        meta: {
+                            type: 'text',
+                        },
+                    }),
+                    /* columnHelper.accessor('DocType', {
+                        footer: (props: any) => props.column.id,
+                        header: () => <span>Tipo Doc</span>,
+                        cell: EditableCell,
+                        meta: {
+                            type: 'text',
+                        },
+                    }),
+                    columnHelper.accessor('contable', {
+                        footer: (props: any) => props.column.id,
+                        header: () => <span>F. Contable</span>,
+                        cell: EditableCell,
+                        meta: {
+                            type: 'text',
+                        },
+                    }), */
+                    columnHelper.accessor('amount', {
+                        footer: (props: any) => props.column.id,
+                        header: () => <span>Importe</span>,
                         cell: EditableCell,
                         meta: {
                             type: 'text',

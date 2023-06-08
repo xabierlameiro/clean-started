@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-
+import { useSkipper } from './utils/actionsTable';
 import {
     useReactTable,
     getCoreRowModel,
@@ -19,21 +19,6 @@ interface EditableTableProps<T> {
     useColumns: (columnHelper: any, handleRemoveRow: any) => any;
     dataList: T[];
     isEditable: boolean;
-}
-function useSkipper() {
-    const shouldSkipRef = React.useRef(true);
-    const shouldSkip = shouldSkipRef.current;
-
-    // Wrap a function with this to skip a pagination reset temporarily
-    const skip = React.useCallback(() => {
-        shouldSkipRef.current = false;
-    }, []);
-
-    React.useEffect(() => {
-        shouldSkipRef.current = true;
-    });
-
-    return [shouldSkip, skip] as const;
 }
 
 export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, dataList, isEditable }) => {
@@ -122,15 +107,15 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
                     />
                 </div>
                 <div className="h-2" />
-                <table className="bg-white border border-solid rounded-lg h-auto">
-                    <thead>
+                <table className="bg-white table-auto text-center">
+                    <thead className="bg-slate-200 border border-solid rounded-lg">
                         {table.getHeaderGroups().map((headerGroup) => (
-                            <tr key={headerGroup.id}>
+                            <tr className="w-fit" key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <th key={header.id} colSpan={header.colSpan}>
+                                        <th className="relative text-center" key={header.id} colSpan={header.colSpan}>
                                             {header.isPlaceholder ? null : (
-                                                <div>
+                                                <div className="border">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </div>
                                             )}
@@ -143,10 +128,10 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
                     <tbody>
                         {table.getRowModel().rows.map((row) => {
                             return (
-                                <tr className="border" key={row.id}>
+                                <tr key={row.id}>
                                     {row.getVisibleCells().map((cell) => {
                                         return (
-                                            <td className="text-center" key={cell.id}>
+                                            <td className="border border-solid p-1" key={cell.id}>
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </td>
                                         );
@@ -214,14 +199,6 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
                         )}
                     </div>
                 </div>
-
-                {/* <div>{table.getRowModel().rows.length} Rows</div>
-                <div>
-                    <button onClick={() => rerender()}>Force Rerender</button>
-                </div>
-                <div>
-                    <button onClick={() => refreshData()}>Refresh Data</button>
-                </div> */}
             </div>
         </>
     );
