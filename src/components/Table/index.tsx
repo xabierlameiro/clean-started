@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import Link from 'next/link';
 import { useSkipper } from './utils/actionsTable';
 import {
     useReactTable,
@@ -13,18 +14,20 @@ import {
 import { Person } from '@/mocks/mockMakeDataList';
 import { rankItem } from '@tanstack/match-sorter-utils';
 import { DebouncedInput } from '@/components/Table/utils/globalFIlter';
+import { Eye } from 'src/assets/icons/Eye';
 
 interface EditableTableProps<T> {
     // eslint-disable-next-line no-unused-vars
     useColumns: (columnHelper: any, handleRemoveRow: any) => any;
     dataList: T[];
     isEditable: boolean;
+    showDetails?: boolean;
 }
 
-export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, dataList, isEditable }) => {
-    const [data, setData] = React.useState(dataList);
-    const [globalFilter, setGlobalFilter] = React.useState('');
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, dataList, isEditable, showDetails }) => {
+    const [data, setData] = useState(dataList);
+    const [globalFilter, setGlobalFilter] = useState('');
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
     const handleRemoveRow = useCallback(
@@ -34,6 +37,7 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
         },
         [data]
     );
+
     const handleAddRow = () => {
         data.push({
             id: `${Math.floor(Math.random() * 9999)}`,
@@ -43,6 +47,7 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
         });
         setData([...data]);
     };
+
     const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
         // Rank the item
         const itemRank = rankItem(row.getValue(columnId), value);
@@ -55,6 +60,7 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
         // Return if the item should be filtered in/out
         return itemRank.passed;
     };
+
     const columnHelper = createColumnHelper<Person>();
     const columns = useColumns(columnHelper, handleRemoveRow);
     //const columnFilterValue = columns.getFilterValue();
@@ -122,6 +128,7 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
                                         </th>
                                     );
                                 })}
+                                {showDetails && <th>Details</th>}
                             </tr>
                         ))}
                     </thead>
@@ -136,6 +143,16 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
                                             </td>
                                         );
                                     })}
+                                    {showDetails && (
+                                        <td className="border border-solid p-1">
+                                            <Link
+                                                className="flex justify-center"
+                                                href={`logs/logdetail=${row.original.id}`}
+                                            >
+                                                <Eye className=" w-5 h-5" alt="details eye" />
+                                            </Link>
+                                        </td>
+                                    )}
                                 </tr>
                             );
                         })}
