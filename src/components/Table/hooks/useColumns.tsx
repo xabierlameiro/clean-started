@@ -6,7 +6,15 @@ import { LogEntry } from '@/mocks/mockLogsDataList';
 import { Trash } from '@/assets/icons/Trash';
 import { Eye } from '@/assets/icons/Eye';
 
-const EditableCell = ({ getValue, row, column, table }: any) => {
+type EditableCellProps = {
+    getValue: () => any;
+    row: any;
+    column: any;
+    table: any;
+    isEditable: boolean;
+};
+
+const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCellProps) => {
     const initialValue = getValue();
     const [value, setValue] = useState(initialValue);
     const onBlur = () => {
@@ -16,10 +24,20 @@ const EditableCell = ({ getValue, row, column, table }: any) => {
         setValue(initialValue);
     }, [initialValue]);
 
-    return <input value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />;
+    if (isEditable) {
+        return <input value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />;
+    } else {
+        return <span>{value}</span>;
+    }
 };
 
-const useColumns = (data: Person | LogEntry, columnHelper: any, showDetails: boolean | null, handleRemoveRow: any) => {
+const useColumns = (
+    data: Person | LogEntry,
+    columnHelper: any,
+    isEditable: boolean,
+    showDetails: boolean,
+    handleRemoveRow: any
+) => {
     const columns = React.useMemo<ColumnDef<Person | LogEntry, any>[]>(() => {
         const columnDefinitions = Object.keys(data).map((key) => {
             return columnHelper.accessor(key, {
@@ -31,23 +49,25 @@ const useColumns = (data: Person | LogEntry, columnHelper: any, showDetails: boo
                 },
             });
         });
-
-        columnDefinitions.push(
-            columnHelper.display({
-                id: 'actions',
-                header: () => <span>Actions</span>,
-                cell: ({ row }: any) => {
-                    return (
-                        <button onClick={() => handleRemoveRow(row)}>
-                            <Trash className="h-4 w-4" alt="delete row" />
-                        </button>
-                    );
-                },
-                meta: {
-                    type: 'button',
-                },
-            })
-        );
+        {
+            isEditable &&
+                columnDefinitions.push(
+                    columnHelper.display({
+                        id: 'actions',
+                        header: () => <span>Actions</span>,
+                        cell: ({ row }: any) => {
+                            return (
+                                <button onClick={() => handleRemoveRow(row)}>
+                                    <Trash className="h-4 w-4" alt="delete row" />
+                                </button>
+                            );
+                        },
+                        meta: {
+                            type: 'button',
+                        },
+                    })
+                );
+        }
         {
             showDetails &&
                 columnDefinitions.push(
@@ -74,7 +94,7 @@ const useColumns = (data: Person | LogEntry, columnHelper: any, showDetails: boo
                 columns: columnDefinitions,
             },
         ];
-    }, [columnHelper, handleRemoveRow, data, showDetails]);
+    }, [columnHelper, handleRemoveRow, data, showDetails, isEditable]);
 
     return columns;
 };

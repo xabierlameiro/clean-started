@@ -53,7 +53,7 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
     };
 
     const columnHelper = createColumnHelper<Person>();
-    const columns = useColumns(dataList[0], columnHelper, showDetails, handleRemoveRow);
+    const columns = useColumns(dataList[0], columnHelper, isEditable, showDetails, handleRemoveRow);
     //const columnFilterValue = columns.getFilterValue();
     const table = useReactTable({
         data,
