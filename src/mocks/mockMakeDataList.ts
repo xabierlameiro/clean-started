@@ -8,7 +8,7 @@ export type Person = {
     customer: string;
 };
 
-export const PersonsDataList = [
+export const PersonsDataList: Person[] = [
     {
         id: '8889',
         titular: 'Bahar Constantia',

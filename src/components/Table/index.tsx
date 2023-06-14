@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import Link from 'next/link';
+import { useState, useCallback } from 'react';
+
 import { useSkipper } from './utils/actionsTable';
 import {
     useReactTable,
@@ -12,41 +12,32 @@ import {
     FilterFn,
 } from '@tanstack/react-table';
 import { Person } from '@/mocks/mockMakeDataList';
+import { LogEntry } from '@/mocks/mockLogsDataList';
 import { rankItem } from '@tanstack/match-sorter-utils';
 import { DebouncedInput } from '@/components/Table/utils/globalFIlter';
-import { Eye } from 'src/assets/icons/Eye';
-
-interface EditableTableProps<T> {
-    // eslint-disable-next-line no-unused-vars
-    useColumns: (columnHelper: any, handleRemoveRow: any) => any;
-    dataList: T[];
-    isEditable: boolean;
+import useTable from './hooks/useTable';
+import useColumns from './hooks/useColumns';
+interface EditableTableProps {
+    dataList: (Person | LogEntry)[];
+    isEditable?: boolean;
     showDetails?: boolean;
 }
 
-export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, dataList, isEditable, showDetails }) => {
-    const [data, setData] = useState(dataList);
-    const [globalFilter, setGlobalFilter] = useState('');
+export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditable = false, showDetails = false }) => {
+    const [data, setData] = useState<(Person | LogEntry)[]>(dataList);
+    const [globalFilter, setGlobalFilter] = useState<string>('');
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
+    const { handleAddRow } = useTable(data, setData);
+
     const handleRemoveRow = useCallback(
         (row: any) => {
-            const a = data.filter((d) => d.id !== row.original.id);
-            setData(a);
+            const updatedData = data.filter((d: any) => d.id !== row.original.id);
+            setData(updatedData);
         },
         [data]
     );
-
-    const handleAddRow = () => {
-        data.push({
-            id: `${Math.floor(Math.random() * 9999)}`,
-            name: '',
-            dateOfBirth: '',
-            major: '',
-        });
-        setData([...data]);
-    };
 
     const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
         // Rank the item
@@ -62,7 +53,7 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
     };
 
     const columnHelper = createColumnHelper<Person>();
-    const columns = useColumns(columnHelper, handleRemoveRow);
+    const columns = useColumns(dataList[0], columnHelper, showDetails, handleRemoveRow);
     //const columnFilterValue = columns.getFilterValue();
     const table = useReactTable({
         data,
@@ -101,6 +92,7 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
         },
         debugTable: true,
     });
+
     return (
         <>
             <div className="flex justify-center flex-col overflow-x-scroll overflow-y-hidden">
@@ -128,7 +120,6 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
                                         </th>
                                     );
                                 })}
-                                {showDetails && <th>Details</th>}
                             </tr>
                         ))}
                     </thead>
@@ -143,16 +134,6 @@ export const EditableTable: React.FC<EditableTableProps<any>> = ({ useColumns, d
                                             </td>
                                         );
                                     })}
-                                    {showDetails && (
-                                        <td className="border border-solid p-1">
-                                            <Link
-                                                className="flex justify-center"
-                                                href={`logs/logdetail=${row.original.id}`}
-                                            >
-                                                <Eye className=" w-5 h-5" alt="details eye" />
-                                            </Link>
-                                        </td>
-                                    )}
                                 </tr>
                             );
                         })}
