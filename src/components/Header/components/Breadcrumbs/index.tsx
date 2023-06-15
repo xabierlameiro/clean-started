@@ -5,7 +5,9 @@ export const Breadcrumbs = () => {
     const location = useRouter();
     let currentLink = '';
 
-    const crumbs = location.pathname.split('/').filter((crumb) => crumb !== '');
+    const crumbs = decodeURI(location.asPath)
+        .split('/')
+        .filter((crumb) => crumb !== '');
 
     return (
         <ol className="inline-flex items-center">

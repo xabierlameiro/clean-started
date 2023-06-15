@@ -3,7 +3,6 @@ import { BarsArrowDown } from '../../assets/icons/BarsArrowDown';
 import { Xmark } from '../../assets/icons/Xmark';
 import { Plus } from '../../assets/icons/plus';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 
 type Props = {
     sidebar: ReactElement;
@@ -16,6 +15,10 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router = useRouter();
     const isPLan = router.pathname === '/plan';
+
+    const redirectNewPlan = () => {
+        router.push('/plan/newPlan', 'Nuevo Plan');
+    };
 
     return (
         <div className="relative flex bg-gray-100">
@@ -41,10 +44,10 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
                     {subheader}
                     {content}
                     {isPLan && (
-                        <button className="flex justify-end ">
-                            <Link href="/plan/newPlan">
-                                <Plus className="bg-primary-color w-6 h-6 rounded-xl text-white" alt="icon-plus" />
-                            </Link>
+                        <button onClick={redirectNewPlan} className="flex justify-end ">
+                            {/* <Link href="/plan/newPlan"> */}
+                            <Plus className="bg-primary-color w-6 h-6 rounded-xl text-white" alt="icon-plus" />
+                            {/* </Link> */}
                         </button>
                     )}
                 </main>
