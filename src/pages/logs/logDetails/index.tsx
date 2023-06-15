@@ -4,7 +4,7 @@ import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { EditableTable } from '@/components/Table';
-import { logData } from '@/mocks/mockLogsDataList';
+import { logDetails } from '@/mocks/mockLogsDataList';
 
 const LogDetails = () => {
     return (
@@ -12,7 +12,7 @@ const LogDetails = () => {
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
             subheader={<DateRangePicker />}
-            content={<EditableTable dataList={logData} showDetails />}
+            content={<EditableTable dataList={logDetails} showDetails />}
         />
     );
 };

@@ -5,6 +5,14 @@ export type LogEntry = {
     action: string;
 };
 
+export type LogDetail = {
+    state: string;
+    id: string;
+    person: string;
+    page: string;
+    action: string;
+};
+
 export const logData: LogEntry[] = [
     { id: '7892', person: 'Alice', page: 'Dashboard', action: 'Edit' },
     { id: '5027', person: 'Sergio', page: 'Settings', action: 'Delete' },
@@ -27,4 +35,9 @@ export const logData: LogEntry[] = [
     { id: '7423', person: 'David', page: 'Settings', action: 'Edit' },
     { id: '1937', person: 'Iris', page: 'Dashboard', action: 'Delete' },
     // Agrega más registros de log aquí...
+];
+
+export const logDetails: LogDetail[] = [
+    { state: 'Dados Previos', id: '7892', person: 'Alice', page: 'Dashboard', action: 'Edit' },
+    { state: 'Dados Nuevos', id: '7893', person: 'Alice', page: 'Dashboard', action: 'Edit' },
 ];
