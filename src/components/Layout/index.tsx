@@ -8,7 +8,7 @@ import Link from 'next/link';
 type Props = {
     sidebar: ReactElement;
     header: ReactElement;
-    subheader: ReactElement;
+    subheader?: ReactElement;
     content: ReactElement;
 };
 
@@ -18,7 +18,7 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
     const isPLan = router.pathname === '/plan';
 
     return (
-        <div className="relative flex bg-gray-100">
+        <div className="relative h-screen w-screen flex bg-gray-100">
             {isMenuOpen ? (
                 <button
                     className="absolute z-10 m-2 mt-3 flex items-center justify-center lg:hidden"
@@ -37,8 +37,8 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
             <aside className={`${isMenuOpen ? 'block pt-12' : 'hidden'} lg:block bg-white border-r-2`}>{sidebar}</aside>
             <section className="w-[95%] h-full">
                 {header}
-                <main className="flex flex-col p-4 bg-gray-100">
-                    {subheader}
+                <main className="flex flex-col p-4 bg-gray-100 h-[92%]">
+                    {subheader ?? subheader}
                     {content}
                     {isPLan && (
                         <button className="flex justify-end ">
