@@ -27,10 +27,17 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
+    /**
+     * costum useTable Hook to handle costum funcionality
+     */
     const { handleAddRow, handleRemoveRow } = useTable(data, setData);
 
+    /**
+     * useColumns is used for dinamic table generation with TanStack columnHelper - check TanStack docs.
+     */
     const columnHelper = createColumnHelper<Person>();
     const columns = useColumns(dataList[0], columnHelper, isEditable, showDetails, handleRemoveRow);
+
     //const columnFilterValue = columns.getFilterValue();
     const table = useReactTable({
         data,
