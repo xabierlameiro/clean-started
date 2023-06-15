@@ -76,7 +76,7 @@ const useColumns = (
                         header: () => <span>Details</span>,
                         cell: () => {
                             return (
-                                <Link href={'/logs'} className="flex justify-center">
+                                <Link href={'/logs/logDetails'} className="flex justify-center">
                                     <Eye className="h-4 w-4" alt="delete row" />
                                 </Link>
                             );
