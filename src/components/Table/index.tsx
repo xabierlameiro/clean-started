@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { useSkipper } from './utils/actionsTable';
 import {
     useReactTable,
@@ -9,12 +8,11 @@ import {
     flexRender,
     createColumnHelper,
     ColumnFiltersState,
-    FilterFn,
 } from '@tanstack/react-table';
 import { Person } from '@/mocks/mockMakeDataList';
 import { LogEntry } from '@/mocks/mockLogsDataList';
-import { rankItem } from '@tanstack/match-sorter-utils';
 import { DebouncedInput } from '@/components/Table/utils/globalFIlter';
+import { fuzzyFilter } from '@/components/Table/utils/fuzzyFilter';
 import useTable from './hooks/useTable';
 import useColumns from './hooks/useColumns';
 interface EditableTableProps {
@@ -30,19 +28,6 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
     const { handleAddRow, handleRemoveRow } = useTable(data, setData);
-
-    const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-        // Rank the item
-        const itemRank = rankItem(row.getValue(columnId), value);
-
-        // Store the itemRank info
-        addMeta({
-            itemRank,
-        });
-
-        // Return if the item should be filtered in/out
-        return itemRank.passed;
-    };
 
     const columnHelper = createColumnHelper<Person>();
     const columns = useColumns(dataList[0], columnHelper, isEditable, showDetails, handleRemoveRow);
