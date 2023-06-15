@@ -10,7 +10,7 @@ export type Person = {
 
 export const PersonsDataList: Person[] = [
     {
-        id: '8889',
+        id: 'f4c718d6',
         titular: 'Bahar Constantia',
         amount: 1984,
         stateDoc: 'Cerrado',
@@ -19,7 +19,7 @@ export const PersonsDataList: Person[] = [
         numDoc: 3423432,
     },
     {
-        id: '2222',
+        id: 'a9e3b2f1',
         titular: 'Harold Nona',
         amount: 1961,
         stateDoc: 'Cerrado',
@@ -28,7 +28,7 @@ export const PersonsDataList: Person[] = [
         numDoc: 3423432,
     },
     {
-        id: '3333',
+        id: '0d8c7b6a',
         titular: 'Raginolf Arnulf',
         amount: 1991,
         stateDoc: 'Abierto',
@@ -37,7 +37,7 @@ export const PersonsDataList: Person[] = [
         numDoc: 3423432,
     },
     {
-        id: '4444',
+        id: '5e6f1a2d',
         titular: 'Marvyn Wendi',
         amount: 1978,
         stateDoc: 'Abierto',

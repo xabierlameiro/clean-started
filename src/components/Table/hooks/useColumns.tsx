@@ -39,14 +39,19 @@ const useColumns = (
     handleRemoveRow: any
 ) => {
     const columns = React.useMemo<ColumnDef<Person | LogEntry, any>[]>(() => {
-        const columnDefinitions = Object.keys(data).map((key) => {
+        const defaultData = showDetails
+            ? { id: null, person: null, page: null, action: null }
+            : { id: null, titular: null, amount: null, stateDoc: null, campaing: null, customer: null, numDoc: null };
+
+        const columnDefinitions = Object.keys(data || defaultData).map((key) => {
             return columnHelper.accessor(key, {
                 header: () => <span>{key}</span>,
                 footer: (props: any) => props.column.id,
-                cell: EditableCell,
+                cell: (props: EditableCellProps) => EditableCell({ ...props, isEditable }),
                 meta: {
                     type: typeof key === 'number' ? 'number' : 'text',
                 },
+                filterFn: key === 'titular' || key === 'id' ? 'fuzzy' : undefined,
             });
         });
         {

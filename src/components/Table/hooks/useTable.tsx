@@ -12,11 +12,11 @@ const useTable = (
         newData = {
             id: crypto.randomUUID().slice(0, 8),
             titular: '',
-            amount: 0,
+            amount: null as unknown as number,
             stateDoc: '',
             campaing: '',
             customer: '',
-            numDoc: 0,
+            numDoc: null as unknown as number,
         };
 
         setData([...data, newData]);

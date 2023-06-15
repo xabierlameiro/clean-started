@@ -4,7 +4,6 @@ import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { NewPlanForm } from '@/components/Plan/newPlan/components/form';
 import { EditableTable } from '@/components/Table';
-import { PersonsDataList } from '@/mocks/mockMakeDataList';
 
 const NewPlan = () => {
     return (
@@ -12,7 +11,7 @@ const NewPlan = () => {
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
             subheader={<NewPlanForm />}
-            content={<EditableTable dataList={PersonsDataList} isEditable={true} />}
+            content={<EditableTable dataList={[]} isEditable={true} />}
         />
     );
 };
