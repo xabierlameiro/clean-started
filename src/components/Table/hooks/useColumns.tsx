@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useEffect, useState, useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Person } from '@/mocks/mockMakeDataList';
 import { LogEntry } from '@/mocks/mockLogsDataList';
@@ -38,7 +38,7 @@ const useColumns = (
     showDetails: boolean,
     handleRemoveRow: any
 ) => {
-    const columns = React.useMemo<ColumnDef<Person | LogEntry, any>[]>(() => {
+    const columns = useMemo<ColumnDef<Person | LogEntry, any>[]>(() => {
         const defaultData = showDetails
             ? { id: null, person: null, page: null, action: null }
             : { id: null, titular: null, amount: null, stateDoc: null, campaing: null, customer: null, numDoc: null };
