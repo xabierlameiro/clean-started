@@ -79,9 +79,9 @@ const useColumns = (
                     columnHelper.display({
                         id: 'details',
                         header: () => <span>Details</span>,
-                        cell: () => {
+                        cell: ({ row }: any) => {
                             return (
-                                <Link href={'/logs/logDetails'} className="flex justify-center">
+                                <Link href={`/logs/logDetails=${row.original.id}`} className="flex justify-center">
                                     <Eye className="h-4 w-4" alt="delete row" />
                                 </Link>
                             );
