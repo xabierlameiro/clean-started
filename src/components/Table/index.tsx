@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 import { useSkipper } from './utils/actionsTable';
 import {
@@ -29,15 +29,7 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
-    const { handleAddRow } = useTable(data, setData);
-
-    const handleRemoveRow = useCallback(
-        (row: any) => {
-            const updatedData = data.filter((d: any) => d.id !== row.original.id);
-            setData(updatedData);
-        },
-        [data]
-    );
+    const { handleAddRow, handleRemoveRow } = useTable(data, setData);
 
     const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
         // Rank the item

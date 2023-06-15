@@ -1,6 +1,6 @@
+import { useCallback } from 'react';
 import { Person } from '@/mocks/mockMakeDataList';
 import { LogEntry } from '@/mocks/mockLogsDataList';
-import React from 'react';
 
 const useTable = (
     data: (Person | LogEntry)[],
@@ -22,8 +22,17 @@ const useTable = (
         setData([...data, newData]);
     };
 
+    const handleRemoveRow = useCallback(
+        (row: any) => {
+            const updatedData = data.filter((d: any) => d.id !== row.original.id);
+            setData(updatedData);
+        },
+        [data, setData]
+    );
+
     return {
         handleAddRow,
+        handleRemoveRow,
     };
 };
 
