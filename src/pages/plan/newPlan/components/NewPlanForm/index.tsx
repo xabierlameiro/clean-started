@@ -1,8 +1,8 @@
 import React from 'react';
 import { useForm } from '@/hooks/useForm';
-import { useNewPlan } from '../../hooks/useNewPlan';
 import { NewPlanSubmenu } from './components/NewPlanSubmenu';
 import { Save } from '@/assets/icons/Save';
+import { mockSelectorOptions } from '@/mocks/mocksNewPlan';
 
 type FormType = {
     customerName: string;
@@ -12,7 +12,7 @@ type FormType = {
     startDate: Date;
     endDate: Date;
     documentType: string;
-    saved: boolean;
+    isCreated: boolean;
 };
 
 const initialFormValues = {
@@ -23,19 +23,25 @@ const initialFormValues = {
     startDate: new Date(),
     endDate: new Date(),
     documentType: '',
-    saved: false,
+    isCreated: false,
 };
 
 export const NewPlanForm = () => {
     const { formData, handleInputChange, setFormData, resetForm } = useForm<FormType>(initialFormValues);
-    const { selectorOptions, onSavePlan } = useNewPlan(formData, setFormData);
-    const { customerName, campain, docDate, status, startDate, endDate, documentType, saved } = formData;
+    const { customerName, campain, docDate, status, startDate, endDate, documentType, isCreated } = formData;
+
+    const onSavePlan = () => {
+        setFormData({
+            ...formData,
+            isCreated: true,
+        });
+    };
 
     return (
         <>
             <section className="w-full mb-4 border-2 shadow-lg bg-white">
-                <NewPlanSubmenu onSave={onSavePlan} saved={saved} />
-                <div className="flex flex-row gap-4 bg-white p-4">
+                <NewPlanSubmenu onSave={onSavePlan} isCreated={isCreated} />
+                <div className="flex flex-row gap-4 bg-white p-4 pb-2">
                     <div className="flex gap-2 w-3/12 flex-col justify-start items-start">
                         <p className="font-bold">Cliente</p>
                         <input
@@ -76,7 +82,7 @@ export const NewPlanForm = () => {
                         <p className="py-1 w-full">{status}</p>
                     </div>
                 </div>
-                <div className="flex flex-row gap-4 bg-white p-4">
+                <div className="flex flex-row gap-4 bg-white p-4 pt-2 pb-6">
                     <div className="flex gap-2 flex-col w-3/12 justify-start items-start">
                         <p className="font-bold">Fecha de Inicio</p>
                         <input
@@ -109,7 +115,7 @@ export const NewPlanForm = () => {
                             value={documentType}
                             onChange={handleInputChange}
                         >
-                            {selectorOptions.map(({ name, value }) => {
+                            {mockSelectorOptions.map(({ name, value }) => {
                                 return (
                                     <option key={value} value={value}>
                                         {name}
