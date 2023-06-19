@@ -62,21 +62,31 @@ const useColumns = (
                     columnHelper.display({
                         id: 'actions',
                         header: () => (
-                            <button
-                                className="h-10 w-10 bg-primary-color text-white rounded hover:bg-primary-color-light flex justify-center items-center"
-                                onClick={() => handleAddRow()}
-                            >
-                                <Plus alt="add new row" className="h-6 w-6" />
-                            </button>
+                            <div className="flex justify-center items-center">
+                                <button
+                                    title="Create New Row"
+                                    aria-label="Create New Row"
+                                    data-testid="create-row-button"
+                                    className="h-10 w-10 bg-primary-color text-white rounded hover:bg-primary-color-light flex justify-center items-center"
+                                    onClick={() => handleAddRow()}
+                                >
+                                    <Plus alt="add new row" className="h-6 w-6" />
+                                </button>
+                            </div>
                         ),
                         cell: ({ row }: any) => {
                             return (
-                                <button
-                                    className="h-8 w-8 bg-red-400  text-white rounded hover:bg-red-500 flex justify-center items-center"
-                                    onClick={() => handleRemoveRow(row)}
-                                >
-                                    <Minus alt="add new row" className="h-4 w-4" />
-                                </button>
+                                <div className="flex justify-center items-center">
+                                    <button
+                                        title="Delete Current Row"
+                                        aria-label="Delete Current Row"
+                                        data-testid="delete-row-button"
+                                        className="h-8 w-8 bg-red-400  text-white rounded hover:bg-red-500 flex justify-center items-center"
+                                        onClick={() => handleRemoveRow(row)}
+                                    >
+                                        <Minus alt="add new row" className="h-4 w-4" />
+                                    </button>
+                                </div>
                             );
                         },
                         meta: {

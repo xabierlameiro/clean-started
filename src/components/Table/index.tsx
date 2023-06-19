@@ -15,6 +15,7 @@ import { DebouncedInput } from '@/components/Table/utils/globalFIlter';
 import { fuzzyFilter } from '@/components/Table/utils/fuzzyFilter';
 import useTable from './hooks/useTable';
 import useColumns from './hooks/useColumns';
+import TablePagination from './Pagination';
 interface EditableTableProps {
     dataList: (Person | LogEntry)[];
     isEditable?: boolean;
@@ -28,7 +29,7 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
     const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
     /**
-     * costum useTable Hook to handle costum funcionality
+     * costum useTable Hook to handle funcionality
      */
     const { handleAddRow, handleRemoveRow } = useTable(data, setData);
 
@@ -87,9 +88,25 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                         className="p-2 font-lg shadow border border-block mb-2"
                         placeholder="Search all columns..."
                     />
+                    <select
+                        title="Select Rows per Page"
+                        aria-label="Select Rows per Page"
+                        data-testid="page-row-input"
+                        className="ml-2"
+                        value={table.getState().pagination.pageSize}
+                        onChange={(e) => {
+                            table.setPageSize(Number(e.target.value));
+                        }}
+                    >
+                        {[10, 20, 30, 40, 50].map((pageSize) => (
+                            <option key={pageSize} value={pageSize}>
+                                Show {pageSize}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
-                <table className="bg-white table-auto text-center">
+                <table className="bg-white table-auto text-center mb-2">
                     <thead className="bg-slate-200 border border-solid rounded-lg">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr className="w-fit" key={headerGroup.id}>
@@ -97,7 +114,7 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                                     return (
                                         <th key={header.id} colSpan={header.colSpan}>
                                             {header.isPlaceholder ? null : (
-                                                <div className="border flex justify-center items-center">
+                                                <div className="border">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </div>
                                             )}
@@ -123,54 +140,7 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                         })}
                     </tbody>
                 </table>
-                <div className="h-2" />
-                <div className="flex items-center gap-2">
-                    <button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
-                        {'<<'}
-                    </button>
-                    <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-                        {'<'}
-                    </button>
-                    <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                        {'>'}
-                    </button>
-                    <button
-                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        {'>>'}
-                    </button>
-                    <span className="flex items-center gap-1">
-                        <div>Page</div>
-                        <strong>
-                            {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-                        </strong>
-                    </span>
-                    <span className="flex items-center gap-1">
-                        | Go to page:
-                        <input
-                            type="number"
-                            defaultValue={table.getState().pagination.pageIndex + 1}
-                            onChange={(e) => {
-                                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                                table.setPageIndex(page);
-                            }}
-                            className="border p-1 rounded w-16 text-center"
-                        />
-                    </span>
-                    <select
-                        value={table.getState().pagination.pageSize}
-                        onChange={(e) => {
-                            table.setPageSize(Number(e.target.value));
-                        }}
-                    >
-                        {[10, 20, 30, 40, 50].map((pageSize) => (
-                            <option key={pageSize} value={pageSize}>
-                                Show {pageSize}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                <TablePagination table={table} />
             </div>
         </>
     );

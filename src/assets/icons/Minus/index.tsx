@@ -10,14 +10,14 @@ export const Minus = ({ className, alt }: Props): JSX.Element => {
             viewBox="0 0 24 24"
             fill="currentColor"
             stroke="currentColor"
-            stroke-width="2.5"
+            strokeWidth="2.5"
             aria-label={alt}
             className={className}
         >
             <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M3.75 12a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
             />
         </svg>
     );
