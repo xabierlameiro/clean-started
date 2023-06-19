@@ -20,7 +20,7 @@ export const Crumb = ({ crumbs, crumb, currentLink, index }: Props) => {
             >
                 {capitalize(crumb)}
             </Link>
-            {index < crumbs.length - 1 && <ChevronRight />}
+            {index < crumbs.length - 1 && <ChevronRight className="w-4 h-4" alt="" />}
         </div>
     );
 };

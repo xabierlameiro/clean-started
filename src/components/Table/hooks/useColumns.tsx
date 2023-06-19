@@ -26,7 +26,9 @@ const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCell
     }, [initialValue]);
 
     if (isEditable) {
-        return <input value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />;
+        return (
+            <input className="text-center" value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />
+        );
     } else {
         return <span>{value}</span>;
     }
@@ -62,7 +64,7 @@ const useColumns = (
                     columnHelper.display({
                         id: 'actions',
                         header: () => (
-                            <div className="flex justify-center items-center">
+                            <div className="flex justify-center items-center w-10">
                                 <button
                                     title="Create New Row"
                                     aria-label="Create New Row"

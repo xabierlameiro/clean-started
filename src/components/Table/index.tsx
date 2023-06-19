@@ -79,40 +79,39 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
     });
 
     return (
-        <>
-            <div className="flex justify-center flex-col overflow-x-scroll overflow-y-hidden">
-                <div>
-                    <DebouncedInput
-                        value={globalFilter ?? ''}
-                        onChange={(value) => setGlobalFilter(String(value))}
-                        className="p-2 font-lg shadow border border-block mb-2"
-                        placeholder="Search all columns..."
-                    />
-                    <select
-                        title="Select Rows per Page"
-                        aria-label="Select Rows per Page"
-                        data-testid="page-row-input"
-                        className="ml-2"
-                        value={table.getState().pagination.pageSize}
-                        onChange={(e) => {
-                            table.setPageSize(Number(e.target.value));
-                        }}
-                    >
-                        {[10, 20, 30, 40, 50].map((pageSize) => (
-                            <option key={pageSize} value={pageSize}>
-                                Show {pageSize}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <table className="bg-white table-auto text-center mb-2">
+        <main>
+            <section>
+                <DebouncedInput
+                    value={globalFilter ?? ''}
+                    onChange={(value) => setGlobalFilter(String(value))}
+                    className="p-2 font-lg shadow border border-block mb-2"
+                    placeholder="Search all columns..."
+                />
+                <select
+                    title="Select Rows per Page"
+                    aria-label="Select Rows per Page"
+                    data-testid="page-row-input"
+                    className="ml-2"
+                    value={table.getState().pagination.pageSize}
+                    onChange={(e) => {
+                        table.setPageSize(Number(e.target.value));
+                    }}
+                >
+                    {[10, 20, 30, 40, 50].map((pageSize) => (
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+                </select>
+            </section>
+            <section className="overflow-x-scroll mb-2">
+                <table className="bg-white table-auto text-center mb-2 w-full">
                     <thead className="bg-slate-200 border border-solid rounded-lg">
                         {table.getHeaderGroups().map((headerGroup) => (
-                            <tr className="w-fit" key={headerGroup.id}>
+                            <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <th key={header.id} colSpan={header.colSpan}>
+                                        <th className="min-w-max" key={header.id} colSpan={header.colSpan}>
                                             {header.isPlaceholder ? null : (
                                                 <div className="border">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
@@ -140,8 +139,8 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                         })}
                     </tbody>
                 </table>
-                <TablePagination table={table} />
-            </div>
-        </>
+            </section>
+            <TablePagination table={table} />
+        </main>
     );
 };

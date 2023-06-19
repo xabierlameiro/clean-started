@@ -5,13 +5,13 @@ import { ChevronRight } from '@/assets/icons/ChevronRight';
 
 export default function TablePagination({ table }: any) {
     return (
-        <div className="flex items-center gap-4 bg-white px-2 py-3">
-            <nav className="isolate flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+        <div className="flex items-center gap-4 bg-white p-2">
+            <nav className="flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
                 <button
                     title="First Page"
                     aria-label="First Page"
                     data-testid="first-page-button"
-                    className="flex items-center rounded-l-md px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                    className="flex items-center rounded-l-md px-3 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                     onClick={() => table.setPageIndex(0)}
                     disabled={!table.getCanPreviousPage()}
                 >
@@ -21,7 +21,7 @@ export default function TablePagination({ table }: any) {
                     title="Previous Page"
                     aria-label="Previous Page"
                     data-testid="previous-page-button"
-                    className="flex items-center rounded-l-md px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                    className="flex items-center rounded-l-md px-3 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
@@ -32,7 +32,7 @@ export default function TablePagination({ table }: any) {
                         title="Current Page"
                         aria-label="Current Page"
                         data-testid="current-page-input"
-                        className="border-0 w-16 text-right font-bold"
+                        className="border-0 w-16 text-right"
                         type="number"
                         value={table.getState().pagination.pageIndex + 1}
                         min={1}
@@ -49,7 +49,7 @@ export default function TablePagination({ table }: any) {
                     title="Next Page"
                     aria-label="Next Page"
                     data-testid="next-page-button"
-                    className="flex items-center rounded-r-md px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                    className="flex items-center rounded-r-md px-3 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
@@ -59,7 +59,7 @@ export default function TablePagination({ table }: any) {
                     title="Last Page"
                     aria-label="Last Page"
                     data-testid="last-page-button"
-                    className="flex items-center rounded-r-md px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                    className="flex items-center rounded-r-md px-3 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                     onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                     disabled={!table.getCanNextPage()}
                 >
@@ -67,7 +67,7 @@ export default function TablePagination({ table }: any) {
                 </button>
             </nav>
 
-            <div className="text-m text-gray-700">
+            <div className="text-sm text-gray-700">
                 <p>
                     Showing{' '}
                     <span className="font-medium">
