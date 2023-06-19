@@ -3,6 +3,7 @@ import { BarsArrowDown } from '../../assets/icons/BarsArrowDown';
 import { Xmark } from '../../assets/icons/Xmark';
 import { Plus } from '../../assets/icons/plus';
 import { useRouter } from 'next/router';
+import { availableRoutes } from '@/constants/routes';
 
 type Props = {
     sidebar: ReactElement;
@@ -14,10 +15,10 @@ type Props = {
 export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router = useRouter();
-    const isPLan = router.pathname === '/plan';
+    const isPLan = router.pathname === availableRoutes.plan;
 
-    const redirectNewPlan = () => {
-        router.push('/plan/newPlan', 'Nuevo Plan');
+    const GoToNewPlan = () => {
+        router.push(availableRoutes.plan_newPlan);
     };
 
     return (
@@ -44,10 +45,8 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
                     {subheader}
                     {content}
                     {isPLan && (
-                        <button onClick={redirectNewPlan} className="flex justify-end ">
-                            {/* <Link href="/plan/newPlan"> */}
+                        <button onClick={GoToNewPlan} className="flex justify-end ">
                             <Plus className="bg-primary-color w-6 h-6 rounded-xl text-white" alt="icon-plus" />
-                            {/* </Link> */}
                         </button>
                     )}
                 </main>
