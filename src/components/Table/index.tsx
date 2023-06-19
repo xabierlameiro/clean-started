@@ -36,7 +36,7 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
      * useColumns is used for dinamic table generation with TanStack columnHelper - check TanStack docs.
      */
     const columnHelper = createColumnHelper<Person>();
-    const columns = useColumns(dataList[0], columnHelper, isEditable, showDetails, handleRemoveRow);
+    const columns = useColumns(dataList[0], columnHelper, isEditable, showDetails, handleRemoveRow, handleAddRow);
 
     //const columnFilterValue = columns.getFilterValue();
     const table = useReactTable({
@@ -84,20 +84,20 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                     <DebouncedInput
                         value={globalFilter ?? ''}
                         onChange={(value) => setGlobalFilter(String(value))}
-                        className="p-2 font-lg shadow border border-block"
+                        className="p-2 font-lg shadow border border-block mb-2"
                         placeholder="Search all columns..."
                     />
                 </div>
-                <div className="h-2" />
+
                 <table className="bg-white table-auto text-center">
                     <thead className="bg-slate-200 border border-solid rounded-lg">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr className="w-fit" key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <th className="relative text-center" key={header.id} colSpan={header.colSpan}>
+                                        <th key={header.id} colSpan={header.colSpan}>
                                             {header.isPlaceholder ? null : (
-                                                <div className="border">
+                                                <div className="border flex justify-center items-center">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </div>
                                             )}
@@ -170,16 +170,6 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                             </option>
                         ))}
                     </select>
-                    <div className="h-2 mb-5">
-                        {isEditable && (
-                            <button
-                                className="w-36 h-8 bg-primary-color rounded text-white font-bold"
-                                onClick={() => handleAddRow()}
-                            >
-                                <span>Añadir Fila</span>
-                            </button>
-                        )}
-                    </div>
                 </div>
             </div>
         </>

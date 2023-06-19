@@ -3,8 +3,9 @@ import { useEffect, useState, useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Person } from '@/mocks/mockMakeDataList';
 import { LogEntry } from '@/mocks/mockLogsDataList';
-import { Trash } from '@/assets/icons/Trash';
 import { Eye } from '@/assets/icons/Eye';
+import { Plus } from '@/assets/icons/plus';
+import { Minus } from '@/assets/icons/Minus';
 
 type EditableCellProps = {
     getValue: () => any;
@@ -36,7 +37,8 @@ const useColumns = (
     columnHelper: any,
     isEditable: boolean,
     showDetails: boolean,
-    handleRemoveRow: any
+    handleRemoveRow: any,
+    handleAddRow: any
 ) => {
     const columns = useMemo<ColumnDef<Person | LogEntry, any>[]>(() => {
         const defaultData = showDetails
@@ -56,14 +58,24 @@ const useColumns = (
         });
         {
             isEditable &&
-                columnDefinitions.push(
+                columnDefinitions.unshift(
                     columnHelper.display({
                         id: 'actions',
-                        header: () => <span>Actions</span>,
+                        header: () => (
+                            <button
+                                className="h-10 w-10 bg-primary-color text-white rounded hover:bg-primary-color-light flex justify-center items-center"
+                                onClick={() => handleAddRow()}
+                            >
+                                <Plus alt="add new row" className="h-6 w-6" />
+                            </button>
+                        ),
                         cell: ({ row }: any) => {
                             return (
-                                <button onClick={() => handleRemoveRow(row)}>
-                                    <Trash className="h-4 w-4" alt="delete row" />
+                                <button
+                                    className="h-8 w-8 bg-red-400  text-white rounded hover:bg-red-500 flex justify-center items-center"
+                                    onClick={() => handleRemoveRow(row)}
+                                >
+                                    <Minus alt="add new row" className="h-4 w-4" />
                                 </button>
                             );
                         },
@@ -99,7 +111,7 @@ const useColumns = (
                 columns: columnDefinitions,
             },
         ];
-    }, [columnHelper, handleRemoveRow, data, showDetails, isEditable]);
+    }, [columnHelper, handleRemoveRow, handleAddRow, data, showDetails, isEditable]);
 
     return columns;
 };
