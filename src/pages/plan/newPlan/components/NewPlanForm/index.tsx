@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from '@/hooks/useForm';
 import { NewPlanSubmenu } from './components/NewPlanSubmenu';
 import { Save } from '@/assets/icons/Save';
 import { mockSelectorOptions } from '@/mocks/mocksNewPlan';
+import { DialogModal } from '@/components/Modal';
+import { Header, Body, Footer } from '../ModalContent';
 
-type FormType = {
+type NewPlanFormType = {
     customerName: string;
     campain: string;
     docDate: Date;
@@ -26,9 +28,22 @@ const initialFormValues = {
     isCreated: false,
 };
 
+export type PlanType = {
+    id: string;
+};
+
 export const NewPlanForm = () => {
-    const { formData, handleInputChange, setFormData, resetForm } = useForm<FormType>(initialFormValues);
+    const dialogRef = useRef(null);
+    const [open, setOpen] = useState(false);
+    const { formData, handleInputChange, setFormData, resetForm } = useForm<NewPlanFormType>(initialFormValues);
     const { customerName, campain, docDate, status, startDate, endDate, documentType, isCreated } = formData;
+    const [plan] = useState<PlanType>({
+        id: 'Primario\n122',
+    });
+
+    useEffect(() => {
+        isCreated && setOpen(true);
+    }, [isCreated]);
 
     const onSavePlan = () => {
         setFormData({
@@ -39,8 +54,18 @@ export const NewPlanForm = () => {
 
     return (
         <>
+            {isCreated && open && (
+                <DialogModal
+                    borderColor={'red'}
+                    dialogRef={dialogRef}
+                    open={open}
+                    header={<Header setOpen={setOpen} />}
+                    body={<Body title={`Plan nº ${plan.id} guardado con éxito`} />}
+                    footer={<Footer setOpen={setOpen} />}
+                />
+            )}
             <section className="w-full mb-4 border-2 shadow-lg bg-white">
-                <NewPlanSubmenu onSave={onSavePlan} isCreated={isCreated} />
+                <NewPlanSubmenu plan={plan} onSave={onSavePlan} isCreated={isCreated} />
                 <div className="flex flex-row gap-4 bg-white p-4 pb-2">
                     <div className="flex gap-2 w-3/12 flex-col justify-start items-start">
                         <p className="font-bold">Cliente</p>
@@ -137,7 +162,7 @@ export const NewPlanForm = () => {
                 </div>
             </section>
             <div className="font-bold w-full flex justify-center">
-                <p>Líneas de Plan: Primario\122</p>
+                <p>Líneas de Plan: {plan.id}</p>
             </div>
         </>
     );
