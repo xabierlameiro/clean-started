@@ -1,33 +1,48 @@
 export type Person = {
     id: string;
-    name: string;
-    dateOfBirth: string;
-    major: string;
+    titular: string;
+    amount: number;
+    campaing: string;
+    stateDoc: string;
+    numDoc: number;
+    customer: string;
 };
 
-export const newPerson = [
+export const PersonsDataList: Person[] = [
     {
-        id: '1111',
-        name: 'Bahar Constantia',
-        dateOfBirth: '1984-01-04',
-        major: 'Computer Science',
+        id: 'f4c718d6',
+        titular: 'Bahar Constantia',
+        amount: 1984,
+        stateDoc: 'Cerrado',
+        campaing: 'Computer Science',
+        customer: 'Bahar Constantia',
+        numDoc: 3423432,
     },
     {
-        id: '2222',
-        name: 'Harold Nona',
-        dateOfBirth: '1961-05-10',
-        major: 'Communications',
+        id: 'a9e3b2f1',
+        titular: 'Harold Nona',
+        amount: 1961,
+        stateDoc: 'Cerrado',
+        campaing: 'Communications',
+        customer: 'Harold Nona',
+        numDoc: 3423432,
     },
     {
-        id: '3333',
-        name: 'Raginolf Arnulf',
-        dateOfBirth: '1991-10-12',
-        major: 'Business',
+        id: '0d8c7b6a',
+        titular: 'Raginolf Arnulf',
+        amount: 1991,
+        stateDoc: 'Abierto',
+        campaing: 'Business',
+        customer: 'Raginolf Arnulf',
+        numDoc: 3423432,
     },
     {
-        id: '4444',
-        name: 'Marvyn Wendi',
-        dateOfBirth: '1978-09-24',
-        major: 'Psychology',
+        id: '5e6f1a2d',
+        titular: 'Marvyn Wendi',
+        amount: 1978,
+        stateDoc: 'Abierto',
+        campaing: 'Psychology',
+        customer: 'Marvyn Wendi',
+        numDoc: 3423432,
     },
 ];

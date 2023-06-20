@@ -1,153 +1,63 @@
-import React, { useCallback, useEffect, useState } from 'react';
-
+import { useState } from 'react';
 import {
-    Column,
-    ColumnDef,
     useReactTable,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     flexRender,
     createColumnHelper,
-    Table,
+    ColumnFiltersState,
 } from '@tanstack/react-table';
-import { newPerson, Person } from '@/mocks/mockMakeDataList';
-
-function useSkipper() {
-    const shouldSkipRef = React.useRef(true);
-    const shouldSkip = shouldSkipRef.current;
-
-    // Wrap a function with this to skip a pagination reset temporarily
-    const skip = React.useCallback(() => {
-        shouldSkipRef.current = false;
-    }, []);
-
-    React.useEffect(() => {
-        shouldSkipRef.current = true;
-    });
-
-    return [shouldSkip, skip] as const;
+import { Person } from '@/mocks/mockMakeDataList';
+import { LogEntry } from '@/mocks/mockLogsDataList';
+import { DebouncedInput } from '@/components/Table/utils/globalFIlter';
+import { fuzzyFilter } from '@/components/Table/utils/fuzzyFilter';
+import useTable from './hooks/useTable';
+import useColumns from './hooks/useColumns';
+import TablePagination from './Pagination';
+interface EditableTableProps {
+    dataList: (Person | LogEntry)[];
+    isEditable?: boolean;
+    showDetails?: boolean;
 }
 
-export const EditableTable = () => {
-    const [data, setData] = React.useState(newPerson);
+export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditable = false, showDetails = false }) => {
+    const [data, setData] = useState<(Person | LogEntry)[]>(dataList);
+    const [globalFilter, setGlobalFilter] = useState<string>('');
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-    const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
+    /**
+     * costum useTable Hook to handle funcionality
+     */
+    const { handleAddRow, handleRemoveRow } = useTable(data, setData);
 
-    //const [globalFilter, setGlobalFilter] = React.useState('');
-
-    const handleRemoveRow = useCallback(
-        (row: any) => {
-            const a = data.filter((d) => d.id !== row.original.id);
-            setData(a);
-        },
-        [data]
-    );
-
-    const handleAddRow = () => {
-        data.push({
-            id: `${Math.floor(Math.random() * 9999)}`,
-            name: '',
-            dateOfBirth: '',
-            major: '',
-        });
-        setData([...data]);
-    };
-    const EditableCell = ({ getValue, row, column, table }: any) => {
-        const initialValue = getValue();
-        const [value, setValue] = useState(initialValue);
-        const onBlur = () => {
-            table.options.meta?.updateData(row.index, column.id, value);
-        };
-        useEffect(() => {
-            setValue(initialValue);
-        }, [initialValue]);
-
-        return <input value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />;
-    };
+    /**
+     * useColumns is used for dinamic table generation with TanStack columnHelper - check TanStack docs.
+     */
     const columnHelper = createColumnHelper<Person>();
-    const columns = React.useMemo<ColumnDef<Person, any>[]>(
-        () => [
-            {
-                id: 'Header',
-                columns: [
-                    columnHelper.accessor('id', {
-                        header: () => <span>Id</span>,
-                        footer: (props) => props.column.id,
-                        cell: EditableCell,
-                        meta: {
-                            type: 'number',
-                        },
-                    }),
-                    columnHelper.accessor('name', {
-                        footer: (props) => props.column.id,
-                        header: () => <span>Name</span>,
-                        cell: EditableCell,
-                        meta: {
-                            type: 'text',
-                        },
-                    }),
-                    columnHelper.accessor('dateOfBirth', {
-                        footer: (props) => props.column.id,
-                        header: () => <span>Date of BIrth</span>,
-                        cell: EditableCell,
-                        meta: {
-                            type: 'date',
-                        },
-                    }),
-                    columnHelper.accessor('major', {
-                        footer: (props) => props.column.id,
-                        header: () => <span>Major</span>,
-                        cell: EditableCell,
-                        meta: {
-                            type: 'text',
-                        },
-                    }),
-                    columnHelper.display({
-                        id: 'actions',
-                        header: () => <span>Actions</span>,
-                        cell: ({ row }) => {
-                            return (
-                                <button onClick={() => handleRemoveRow(row)}>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={1.5}
-                                        stroke="currentColor"
-                                        className="w-6 h-6"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                                        />
-                                    </svg>
-                                </button>
-                            );
-                        },
-                        meta: {
-                            type: 'button',
-                        },
-                    }),
-                ],
-            },
-        ],
-        [columnHelper, handleRemoveRow]
-    );
+    const columns = useColumns(dataList[0], columnHelper, isEditable, showDetails, handleRemoveRow, handleAddRow);
 
+    //const columnFilterValue = columns.getFilterValue();
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-        autoResetPageIndex,
+        globalFilterFn: fuzzyFilter,
+        onGlobalFilterChange: setGlobalFilter,
+        onColumnFiltersChange: setColumnFilters,
+        autoResetPageIndex: false, // If true, pagination will reset to page 1 when state changes eg. data is updated, filters change, grouping changes, etc.
+        filterFns: {
+            fuzzy: fuzzyFilter,
+        },
+        state: {
+            columnFilters,
+            globalFilter,
+        },
         // Provide our updateData function to our table meta
         meta: {
             updateData: (rowIndex: number, columnId: string, value: any) => {
-                // Skip page index reset until after next rerender
-                skipAutoResetPageIndex();
                 setData((old) =>
                     old.map((row, index) => {
                         if (index === rowIndex) {
@@ -163,60 +73,44 @@ export const EditableTable = () => {
         },
         debugTable: true,
     });
-    /* function DebouncedInput({
-        value: initialValue,
-        onChange,
-        debounce = 1500,
-        ...props
-    }: {
-        value: string | number;
-        // eslint-disable-next-line no-unused-vars
-        onChange: (value: string | number) => void;
-        debounce?: number;
-    } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-        const [value, setValue] = React.useState(initialValue);
 
-        React.useEffect(() => {
-            setValue(initialValue);
-        }, [initialValue]);
-
-        React.useEffect(() => {
-            const timeout = setTimeout(() => {
-                onChange(value);
-            }, debounce);
-
-            return () => clearTimeout(timeout);
-        }, [value, debounce, onChange]);
-
-        return <input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
-    } */
     return (
-        <>
-            <div className="flex justify-center flex-col overflow-x-scroll overflow-y-hidden">
-                {/* TODO: GLOBAL FILTER NO ESTA FUNCIONANDO. Lo dejo para mas adelante seguir con el.
-                <div>
-                    <DebouncedInput
-                        value={globalFilter ?? ''}
-                        onChange={(value: any) => setGlobalFilter(String(value))}
-                        className="p-2 font-lg shadow border border-block"
-                        placeholder="Search all columns..."
-                    />
-                </div> */}
-                <table className="bg-white border border-solid rounded-lg h-auto">
-                    <thead>
+        <main>
+            <section>
+                <DebouncedInput
+                    value={globalFilter ?? ''}
+                    onChange={(value) => setGlobalFilter(String(value))}
+                    className="p-2 font-lg shadow border border-block mb-2"
+                    placeholder="Search all columns..."
+                />
+                <select
+                    title="Select Rows per Page"
+                    aria-label="Select Rows per Page"
+                    data-testid="page-row-input"
+                    className="ml-2"
+                    value={table.getState().pagination.pageSize}
+                    onChange={(e) => {
+                        table.setPageSize(Number(e.target.value));
+                    }}
+                >
+                    {[10, 20, 30, 40, 50].map((pageSize) => (
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+                </select>
+            </section>
+            <section className="overflow-x-scroll mb-2">
+                <table className="bg-white table-auto text-center mb-2 w-full">
+                    <thead className="bg-slate-200 border border-solid rounded-lg">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <th key={header.id} colSpan={header.colSpan}>
+                                        <th className="min-w-max" key={header.id} colSpan={header.colSpan}>
                                             {header.isPlaceholder ? null : (
-                                                <div>
+                                                <div className="border">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
-                                                    {header.column.getCanFilter() ? (
-                                                        <div>
-                                                            <Filter column={header.column} table={table} />
-                                                        </div>
-                                                    ) : null}
                                                 </div>
                                             )}
                                         </th>
@@ -228,10 +122,10 @@ export const EditableTable = () => {
                     <tbody>
                         {table.getRowModel().rows.map((row) => {
                             return (
-                                <tr className="border" key={row.id}>
+                                <tr key={row.id}>
                                     {row.getVisibleCells().map((cell) => {
                                         return (
-                                            <td key={cell.id}>
+                                            <td className="border border-solid p-1" key={cell.id}>
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </td>
                                         );
@@ -241,84 +135,8 @@ export const EditableTable = () => {
                         })}
                     </tbody>
                 </table>
-                <div className="h-2" />
-                <div className="flex items-center gap-2">
-                    <button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
-                        {'<<'}
-                    </button>
-                    <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-                        {'<'}
-                    </button>
-                    <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                        {'>'}
-                    </button>
-                    <button
-                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        {'>>'}
-                    </button>
-                    <span className="flex items-center gap-1">
-                        <div>Page</div>
-                        <strong>
-                            {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-                        </strong>
-                    </span>
-                    <span className="flex items-center gap-1">
-                        | Go to page:
-                        <input
-                            type="number"
-                            defaultValue={table.getState().pagination.pageIndex + 1}
-                            onChange={(e) => {
-                                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                                table.setPageIndex(page);
-                            }}
-                            className="border p-1 rounded w-16 text-center"
-                        />
-                    </span>
-                    <select
-                        value={table.getState().pagination.pageSize}
-                        onChange={(e) => {
-                            table.setPageSize(Number(e.target.value));
-                        }}
-                    >
-                        {[10, 20, 30, 40, 50].map((pageSize) => (
-                            <option key={pageSize} value={pageSize}>
-                                Show {pageSize}
-                            </option>
-                        ))}
-                    </select>
-                    <div className="h-2 mb-5">
-                        <button
-                            className="w-36 h-8 bg-primary-color rounded text-white font-bold"
-                            onClick={() => handleAddRow()}
-                        >
-                            <span>Añadir Fila</span>
-                        </button>
-                    </div>
-                </div>
-
-                {/* <div>{table.getRowModel().rows.length} Rows</div>
-                <div>
-                    <button onClick={() => rerender()}>Force Rerender</button>
-                </div>
-                <div>
-                    <button onClick={() => refreshData()}>Refresh Data</button>
-                </div> */}
-            </div>
-        </>
+            </section>
+            <TablePagination table={table} />
+        </main>
     );
 };
-function Filter({ column }: { column: Column<any, any>; table: Table<any> }) {
-    const columnFilterValue = column.getFilterValue();
-
-    return (
-        <input
-            type="text"
-            value={(columnFilterValue ?? '') as string}
-            onChange={(e) => column.setFilterValue(e.target.value)}
-            placeholder={`Search...`}
-            className="w-36 border shadow rounded"
-        />
-    );
-}

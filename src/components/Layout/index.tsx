@@ -1,6 +1,9 @@
 import { ReactElement, useState } from 'react';
-import { BarsArrowDown } from '../Icons/BarsArrowDown';
-import { Xmark } from '../Icons/Xmark';
+import { BarsArrowDown } from '../../assets/icons/BarsArrowDown';
+import { Xmark } from '../../assets/icons/Xmark';
+import { Plus } from '../../assets/icons/plus';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 type Props = {
     sidebar: ReactElement;
@@ -11,9 +14,11 @@ type Props = {
 
 export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const router = useRouter();
+    const isPLan = router.pathname === '/plan';
 
     return (
-        <div className="relative flex bg-gray-100">
+        <div className="relative flex bg-gray-100 min-h-screen w-full">
             {isMenuOpen ? (
                 <button
                     className="absolute z-10 m-2 mt-3 flex items-center justify-center lg:hidden"
@@ -29,12 +34,21 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
                     <BarsArrowDown className=" w-6 h-6" alt="open menu" />
                 </button>
             )}
-            <aside className={`${isMenuOpen ? 'block pt-12' : 'hidden'} lg:block bg-white border-r-2`}>{sidebar}</aside>
-            <section className="w-[95%] h-full">
+            <aside className={`${isMenuOpen ? 'block pt-12' : 'hidden'} lg:block bg-white w-[15%] border-r-2`}>
+                {sidebar}
+            </aside>
+            <section className="w-[85%] h-full">
                 {header}
                 <main className="flex flex-col p-4 bg-gray-100">
                     {subheader}
                     {content}
+                    {isPLan && (
+                        <button className="flex justify-end ">
+                            <Link href="/plan/newPlan">
+                                <Plus className="bg-primary-color w-6 h-6 rounded-xl text-white" alt="icon-plus" />
+                            </Link>
+                        </button>
+                    )}
                 </main>
             </section>
         </div>

@@ -1,9 +1,9 @@
-import { ArrowUpCircle } from '@/components/Icons/ArrowUpCircle';
-import { Envelope } from '@/components/Icons/Envelope';
-import { Trash } from '@/components/Icons/Trash';
-import { Copy } from '@/components/Icons/Copy';
-import { Share } from '@/components/Icons/Share';
-import { DocumentCheck } from '@/components/Icons/DocumentCheck';
+import { ArrowUpCircle } from 'src/assets/icons/ArrowUpCircle';
+import { Envelope } from 'src/assets/icons/Envelope';
+import { Trash } from 'src/assets/icons/Trash';
+import { Copy } from 'src/assets/icons/Copy';
+import { Share } from 'src/assets/icons/Share';
+import { DocumentCheck } from 'src/assets/icons/DocumentCheck';
 
 export const Submenu = () => {
     return (
