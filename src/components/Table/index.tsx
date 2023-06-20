@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSkipper } from './utils/actionsTable';
 import {
     useReactTable,
     getCoreRowModel,
@@ -26,7 +25,6 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
     const [data, setData] = useState<(Person | LogEntry)[]>(dataList);
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
     /**
      * costum useTable Hook to handle funcionality
@@ -49,7 +47,7 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
         globalFilterFn: fuzzyFilter,
         onGlobalFilterChange: setGlobalFilter,
         onColumnFiltersChange: setColumnFilters,
-        autoResetPageIndex,
+        autoResetPageIndex: false, // If true, pagination will reset to page 1 when state changes eg. data is updated, filters change, grouping changes, etc.
         filterFns: {
             fuzzy: fuzzyFilter,
         },
@@ -60,8 +58,6 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
         // Provide our updateData function to our table meta
         meta: {
             updateData: (rowIndex: number, columnId: string, value: any) => {
-                // Skip page index reset until after next rerender
-                skipAutoResetPageIndex();
                 setData((old) =>
                     old.map((row, index) => {
                         if (index === rowIndex) {
