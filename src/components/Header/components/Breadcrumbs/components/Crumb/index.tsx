@@ -18,7 +18,7 @@ export const Crumb = ({ crumbs, label, currentLink, index }: Props) => {
                     <Link className="text-sm font-semibold text-primary-color cursor-pointer" href={currentLink}>
                         {label}
                     </Link>
-                    <ChevronRight />
+                    {index < crumbs.length - 1 && <ChevronRight className="w-4 h-4" alt="" />}
                 </>
             ) : (
                 <span className="text-sm font-semibold text-terciary-color cursor-auto">{label}</span>

@@ -4,16 +4,15 @@ import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { EditableTable } from '@/components/Table';
+import { logDetails } from '@/mocks/mockLogsDataList';
 
-import { logData } from '@/mocks/mockLogsDataList';
-
-const Logs = () => {
+const LogDetails = () => {
     return (
         <Layout
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
             subheader={<DateRangePicker />}
-            content={<EditableTable dataList={logData} showDetails />}
+            content={<EditableTable dataList={logDetails} showDetails />}
         />
     );
 };
@@ -38,4 +37,4 @@ export async function getServerSideProps() {
     };
 }
 
-export default Logs;
+export default LogDetails;

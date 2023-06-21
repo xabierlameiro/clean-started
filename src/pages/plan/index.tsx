@@ -4,7 +4,6 @@ import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { Filters } from '@/components/Filters';
 import { EditableTable } from '@/components/Table';
-import UseColumns from '@/components/Table/utils/columns';
 import { PersonsDataList } from '@/mocks/mockMakeDataList';
 
 const Plan = () => {
@@ -13,7 +12,7 @@ const Plan = () => {
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
             subheader={<Filters />}
-            content={<EditableTable dataList={PersonsDataList} useColumns={UseColumns} isEditable={true} />}
+            content={<EditableTable dataList={PersonsDataList} isEditable />}
         />
     );
 };
