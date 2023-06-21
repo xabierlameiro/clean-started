@@ -24,7 +24,7 @@ export const Menu = ({ menuList }: MenuList) => {
                         <Link
                             href={path}
                             className={` flex items-center gap-2 p-2 rounded-lg ${
-                                path == currentPage ? 'text-white bg-primary-color' : 'text-primary-color '
+                                currentPage.includes(path) ? 'text-white bg-primary-color' : 'text-primary-color '
                             }   hover:bg-primary-color  hover:text-white`}
                         >
                             <div className="w-6 h-6 transition">{icon}</div>
