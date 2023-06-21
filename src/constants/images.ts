@@ -1,7 +1,7 @@
 export const image = {
     logo: {
         name: 'logo',
-        url: '/png/logo.png',
+        url: './assets/images/logo_digital.svg',
     },
     favicon: {
         name: 'icon',

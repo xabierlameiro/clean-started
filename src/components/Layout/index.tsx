@@ -8,7 +8,7 @@ import { availableRoutes } from '@/constants/routes';
 type Props = {
     sidebar: ReactElement;
     header: ReactElement;
-    subheader: ReactElement;
+    subheader?: ReactElement;
     content: ReactElement;
 };
 
@@ -43,8 +43,8 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
             </aside>
             <section className="w-[85%] h-full">
                 {header}
-                <main className="flex flex-col p-4 bg-gray-100">
-                    {subheader}
+                <main className="flex flex-col p-4 bg-gray-100 h-[92%]">
+                    {subheader ?? subheader}
                     {content}
                     {isPLan && (
                         <button onClick={GoToNewPlan} className="flex justify-end ">
