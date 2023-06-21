@@ -15,8 +15,9 @@ const Login = () => {
                         <Image
                             src={image.logo.url}
                             alt={image.logo.name}
-                            width={250}
-                            height={250}
+                            width={'250'}
+                            height={'250'}
+                            priority
                             className="mx-auto"
                         />
                     </div>

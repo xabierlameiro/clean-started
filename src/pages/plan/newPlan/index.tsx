@@ -2,8 +2,8 @@ import { Layout } from '@/components/Layout';
 import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
-import { NewPlanForm } from '@/components/Plan/newPlan/components/form';
 import { EditableTable } from '@/components/Table';
+import { NewPlanForm } from './components/NewPlanForm';
 
 const NewPlan = () => {
     return (

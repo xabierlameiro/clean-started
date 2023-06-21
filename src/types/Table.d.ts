@@ -5,9 +5,15 @@ export type EditableTableProps<T> = {
     dataList: T[];
     dataType: T;
 };
+
 export type Person = {
     id: string;
     name: string;
     dateOfBirth: string;
     major: string;
+};
+
+export type SelectorOptionsType = {
+    name: string;
+    value: string;
 };

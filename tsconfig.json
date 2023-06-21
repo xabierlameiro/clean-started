@@ -24,8 +24,8 @@
             "@/mocks/*": ["src/mocks/*"],
             "@/test": ["./jest.setup.js"],
             "@/helpers/*": ["src/helpers/*"],
-            "@/assets/*": ["src/assets/*"]
-            
+            "@/assets/*": ["src/assets/*"],
+            "@/hooks/*": ["src/hooks/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
