@@ -64,7 +64,7 @@ const useColumns = (
                     columnHelper.display({
                         id: 'actions',
                         header: () => (
-                            <div className="flex justify-center items-center">
+                            <div className="h-10 w-10 flex justify-center items-center">
                                 <button
                                     title="Create New Row"
                                     aria-label="Create New Row"
@@ -78,7 +78,7 @@ const useColumns = (
                         ),
                         cell: ({ row }: any) => {
                             return (
-                                <div className="flex justify-center items-center">
+                                <div className="flex justify-center items-center bg-white">
                                     <button
                                         title="Delete Current Row"
                                         aria-label="Delete Current Row"

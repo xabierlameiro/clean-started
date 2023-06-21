@@ -73,7 +73,6 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
         },
         debugTable: true,
     });
-
     return (
         <main>
             <section>
@@ -101,13 +100,19 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                 </select>
             </section>
             <section className="overflow-x-scroll mb-2">
-                <table className="bg-white table-auto text-center mb-2 w-full">
+                <table className="bg-white text-center mb-2 min-w-full">
                     <thead className="bg-slate-200 border border-solid rounded-lg">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <th className="min-w-max" key={header.id} colSpan={header.colSpan}>
+                                        <th
+                                            className={`border border-solid p-1  ${
+                                                header.id === 'actions' && 'sticky left-0 z-10 bg-slate-200'
+                                            }`}
+                                            key={header.id}
+                                            colSpan={header.colSpan}
+                                        >
                                             {header.isPlaceholder ? null : (
                                                 <div className="border">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
@@ -124,8 +129,14 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                             return (
                                 <tr key={row.id}>
                                     {row.getVisibleCells().map((cell) => {
+                                        console.log(cell);
                                         return (
-                                            <td className="border border-solid p-1" key={cell.id}>
+                                            <td
+                                                className={`border border-solid py-1 w-fit ${
+                                                    cell.column.id === 'actions' && 'sticky left-0 z-10 bg-white'
+                                                }`}
+                                                key={cell.id}
+                                            >
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </td>
                                         );
