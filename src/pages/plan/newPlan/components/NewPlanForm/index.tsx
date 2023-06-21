@@ -38,7 +38,7 @@ export const NewPlanForm = () => {
     const { formData, handleInputChange, setFormData, resetForm } = useForm<NewPlanFormType>(initialFormValues);
     const { customerName, campain, docDate, status, startDate, endDate, documentType, isCreated } = formData;
     const [plan] = useState<PlanType>({
-        id: 'Primario\n122',
+        id: 'Primario\\122',
     });
 
     useEffect(() => {
