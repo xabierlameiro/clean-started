@@ -3,7 +3,7 @@ import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { EditableTable } from '@/components/Table';
-import { NewPlanForm } from './components/NewPlanForm';
+import { NewPlanForm } from '@/components/Forms/FormContent/NewPlanForm';
 
 const NewPlan = () => {
     return (

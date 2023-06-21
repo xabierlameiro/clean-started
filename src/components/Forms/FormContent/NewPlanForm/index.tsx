@@ -4,7 +4,7 @@ import { NewPlanSubmenu } from './components/NewPlanSubmenu';
 import { Save } from '@/assets/icons/Save';
 import { mockSelectorOptions } from '@/mocks/mocksNewPlan';
 import { DialogModal } from '@/components/Modal';
-import { Header, Body, Footer } from '../ModalContent';
+import { Header, Body, Footer } from '@/components/Modal/ModalContent/NewPlan';
 
 type NewPlanFormType = {
     customerName: string;

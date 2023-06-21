@@ -1,6 +1,5 @@
-import Image from 'next/image';
 import Head from 'next/head';
-import { image } from '@/constants/images';
+import { LogoDigital } from '@/assets/images/LogoDigital';
 
 const Login = () => {
     return (
@@ -11,15 +10,8 @@ const Login = () => {
             </Head>
             <main data-testid="content">
                 <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-                    <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                        <Image
-                            src={image.logo.url}
-                            alt={image.logo.name}
-                            width={'250'}
-                            height={'250'}
-                            priority
-                            className="mx-auto"
-                        />
+                    <div className="sm:mx-auto sm:w-full sm:max-w-sm flex justify-center bg-gray-400">
+                        <LogoDigital height={80} width={0} />
                     </div>
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form className="space-y-6" action="#" method="POST">
