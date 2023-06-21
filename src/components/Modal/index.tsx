@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 
-type ModalProps = {
+type Props = {
+    borderColor: string;
     dialogRef?: React.RefObject<HTMLDivElement>;
     open?: boolean;
     large?: boolean;
@@ -9,13 +10,7 @@ type ModalProps = {
     footer?: ReactNode;
 };
 
-type Props = {
-    modalProps: ModalProps;
-};
-
-export const DialogModal = ({ modalProps }: Props) => {
-    const { dialogRef, open, large, header, body, footer } = modalProps;
-
+export const DialogModal = ({ borderColor = 'gray', dialogRef, open, header, body, footer }: Props) => {
     return (
         <div
             className={`${open ? 'visible' : 'hidden'}  relative z-10`}
@@ -31,22 +26,18 @@ export const DialogModal = ({ modalProps }: Props) => {
             ></div>
 
             {/* Modal panel */}
-            <div ref={dialogRef} className="fixed inset-0 z-40 overflow-y-auto">
-                <div className="flex min-h-full items-center justify-center g-4 text-center sm:items-center sm:p-0">
+            <div ref={dialogRef} id="asdf" className="fixed inset-0 z-40 overflow-y-auto">
+                <div className="flex min-h-full items-center justify-center text-center">
                     <div
-                        className={`${
-                            large ? 'h-96' : null
-                        } relative transform overflow-hidden rounded-lg bg-white py-6 px-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg`}
+                        className={`border-4 border-${borderColor}-400 bg-white shadow-xl transition-all w-full m-3 md:m-0 md:max-w-2xl`}
                     >
                         <main>
-                            <div className="sm:flex sm:items-start">
-                                <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                    {header}
-                                    {body}
-                                </div>
+                            <div className="flex border-2 justify-between align-center items-center w-full p-4">
+                                {header}
                             </div>
+                            <div className="flex flex-col min-h-min pt-4 pb-8 border-2">{body}</div>
                         </main>
-                        <footer className="px-4 sm:flex sm:flex-row-reverse sm:px-6">{footer}</footer>
+                        <footer className="flex flex-col border-2 p-3">{footer}</footer>
                     </div>
                 </div>
             </div>
