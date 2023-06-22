@@ -9,20 +9,20 @@ import {
     ColumnFiltersState,
 } from '@tanstack/react-table';
 import { Plan } from '@/mocks/mockPlanDataList';
-import { LogEntry } from '@/mocks/mockLogsDataList';
+import { LogDetail, LogEntry } from '@/mocks/mockLogsDataList';
 import { DebouncedInput } from '@/components/Table/utils/globalFIlter';
 import { fuzzyFilter } from '@/components/Table/utils/fuzzyFilter';
 import useTable from './hooks/useTable';
 import useColumns from './hooks/useColumns';
 import TablePagination from './Pagination';
 interface EditableTableProps {
-    dataList: (Plan | LogEntry)[];
+    dataList: (Plan | LogEntry | LogDetail)[];
     isEditable?: boolean;
     showDetails?: boolean;
 }
 
 export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditable = false, showDetails = false }) => {
-    const [data, setData] = useState<(Plan | LogEntry)[]>(dataList);
+    const [data, setData] = useState<(Plan | LogEntry | LogDetail)[]>(dataList);
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 

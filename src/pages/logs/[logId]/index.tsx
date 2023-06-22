@@ -6,13 +6,22 @@ import { menuList } from '@/mocks/mockMenuItemList';
 import { EditableTable } from '@/components/Table';
 import { logDetails } from '@/mocks/mockLogsDataList';
 
+import { useRouter } from 'next/router';
+
 const LogDetails = () => {
+    const router = useRouter();
+    const logId = router.query.logId as String;
+    const filteredLogDetails = logDetails.filter((item) => {
+        console.log('item', item);
+        return item.ID_Plan === logId.replace(/\D/g, '');
+    });
+
     return (
         <Layout
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
             subheader={<DateRangePicker />}
-            content={<EditableTable dataList={logDetails} showDetails />}
+            content={<EditableTable dataList={filteredLogDetails} />}
         />
     );
 };

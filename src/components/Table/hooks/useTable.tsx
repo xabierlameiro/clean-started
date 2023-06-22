@@ -3,10 +3,14 @@ import { FilterFn } from '@tanstack/react-table';
 import { rankItem } from '@tanstack/match-sorter-utils';
 import { Plan } from '@/mocks/mockPlanDataList';
 import { LogEntry } from '@/mocks/mockLogsDataList';
+import { LogDetail } from '@/mocks/mockLogsDataList';
 
-const useTable = (data: (Plan | LogEntry)[], setData: React.Dispatch<React.SetStateAction<(Plan | LogEntry)[]>>) => {
+const useTable = (
+    data: (Plan | LogEntry | LogDetail)[],
+    setData: React.Dispatch<React.SetStateAction<(Plan | LogEntry | LogDetail)[]>>
+) => {
     const handleAddRow = () => {
-        let newData = {} as Plan | LogEntry;
+        let newData = {} as Plan;
 
         newData = {
             id_plan: crypto.randomUUID().slice(0, 4),
