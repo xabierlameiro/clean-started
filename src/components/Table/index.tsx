@@ -8,7 +8,7 @@ import {
     createColumnHelper,
     ColumnFiltersState,
 } from '@tanstack/react-table';
-import { Person } from '@/mocks/mockMakeDataList';
+import { Plan } from '@/mocks/mockPlanDataList';
 import { LogEntry } from '@/mocks/mockLogsDataList';
 import { DebouncedInput } from '@/components/Table/utils/globalFIlter';
 import { fuzzyFilter } from '@/components/Table/utils/fuzzyFilter';
@@ -16,13 +16,13 @@ import useTable from './hooks/useTable';
 import useColumns from './hooks/useColumns';
 import TablePagination from './Pagination';
 interface EditableTableProps {
-    dataList: (Person | LogEntry)[];
+    dataList: (Plan | LogEntry)[];
     isEditable?: boolean;
     showDetails?: boolean;
 }
 
 export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditable = false, showDetails = false }) => {
-    const [data, setData] = useState<(Person | LogEntry)[]>(dataList);
+    const [data, setData] = useState<(Plan | LogEntry)[]>(dataList);
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -34,7 +34,7 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
     /**
      * useColumns is used for dinamic table generation with TanStack columnHelper - check TanStack docs.
      */
-    const columnHelper = createColumnHelper<Person>();
+    const columnHelper = createColumnHelper<Plan>();
     const columns = useColumns(dataList[0], columnHelper, isEditable, showDetails, handleRemoveRow, handleAddRow);
 
     //const columnFilterValue = columns.getFilterValue();
@@ -129,7 +129,6 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                             return (
                                 <tr key={row.id}>
                                     {row.getVisibleCells().map((cell) => {
-                                        console.log(cell);
                                         return (
                                             <td
                                                 className={`border border-solid py-1 w-fit ${

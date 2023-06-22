@@ -1,0 +1,178 @@
+export type Plan = {
+    id_plan: string;
+    tipo_documento: string;
+    canal: string;
+    proveedor: string;
+    soporte: string;
+    formato: string;
+    seccion: string;
+    segmentacion: string;
+    fecha_inicio: string;
+    fecha_fin: string;
+    tipo_cv: string;
+    cantidad_compra: string;
+    precio_compra: string;
+    importe_compra: string;
+    fee_porcentaje: string;
+    fee_euros: string;
+    cantidad_venta: string;
+    precio_venta: string;
+    importe_venta: string;
+    importe_venta_estimado: string;
+    venta_fee: string;
+    margen_inicial: string;
+    acciones: string;
+};
+
+export const PlanDataList: Plan[] = [
+    {
+        id_plan: '2357',
+        tipo_documento: 'compraventa',
+        canal: 'display',
+        proveedor: 'digital group',
+        soporte: 'digital group',
+        formato: 'varios',
+        seccion: 'display',
+        segmentacion: 'display',
+        fecha_inicio: '01/09/2023',
+        fecha_fin: '30/09/2023',
+        tipo_cv: 'coste fijo',
+        cantidad_compra: '1',
+        precio_compra: '100,00 €',
+        importe_compra: '100,00 €',
+        fee_porcentaje: 'n/a',
+        fee_euros: 'n/a',
+        cantidad_venta: '1',
+        precio_venta: '8.000,00 €',
+        importe_venta: '8.000,00 €',
+        importe_venta_estimado: 'n/a',
+        venta_fee: 'n/a',
+        margen_inicial: '2.000,00 €',
+        acciones: 'auditoria de compra',
+    },
+    {
+        id_plan: '9124',
+        tipo_documento: 'compraventa',
+        canal: 'display',
+        proveedor: 'digital group',
+        soporte: 'digital group',
+        formato: 'varios',
+        seccion: 'display',
+        segmentacion: 'display',
+        fecha_inicio: '01/10/2023',
+        fecha_fin: '30/10/2023',
+        tipo_cv: 'coste fijo',
+        cantidad_compra: '1',
+        precio_compra: '100,00 €',
+        importe_compra: '100,00 €',
+        fee_porcentaje: 'n/a',
+        fee_euros: 'n/a',
+        cantidad_venta: '1',
+        precio_venta: '8.000,00 €',
+        importe_venta: '8.000,00 €',
+        importe_venta_estimado: 'n/a',
+        venta_fee: 'n/a',
+        margen_inicial: '3.380,00 €',
+        acciones: 'auditoria de compra',
+    },
+    {
+        id_plan: '5412',
+        tipo_documento: 'compraventa',
+        canal: 'e-commerce',
+        proveedor: 'antonio diseño',
+        soporte: 'antonio diseño',
+        formato: 'varios',
+        seccion: 'e-commerce',
+        segmentacion: 'e-commerce',
+        fecha_inicio: '01/06/2023',
+        fecha_fin: '30/06/2023',
+        tipo_cv: 'coste fijo',
+        cantidad_compra: '3',
+        precio_compra: '500,00 €',
+        importe_compra: '1.500,00 €',
+        fee_porcentaje: '1',
+        fee_euros: '200',
+        cantidad_venta: '-',
+        precio_venta: '-',
+        importe_venta: '-',
+        importe_venta_estimado: '-',
+        venta_fee: '-',
+        margen_inicial: '-',
+        acciones: 'auditoria de compra',
+    },
+    {
+        id_plan: '7789',
+        tipo_documento: 'compraventa',
+        canal: 'paid search',
+        proveedor: 'juan ux',
+        soporte: 'juan ux',
+        formato: 'varios',
+        seccion: 'paid search',
+        segmentacion: 'paid search',
+        fecha_inicio: '01/07/2023',
+        fecha_fin: '30/07/2023',
+        tipo_cv: 'coste fijo',
+        cantidad_compra: '5',
+        precio_compra: '300,00 €',
+        importe_compra: '1.500,00 €',
+        fee_porcentaje: '1',
+        fee_euros: '-',
+        cantidad_venta: '-',
+        precio_venta: '-',
+        importe_venta: '-',
+        importe_venta_estimado: '-',
+        venta_fee: '-',
+        margen_inicial: '-',
+        acciones: 'auditoria de compra',
+    },
+    {
+        id_plan: '1234',
+        tipo_documento: 'compraventa',
+        canal: 'paid search',
+        proveedor: 'ana desarrollo',
+        soporte: 'ana desarrollo',
+        formato: 'varios',
+        seccion: 'paid search',
+        segmentacion: 'paid search',
+        fecha_inicio: '01/08/2023',
+        fecha_fin: '31/08/2023',
+        tipo_cv: 'coste fijo',
+        cantidad_compra: '15',
+        precio_compra: '200,00 €',
+        importe_compra: '3.000,00 €',
+        fee_porcentaje: '1',
+        fee_euros: '500',
+        cantidad_venta: '-',
+        precio_venta: '-',
+        importe_venta: '-',
+        importe_venta_estimado: '-',
+        venta_fee: '-',
+        margen_inicial: '-',
+        acciones: 'anular auditoria compra',
+    },
+    {
+        id_plan: '9876',
+        tipo_documento: 'compraventa',
+        canal: 'display',
+        proveedor: 'digital group',
+        soporte: 'digital group',
+        formato: 'varios',
+        seccion: 'display',
+        segmentacion: 'display',
+        fecha_inicio: '-',
+        fecha_fin: '-',
+        tipo_cv: '2',
+        cantidad_compra: '60,00 €',
+        precio_compra: '120,00 €',
+        importe_compra: '1',
+        fee_porcentaje: '1000',
+        fee_euros: '1.000,00 €',
+        cantidad_venta: 'n/a',
+        precio_venta: 'n/a',
+        importe_venta: 'n/a',
+        importe_venta_estimado: 'auditoria de compra',
+        venta_fee: 'n/a',
+        margen_inicial: 'n/a',
+        acciones: 'auditoria de compra',
+    },
+];

@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { useEffect, useState, useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { Person } from '@/mocks/mockMakeDataList';
+import { Plan } from '@/mocks/mockPlanDataList';
 import { LogEntry } from '@/mocks/mockLogsDataList';
 import { Eye } from '@/assets/icons/Eye';
 import { Plus } from '@/assets/icons/plus';
 import { Minus } from '@/assets/icons/Minus';
+import { capitalize } from '@/helpers/capitalize.helper';
 
 type EditableCellProps = {
     getValue: () => any;
@@ -21,13 +22,26 @@ const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCell
     const onBlur = () => {
         table.options.meta?.updateData(row.index, column.id, value);
     };
+    const suggestions = ['bad sugestion', 'good sugestion', 'great sugestion'];
+
     useEffect(() => {
         setValue(initialValue);
     }, [initialValue]);
 
-    if (isEditable) {
+    if (isEditable && ['canal', 'proveedor', 'formato', 'soporte'].includes(column.id)) {
         return (
-            <input className="text-center" value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />
+            <select className="text-center" value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur}>
+                <option value={value}>{value}</option>
+                {suggestions.map((suggestion) => (
+                    <option key={suggestion} value={suggestion}>
+                        {suggestion}
+                    </option>
+                ))}
+            </select>
+        );
+    } else if (isEditable) {
+        return (
+            <input className="text-center " value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />
         );
     } else {
         return <span>{value}</span>;
@@ -35,21 +49,21 @@ const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCell
 };
 
 const useColumns = (
-    data: Person | LogEntry,
+    data: Plan | LogEntry,
     columnHelper: any,
     isEditable: boolean,
     showDetails: boolean,
     handleRemoveRow: any,
     handleAddRow: any
 ) => {
-    const columns = useMemo<ColumnDef<Person | LogEntry, any>[]>(() => {
+    const columns = useMemo<ColumnDef<Plan | LogEntry, any>[]>(() => {
         const defaultData = showDetails
-            ? { id: null, person: null, page: null, action: null }
+            ? { id: null, Plan: null, page: null, action: null }
             : { id: null, titular: null, amount: null, stateDoc: null, campaing: null, customer: null, numDoc: null };
 
         const columnDefinitions = Object.keys(data || defaultData).map((key) => {
             return columnHelper.accessor(key, {
-                header: () => <span>{key}</span>,
+                header: () => <span>{capitalize(key)}</span>,
                 footer: (props: any) => props.column.id,
                 cell: (props: EditableCellProps) => EditableCell({ ...props, isEditable }),
                 meta: {
@@ -64,7 +78,7 @@ const useColumns = (
                     columnHelper.display({
                         id: 'actions',
                         header: () => (
-                            <div className="h-10 w-10 flex justify-center items-center">
+                            <div className="flex justify-center items-center">
                                 <button
                                     title="Create New Row"
                                     aria-label="Create New Row"

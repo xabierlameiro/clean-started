@@ -1,24 +1,37 @@
 import { useCallback } from 'react';
 import { FilterFn } from '@tanstack/react-table';
 import { rankItem } from '@tanstack/match-sorter-utils';
-import { Person } from '@/mocks/mockMakeDataList';
+import { Plan } from '@/mocks/mockPlanDataList';
 import { LogEntry } from '@/mocks/mockLogsDataList';
 
-const useTable = (
-    data: (Person | LogEntry)[],
-    setData: React.Dispatch<React.SetStateAction<(Person | LogEntry)[]>>
-) => {
+const useTable = (data: (Plan | LogEntry)[], setData: React.Dispatch<React.SetStateAction<(Plan | LogEntry)[]>>) => {
     const handleAddRow = () => {
-        let newData = {} as Person | LogEntry;
+        let newData = {} as Plan | LogEntry;
 
         newData = {
-            id: crypto.randomUUID().slice(0, 8),
-            titular: '',
-            amount: null as unknown as number,
-            stateDoc: '',
-            campaing: '',
-            customer: '',
-            numDoc: null as unknown as number,
+            id_plan: crypto.randomUUID().slice(0, 4),
+            tipo_documento: '',
+            canal: '',
+            proveedor: '',
+            soporte: '',
+            formato: '',
+            seccion: '',
+            segmentacion: '',
+            fecha_inicio: '',
+            fecha_fin: '',
+            tipo_cv: '',
+            cantidad_compra: '',
+            precio_compra: '',
+            importe_compra: '',
+            fee_porcentaje: '',
+            fee_euros: '',
+            cantidad_venta: '',
+            precio_venta: '',
+            importe_venta: '',
+            importe_venta_estimado: '',
+            venta_fee: '',
+            margen_inicial: '',
+            acciones: '',
         };
 
         setData([...data, newData]);
@@ -26,7 +39,7 @@ const useTable = (
 
     const handleRemoveRow = useCallback(
         (row: any) => {
-            const updatedData = data.filter((d: any) => d.id !== row.original.id);
+            const updatedData = data.filter((d: any) => d.id_plan !== row.original.id_plan);
             setData(updatedData);
         },
         [data, setData]
