@@ -29,7 +29,7 @@ const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCell
         setValue(initialValue);
     }, [initialValue]);
 
-    if (isEditable && ['canal', 'proveedor', 'formato', 'soporte'].includes(column.id)) {
+    if (isEditable && ['tipo_documento', 'canal', 'proveedor', 'formato', 'soporte'].includes(column.id)) {
         return (
             <select className="text-center" value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur}>
                 <option value={value}>{value}</option>
