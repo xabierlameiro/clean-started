@@ -1,7 +1,14 @@
 import Head from 'next/head';
 import { LogoDigital } from '@/assets/images/LogoDigital';
+import { getAllMorty } from '@/src/services/morty/morty.services';
 
-const Login = () => {
+type Props = {
+    morty: any;
+};
+
+const Login = ({ morty }: Props) => {
+    if (!morty) return <p>Cargando....</p>;
+
     return (
         <>
             <Head>
@@ -68,9 +75,22 @@ const Login = () => {
                         </form>
                     </div>
                 </div>
+                {JSON.stringify(morty)}
             </main>
         </>
     );
 };
+
+export async function getServerSideProps() {
+    const {
+        data: { results },
+    } = await getAllMorty<any>();
+
+    return {
+        props: {
+            morty: results[0],
+        },
+    };
+}
 
 export default Login;
