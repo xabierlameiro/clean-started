@@ -40,6 +40,16 @@ const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCell
                 ))}
             </select>
         );
+    } else if (isEditable && ['fecha_inicio', 'fecha_fin'].includes(column.id)) {
+        return (
+            <input
+                className="text-center"
+                type="date"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onBlur={onBlur}
+            />
+        );
     } else if (isEditable) {
         return (
             <input className="text-center " value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />
