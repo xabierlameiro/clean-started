@@ -1,4 +1,6 @@
-export const mockMorty = {
+import { MortyType } from '../types/Morty';
+
+export const mockMorty: MortyType = {
     id: 1,
     name: 'Rick Sanchez',
     status: 'Alive',

@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { LogoDigital } from '@/assets/images/LogoDigital';
-import { getAllMorty } from '@/src/services/morty/morty.services';
+import { getAllService } from '@/src/services/base/base.services';
+import { MortyType } from '../types/Morty';
+import { api } from '../constants/api';
 
 type Props = {
     morty: any;
@@ -82,13 +84,11 @@ const Login = ({ morty }: Props) => {
 };
 
 export async function getServerSideProps() {
-    const {
-        data: { results },
-    } = await getAllMorty<any>();
+    const data = await getAllService<MortyType>(api.endpoint.morty.getAll);
 
     return {
         props: {
-            morty: results[0],
+            morty: data[0],
         },
     };
 }
