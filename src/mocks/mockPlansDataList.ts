@@ -24,7 +24,7 @@ export type Plan = {
     acciones: string;
 };
 
-export const PlanDataList: Plan[] = [
+export const PlansDataList: Plan[] = [
     {
         id_plan: '2357',
         tipo_documento: 'compraventa',
