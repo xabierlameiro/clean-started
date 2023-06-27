@@ -1,49 +1,48 @@
 import { useCallback } from 'react';
 import { FilterFn } from '@tanstack/react-table';
 import { rankItem } from '@tanstack/match-sorter-utils';
-import { Plan } from '@/mocks/mockPlanDataList';
-import { LogEntry } from '@/mocks/mockLogsDataList';
-import { LogDetail } from '@/mocks/mockLogsDataList';
-
+import { Plan } from '@/mocks/mockPlansDataList';
+import { PlanDetail } from '@/mocks/mockPlanDetailDataList';
+import { Log } from '@/mocks/mockLogsDataList';
+import { LogDetail } from '@/mocks/mockLogDetailDataList';
 const useTable = (
-    data: (Plan | LogEntry | LogDetail)[],
-    setData: React.Dispatch<React.SetStateAction<(Plan | LogEntry | LogDetail)[]>>
+    data: (Plan | PlanDetail | Log | LogDetail)[],
+    setData: React.Dispatch<React.SetStateAction<(Plan | PlanDetail | Log | LogDetail)[]>>
 ) => {
     const handleAddRow = () => {
-        let newData = {} as Plan;
+        let newPlanLine = {} as PlanDetail;
 
-        newData = {
-            id_plan: crypto.randomUUID().slice(0, 4),
+        newPlanLine = {
+            id_linea: `${data.length + 1}`,
+            orden_compra: crypto.randomUUID().slice(0, 6),
+            panificador: '',
             tipo_documento: '',
+            tipo_cliente: '',
             canal: '',
+            discripción: '',
             proveedor: '',
-            soporte: '',
+            suporte: '',
             formato: '',
-            seccion: '',
-            segmentacion: '',
+            comentários: '',
             fecha_inicio: '',
             fecha_fin: '',
             tipo_cv: '',
             cantidad_compra: '',
             precio_compra: '',
-            importe_compra: '',
-            fee_porcentaje: '',
-            fee_euros: '',
-            cantidad_venta: '',
-            precio_venta: '',
             importe_venta: '',
-            importe_venta_estimado: '',
+            margen_real: '',
             venta_fee: '',
-            margen_inicial: '',
-            acciones: '',
+            referencia_cliente: '',
+            importe_venta_estimado: '',
+            margen_estimado: '',
         };
 
-        setData([...data, newData]);
+        setData([...data, newPlanLine]);
     };
 
     const handleRemoveRow = useCallback(
         (row: any) => {
-            const updatedData = data.filter((d: any) => d.id_plan !== row.original.id_plan);
+            const updatedData = data.filter((d: any) => d.id_linea !== row.original.id_linea);
             setData(updatedData);
         },
         [data, setData]

@@ -8,21 +8,23 @@ import {
     createColumnHelper,
     ColumnFiltersState,
 } from '@tanstack/react-table';
-import { Plan } from '@/mocks/mockPlanDataList';
-import { LogDetail, LogEntry } from '@/mocks/mockLogsDataList';
+import { Plan } from '@/mocks/mockPlansDataList';
+import { PlanDetail } from '@/mocks/mockPlanDetailDataList';
+import { Log } from '@/mocks/mockLogsDataList';
+import { LogDetail } from '@/mocks/mockLogDetailDataList';
 import { DebouncedInput } from '@/components/Table/utils/globalFIlter';
 import { fuzzyFilter } from '@/components/Table/utils/fuzzyFilter';
 import useTable from './hooks/useTable';
 import useColumns from './hooks/useColumns';
 import TablePagination from './Pagination';
 interface EditableTableProps {
-    dataList: (Plan | LogEntry | LogDetail)[];
+    dataList: (Plan | PlanDetail | Log | LogDetail)[];
     isEditable?: boolean;
     showDetails?: boolean;
 }
 
 export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditable = false, showDetails = false }) => {
-    const [data, setData] = useState<(Plan | LogEntry | LogDetail)[]>(dataList);
+    const [data, setData] = useState<(Plan | PlanDetail | Log | LogDetail)[]>(dataList);
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -107,14 +109,15 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                                 {headerGroup.headers.map((header) => {
                                     return (
                                         <th
-                                            className={`border border-solid p-1  ${
+                                            className={`border border-solid p-1 ${
                                                 header.id === 'actions' && 'sticky left-0 z-10 bg-slate-200'
                                             }`}
                                             key={header.id}
                                             colSpan={header.colSpan}
                                         >
                                             {header.isPlaceholder ? null : (
-                                                <div className="border">
+                                                //Controlling the column width in className bellow
+                                                <div className="border w-44">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </div>
                                             )}

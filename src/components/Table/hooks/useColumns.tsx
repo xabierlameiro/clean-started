@@ -1,9 +1,11 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState, useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { Plan } from '@/mocks/mockPlanDataList';
-import { LogEntry } from '@/mocks/mockLogsDataList';
-import { LogDetail } from '@/mocks/mockLogsDataList';
+import { Plan } from '@/mocks/mockPlansDataList';
+import { PlanDetail } from '@/mocks/mockPlanDetailDataList';
+import { Log } from '@/mocks/mockLogsDataList';
+import { LogDetail } from '@/mocks/mockLogDetailDataList';
 import { Eye } from '@/assets/icons/Eye';
 import { Plus } from '@/assets/icons/plus';
 import { Minus } from '@/assets/icons/Minus';
@@ -60,14 +62,17 @@ const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCell
 };
 
 const useColumns = (
-    data: Plan | LogEntry | LogDetail,
+    data: Plan | PlanDetail | Log | LogDetail,
     columnHelper: any,
     isEditable: boolean,
     showDetails: boolean,
     handleRemoveRow: any,
     handleAddRow: any
 ) => {
-    const columns = useMemo<ColumnDef<Plan | LogEntry | LogDetail, any>[]>(() => {
+    const router = useRouter();
+    const isPlanRoute = router.pathname.startsWith('/plan');
+
+    const columns = useMemo<ColumnDef<Plan | PlanDetail | Log | LogDetail, any>[]>(() => {
         const defaultData = showDetails
             ? { id: null, Plan: null, page: null, action: null }
             : { id: null, titular: null, amount: null, stateDoc: null, campaing: null, customer: null, numDoc: null };
@@ -130,7 +135,12 @@ const useColumns = (
                         header: () => <span>Details</span>,
                         cell: ({ row }: any) => {
                             return (
-                                <Link href={`/logs/logDetails=${row.original.ID_Plan}`} className="flex justify-center">
+                                <Link
+                                    href={
+                                        isPlanRoute ? `/plan/${row.original.id_plan}` : `/logs/${row.original.ID_Plan}`
+                                    }
+                                    className="flex justify-center"
+                                >
                                     <Eye className="h-4 w-4" alt="delete row" />
                                 </Link>
                             );
@@ -148,7 +158,7 @@ const useColumns = (
                 columns: columnDefinitions,
             },
         ];
-    }, [columnHelper, handleRemoveRow, handleAddRow, data, showDetails, isEditable]);
+    }, [columnHelper, handleRemoveRow, handleAddRow, data, showDetails, isEditable, isPlanRoute]);
 
     return columns;
 };
