@@ -122,15 +122,15 @@ export const EditableTable: React.FC<EditableTableProps> = ({
                                 {headerGroup.headers.map((header) => {
                                     return (
                                         <th
-                                            className={`border border-solid p-1 ${
+                                            className={`border border-solid p-1 text-center ${
                                                 header.id === 'actions' && 'sticky left-0 z-10 bg-slate-200'
                                             }`}
                                             key={header.id}
                                             colSpan={header.colSpan}
                                         >
                                             {header.isPlaceholder ? null : (
-                                                //Controlling the column width in className bellow
-                                                <div className="border text-center">
+                                                //Control the column width on className bellow
+                                                <div className="border text-center w-48 m-auto">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </div>
                                             )}
