@@ -4,7 +4,7 @@ import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { Filters } from '@/components/Filters';
 import { EditableTable } from '@/components/Table';
-import { PlanDataList } from '@/mocks/mockPlanDataList';
+import { PlansDataList } from '@/mocks/mockPlansDataList';
 
 const Plan = () => {
     return (
@@ -12,7 +12,7 @@ const Plan = () => {
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
             subheader={<Filters />}
-            content={<EditableTable dataList={PlanDataList} isEditable />}
+            content={<EditableTable dataList={PlansDataList} showDetails />}
         />
     );
 };

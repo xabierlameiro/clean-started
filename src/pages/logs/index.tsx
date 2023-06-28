@@ -1,4 +1,4 @@
-import DateRangePicker from '@/components/Logs/CalendarFilter';
+import LogsFilter from '@/components/Logs/filter';
 import { Layout } from '@/components/Layout';
 import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
@@ -12,7 +12,7 @@ const Logs = () => {
         <Layout
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
-            subheader={<DateRangePicker />}
+            subheader={<LogsFilter />}
             content={<EditableTable dataList={logData} showDetails />}
         />
     );

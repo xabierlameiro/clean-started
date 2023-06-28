@@ -2,23 +2,17 @@ import { Layout } from '@/components/Layout';
 import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
+import { Filters } from '@/components/Filters';
 import { EditableTable } from '@/components/Table';
-import { logDetails } from '@/mocks/mockLogDetailDataList';
+import { PlanDataList } from '@/mocks/mockPlanDetailDataList';
 
-import { useRouter } from 'next/router';
-
-const LogDetails = () => {
-    const router = useRouter();
-    const logId = router.query.logId;
-    const filteredLogDetails = logDetails.filter((item) => {
-        return item.ID_Plan === logId;
-    });
-
+const Plan = () => {
     return (
         <Layout
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
-            content={<EditableTable dataList={filteredLogDetails} />}
+            subheader={<Filters />}
+            content={<EditableTable dataList={PlanDataList} isEditable />}
         />
     );
 };
@@ -43,4 +37,4 @@ export async function getServerSideProps() {
     };
 }
 
-export default LogDetails;
+export default Plan;
