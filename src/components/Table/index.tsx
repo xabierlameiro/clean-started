@@ -17,13 +17,20 @@ import { fuzzyFilter } from '@/components/Table/utils/fuzzyFilter';
 import useTable from './hooks/useTable';
 import useColumns from './hooks/useColumns';
 import TablePagination from './Pagination';
+import { IsLogDetailProps } from '@/pages/logs/[logId]';
 interface EditableTableProps {
     dataList: (Plan | PlanDetail | Log | LogDetail)[];
     isEditable?: boolean;
     showDetails?: boolean;
+    isLogDetail?: IsLogDetailProps;
 }
 
-export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditable = false, showDetails = false }) => {
+export const EditableTable: React.FC<EditableTableProps> = ({
+    dataList,
+    isEditable = false,
+    showDetails = false,
+    isLogDetail = null,
+}) => {
     const [data, setData] = useState<(Plan | PlanDetail | Log | LogDetail)[]>(dataList);
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -77,18 +84,18 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
     });
     return (
         <main>
-            <section>
+            <section className="flex gap-2 mb-2">
                 <DebouncedInput
                     value={globalFilter ?? ''}
                     onChange={(value) => setGlobalFilter(String(value))}
-                    className="p-2 font-lg shadow border border-block mb-2"
+                    className="text-sm px-2 py-1 rounded w-40 shadow border border-block"
                     placeholder="Search all columns..."
                 />
                 <select
                     title="Select Rows per Page"
                     aria-label="Select Rows per Page"
                     data-testid="page-row-input"
-                    className="ml-2"
+                    className="text-sm px-2 py-1 border rounded w-40"
                     value={table.getState().pagination.pageSize}
                     onChange={(e) => {
                         table.setPageSize(Number(e.target.value));
@@ -101,6 +108,12 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                     ))}
                 </select>
             </section>
+            {!isLogDetail ? null : (
+                <section className="flex gap-2 bg-slate-200 px-6 pt-4 text-lg font-bold text-primary-color">
+                    <h2>&#91;{isLogDetail.ID_Plan}&#93;</h2>
+                    <h2>{isLogDetail.campaña}</h2>
+                </section>
+            )}
             <section className="overflow-x-scroll mb-2">
                 <table className="bg-white text-center mb-2 min-w-full">
                     <thead className="bg-slate-200 border border-solid rounded-lg">
@@ -117,7 +130,7 @@ export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditab
                                         >
                                             {header.isPlaceholder ? null : (
                                                 //Controlling the column width in className bellow
-                                                <div className="border w-44">
+                                                <div className="border text-center">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </div>
                                             )}

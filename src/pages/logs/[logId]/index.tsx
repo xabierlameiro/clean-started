@@ -3,9 +3,15 @@ import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { EditableTable } from '@/components/Table';
+import { logData } from '@/mocks/mockLogsDataList';
 import { logDetails } from '@/mocks/mockLogDetailDataList';
 
 import { useRouter } from 'next/router';
+
+export type IsLogDetailProps = {
+    ID_Plan: string;
+    campaña: string;
+};
 
 const LogDetails = () => {
     const router = useRouter();
@@ -14,11 +20,16 @@ const LogDetails = () => {
         return item.ID_Plan === logId;
     });
 
+    const isLogDetail: IsLogDetailProps = {
+        ID_Plan: logId as string,
+        campaña: logData.find((item) => item.ID_Plan === logId)?.campaña || '',
+    };
+
     return (
         <Layout
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
-            content={<EditableTable dataList={filteredLogDetails} />}
+            content={<EditableTable dataList={filteredLogDetails} isLogDetail={isLogDetail} />}
         />
     );
 };

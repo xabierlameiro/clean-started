@@ -54,7 +54,7 @@ const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCell
         );
     } else if (isEditable) {
         return (
-            <input className="text-center " value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />
+            <input className="text-center" value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />
         );
     } else {
         return <span>{value}</span>;
