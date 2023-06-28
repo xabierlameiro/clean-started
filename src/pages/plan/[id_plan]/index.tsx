@@ -2,7 +2,7 @@ import { Layout } from '@/components/Layout';
 import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
-import { Filters } from '@/components/Filters';
+import { FilterPlanDetails } from '@/components/Filters/FilterPlanDetails';
 import { EditableTable } from '@/components/Table';
 import { PlanDataList } from '@/mocks/mockPlanDetailDataList';
 
@@ -11,7 +11,7 @@ const Plan = () => {
         <Layout
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
-            subheader={<Filters />}
+            subheader={<FilterPlanDetails />}
             content={<EditableTable dataList={PlanDataList} isEditable />}
         />
     );
