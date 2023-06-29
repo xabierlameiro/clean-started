@@ -17,20 +17,14 @@ import { fuzzyFilter } from '@/components/Table/utils/fuzzyFilter';
 import useTable from './hooks/useTable';
 import useColumns from './hooks/useColumns';
 import TablePagination from './Pagination';
-import { IsLogDetailProps } from '@/pages/logs/[logId]';
+
 interface EditableTableProps {
     dataList: (Plan | PlanDetail | Log | LogDetail)[];
     isEditable?: boolean;
     showDetails?: boolean;
-    isLogDetail?: IsLogDetailProps;
 }
 
-export const EditableTable: React.FC<EditableTableProps> = ({
-    dataList,
-    isEditable = false,
-    showDetails = false,
-    isLogDetail = null,
-}) => {
+export const EditableTable: React.FC<EditableTableProps> = ({ dataList, isEditable = false, showDetails = false }) => {
     const [data, setData] = useState<(Plan | PlanDetail | Log | LogDetail)[]>(dataList);
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -108,18 +102,6 @@ export const EditableTable: React.FC<EditableTableProps> = ({
                     ))}
                 </select>
             </section>
-            {!isLogDetail ? null : (
-                <section className="flex gap-2 bg-slate-200 px-6 pt-4 ">
-                    <h2>
-                        <strong>ID: </strong>
-                        {isLogDetail.ID_Plan}
-                    </h2>
-                    <h2>
-                        <strong>Campaña: </strong>
-                        {isLogDetail.campaña}
-                    </h2>
-                </section>
-            )}
             <section className="overflow-x-scroll mb-2">
                 <table className="bg-white text-center mb-2 min-w-full">
                     <thead className="bg-slate-200 border border-solid rounded-lg">

@@ -30,8 +30,8 @@ const LogDetails = () => {
         <Layout
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
-            subheader={<LogsFilter />}
-            content={<EditableTable dataList={filteredLogDetails} isLogDetail={isLogDetail} />}
+            subheader={<LogsFilter isLogDetail={isLogDetail} />}
+            content={<EditableTable dataList={filteredLogDetails} />}
         />
     );
 };
