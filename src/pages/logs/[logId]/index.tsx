@@ -7,6 +7,7 @@ import { logData } from '@/mocks/mockLogsDataList';
 import { logDetails } from '@/mocks/mockLogDetailDataList';
 
 import { useRouter } from 'next/router';
+import LogsFilter from '@/components/Logs/filter';
 
 export type IsLogDetailProps = {
     ID_Plan: string;
@@ -29,6 +30,7 @@ const LogDetails = () => {
         <Layout
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
+            subheader={<LogsFilter />}
             content={<EditableTable dataList={filteredLogDetails} isLogDetail={isLogDetail} />}
         />
     );

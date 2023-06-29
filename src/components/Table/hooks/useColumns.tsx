@@ -25,21 +25,47 @@ const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCell
     const onBlur = () => {
         table.options.meta?.updateData(row.index, column.id, value);
     };
-    const suggestions = ['bad sugestion', 'good sugestion', 'great sugestion'];
+    const optionsDocType = ['Compra', 'Venta', 'Compra y Venta'];
+    const optionsClientType = ['New Business', 'Regular Business', 'Upselling'];
+    const optionsCvType = [
+        'Coste fijo',
+        'Coste por click',
+        'Coste por lead',
+        'Coste por mil unidades',
+        'Coste por unidad',
+    ];
 
     useEffect(() => {
         setValue(initialValue);
     }, [initialValue]);
 
-    if (isEditable && ['tipo_documento', 'canal', 'proveedor', 'formato', 'soporte'].includes(column.id)) {
+    if (
+        isEditable &&
+        ['tipo_documento', 'tipo_cliente', 'canal', 'tipo_cv', 'proveedor', 'formato', 'soporte'].includes(column.id)
+    ) {
         return (
             <select className="text-center" value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur}>
-                <option value={value}>{value}</option>
-                {suggestions.map((suggestion) => (
-                    <option key={suggestion} value={suggestion}>
-                        {suggestion}
-                    </option>
-                ))}
+                <option value={value} hidden>
+                    {value}
+                </option>
+                {column.id === 'tipo_documento' &&
+                    optionsDocType.map((option) => (
+                        <option key={option} value={option}>
+                            {option}
+                        </option>
+                    ))}
+                {column.id === 'tipo_cliente' &&
+                    optionsClientType.map((option) => (
+                        <option key={option} value={option}>
+                            {option}
+                        </option>
+                    ))}
+                {column.id === 'tipo_cv' &&
+                    optionsCvType.map((option) => (
+                        <option key={option} value={option}>
+                            {option}
+                        </option>
+                    ))}
             </select>
         );
     } else if (isEditable && ['fecha_inicio', 'fecha_fin'].includes(column.id)) {
@@ -57,7 +83,7 @@ const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCell
             <input className="text-center" value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />
         );
     } else {
-        return <input className="text-center" value={value} disabled />;
+        return <input className="text-center bg-white" value={value} disabled />;
     }
 };
 

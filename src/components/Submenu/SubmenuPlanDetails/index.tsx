@@ -18,7 +18,7 @@ export const SubmenuPlanDetails = () => {
                 <button className="flex flex-col lg:flex-row lg:gap-1 justify-center items-center text-sm py-1 px-2 border border-gray-400 rounded shadow hover:bg-gray-200">
                     <Copy className=" w-5 h-5" alt="arrow up circle" />
                     <span>Generar </span>
-                    <span> Auditoria de Venta</span>
+                    <span> Pedido de Venta</span>
                 </button>
             </ul>
         </section>

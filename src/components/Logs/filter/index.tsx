@@ -12,7 +12,7 @@ const LogsFilter: React.FC = () => {
 
                 <input
                     type="text"
-                    placeholder="Nombre del Plan"
+                    placeholder="Nombre de Campaña"
                     className={`px-2 py-1 border rounded w-32 flex-grow `}
                     name="campaign"
                     value=""

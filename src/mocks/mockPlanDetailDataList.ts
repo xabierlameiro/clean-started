@@ -5,7 +5,7 @@ export type PlanDetail = {
     tipo_documento: string;
     tipo_cliente: string;
     canal: string;
-    discripción: string;
+    descripción: string;
     proveedor: string;
     suporte: string;
     formato: string;
@@ -29,9 +29,9 @@ export const PlanDataList: PlanDetail[] = [
         orden_compra: '21543',
         panificador: 'Juan',
         tipo_documento: 'venta',
-        tipo_cliente: 'NB',
+        tipo_cliente: 'New Business',
         canal: 'display',
-        discripción: 'una descripcion',
+        descripción: 'una descripcion',
         proveedor: 'proveedor',
         suporte: 'suporte',
         formato: 'formato',
@@ -53,9 +53,9 @@ export const PlanDataList: PlanDetail[] = [
         orden_compra: '21543',
         panificador: 'Juan',
         tipo_documento: 'venta',
-        tipo_cliente: 'NB',
+        tipo_cliente: 'New Business',
         canal: 'display',
-        discripción: 'una descripcion',
+        descripción: 'una descripcion',
         proveedor: 'proveedor',
         suporte: 'suporte',
         formato: 'formato',
@@ -77,9 +77,9 @@ export const PlanDataList: PlanDetail[] = [
         orden_compra: '21543',
         panificador: 'Juan',
         tipo_documento: 'venta',
-        tipo_cliente: 'NB',
+        tipo_cliente: 'New Business',
         canal: 'display',
-        discripción: 'una descripcion',
+        descripción: 'una descripcion',
         proveedor: 'proveedor',
         suporte: 'suporte',
         formato: 'formato',

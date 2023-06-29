@@ -109,9 +109,15 @@ export const EditableTable: React.FC<EditableTableProps> = ({
                 </select>
             </section>
             {!isLogDetail ? null : (
-                <section className="flex gap-2 bg-slate-200 px-6 pt-4 text-lg font-bold text-primary-color">
-                    <h2>&#91;{isLogDetail.ID_Plan}&#93;</h2>
-                    <h2>{isLogDetail.campaña}</h2>
+                <section className="flex gap-2 bg-slate-200 px-6 pt-4 ">
+                    <h2>
+                        <strong>ID: </strong>
+                        {isLogDetail.ID_Plan}
+                    </h2>
+                    <h2>
+                        <strong>Campaña: </strong>
+                        {isLogDetail.campaña}
+                    </h2>
                 </section>
             )}
             <section className="overflow-x-scroll mb-2">
