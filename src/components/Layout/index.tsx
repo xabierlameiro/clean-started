@@ -1,9 +1,6 @@
 import { ReactElement, useState } from 'react';
 import { BarsArrowDown } from '../../assets/icons/BarsArrowDown';
 import { Xmark } from '../../assets/icons/Xmark';
-import { Plus } from '../../assets/icons/plus';
-import { useRouter } from 'next/router';
-import { availableRoutes } from '@/constants/routes';
 
 type Props = {
     sidebar: ReactElement;
@@ -14,12 +11,6 @@ type Props = {
 
 export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const router = useRouter();
-    const isPLan = router.pathname === availableRoutes.plan;
-
-    const GoToNewPlan = () => {
-        router.push(availableRoutes.plan_newPlan);
-    };
 
     return (
         <div className="relative flex bg-gray-100 min-h-screen w-full">
@@ -46,11 +37,6 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
                 <main className="flex flex-col p-4 bg-gray-100 h-[92%]">
                     {subheader ?? subheader}
                     {content}
-                    {isPLan && (
-                        <button onClick={GoToNewPlan} className="flex justify-end ">
-                            <Plus className="bg-primary-color w-6 h-6 rounded-xl text-white" alt="icon-plus" />
-                        </button>
-                    )}
                 </main>
             </section>
         </div>

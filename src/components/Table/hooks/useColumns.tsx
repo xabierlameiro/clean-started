@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useMemo } from 'react';
@@ -101,7 +102,30 @@ const useColumns = (
     const columns = useMemo<ColumnDef<Plan | PlanDetail | Log | LogDetail, any>[]>(() => {
         const defaultData = showDetails
             ? { id: null, Plan: null, page: null, action: null }
-            : { id: null, titular: null, amount: null, stateDoc: null, campaing: null, customer: null, numDoc: null };
+            : {
+                  id_linea: null,
+                  orden_compra: null,
+                  panificador: null,
+                  tipo_documento: null,
+                  tipo_cliente: null,
+                  canal: null,
+                  descripción: null,
+                  proveedor: null,
+                  suporte: null,
+                  formato: null,
+                  comentários: null,
+                  fecha_inicio: null,
+                  fecha_fin: null,
+                  tipo_cv: null,
+                  cantidad_compra: null,
+                  precio_compra: null,
+                  importe_venta: null,
+                  margen_real: null,
+                  venta_fee: null,
+                  referencia_cliente: null,
+                  importe_venta_estimado: null,
+                  margen_estimado: null,
+              };
 
         const columnDefinitions = Object.keys(data || defaultData).map((key) => {
             return columnHelper.accessor(key, {

@@ -19,7 +19,7 @@ const useTable = (
             tipo_documento: '',
             tipo_cliente: '',
             canal: '',
-            discripción: '',
+            descripción: '',
             proveedor: '',
             suporte: '',
             formato: '',

@@ -3,17 +3,25 @@ import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { Filters } from '@/components/Filters';
+import { NewPlanButton } from '@/components/ButtonNewPlan/NewPlanButton';
 import { EditableTable } from '@/components/Table';
 import { PlansDataList } from '@/mocks/mockPlansDataList';
 
 const Plan = () => {
     return (
-        <Layout
-            sidebar={<Menu menuList={menuList} />}
-            header={<Header />}
-            subheader={<Filters />}
-            content={<EditableTable dataList={PlansDataList} showDetails />}
-        />
+        <>
+            <Layout
+                sidebar={<Menu menuList={menuList} />}
+                header={<Header />}
+                subheader={<Filters />}
+                content={
+                    <>
+                        <EditableTable dataList={PlansDataList} showDetails />
+                        <NewPlanButton />
+                    </>
+                }
+            />
+        </>
     );
 };
 
