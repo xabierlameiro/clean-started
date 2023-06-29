@@ -1,19 +1,13 @@
 import { FormEvent, useEffect, useState } from 'react';
 import Head from 'next/head';
 import { LogoDigital } from '@/assets/images/LogoDigital';
-import { getAllService } from '@/src/services/base/base.services';
-import { MortyType } from '../types/Morty';
-import { api } from '../constants/api';
 import { useForm } from '../hooks/useForm';
 import { Eye } from '../assets/icons/Eye';
 import { EyeSlash } from '../assets/icons/EyeSlash';
 import { loginService } from '../services/auth/auth.services';
 import { useAuthContext } from '../context/auth/AuthContext';
 import { useRouter } from 'next/router';
-
-type Props = {
-    morty: any;
-};
+import { Spinner } from '../assets/icons/Spinner';
 
 type LoginFormType = {
     email: string;
@@ -25,29 +19,29 @@ const initialValues = {
     password: '',
 };
 
-const Login = ({ morty }: Props) => {
+const Login = () => {
     const router = useRouter();
     const { formData, handleInputChange } = useForm<LoginFormType>(initialValues);
     const [showPassword, setShowPassword] = useState(false);
-    const { user, login, isLoading, setIsLoading } = useAuthContext();
+    const { login, isLoading, setIsLoading } = useAuthContext();
 
-    // TODO: Borrar cuando esté funcionando con la api
     useEffect(() => {
-        !isLoading && user && router.push('/plan');
-    }, [user]);
+        const userStored = localStorage.getItem('user');
+        if (userStored) router.back();
+        setIsLoading(false);
+    }, []);
 
     const togglePassword = () => {
         setShowPassword(!showPassword);
     };
 
     const onHandleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        setIsLoading(true);
         e.preventDefault();
         const result = await loginService();
         login(result);
     };
 
-    if (!morty) return <p>Cargando....</p>;
+    if (isLoading) return <Spinner />;
 
     return (
         <>
@@ -55,7 +49,7 @@ const Login = ({ morty }: Props) => {
                 <title>Inicio de sesión</title>
                 <meta name="description" content="Inicio de sesión" />
             </Head>
-            <main data-testid="content">
+            <main data-testid="content" className="relative">
                 <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm flex justify-center bg-gray-400">
                         <LogoDigital height={80} width={0} />
@@ -136,20 +130,19 @@ const Login = ({ morty }: Props) => {
                         </form>
                     </div>
                 </div>
-                {JSON.stringify(morty)}
             </main>
         </>
     );
 };
 
-export async function getServerSideProps() {
-    const data = await getAllService<MortyType>(api.endpoint.morty.getAll);
+// export async function getServerSideProps() {
+//     const data = await getAllService<MortyType>(api.endpoint.morty.getAll);
 
-    return {
-        props: {
-            morty: data[0],
-        },
-    };
-}
+//     return {
+//         props: {
+//             morty: data[0],
+//         },
+//     };
+// }
 
 export default Login;

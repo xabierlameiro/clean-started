@@ -5,7 +5,7 @@ export async function getAllService<T>(endpoint: string): Promise<T[]> {
     const url = baseUrl + endpoint;
     return await fetch(url)
         .then((response) => response.json())
-        .then((data) => data.results)
+        .then((data) => data.results || [])
         .catch((error) => console.log(error));
 }
 

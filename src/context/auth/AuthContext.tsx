@@ -1,4 +1,3 @@
-// import { useRouter } from 'next/router';
 import { useRouter } from 'next/router';
 import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
 
@@ -19,7 +18,7 @@ interface IAuthContext {
 
 export const initialAuthState = {
     user: null,
-    isLoading: false,
+    isLoading: true,
 };
 
 export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
@@ -37,22 +36,29 @@ export const logedUser: User = {
 };
 
 export const AuthProvider = ({ children }: IAuthProvider) => {
+    const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(initialAuthState.isLoading);
-    const router = useRouter();
 
-    // TODO: Borrar cuando esté funcionando con la api
     useEffect(() => {
-        !isLoading && !user ? router.push('/') : router.push('/plan');
-    }, [user, isLoading, router]);
+        setIsLoading(true);
+        const userStored = localStorage.getItem('user');
+        if (!userStored) router.push('/');
+        setIsLoading(false);
+    }, []);
 
     const login = (user: User) => {
+        setIsLoading(true);
         setUser(user);
-        setIsLoading(false);
+        localStorage.setItem('user', JSON.stringify(user));
+        router.push('/plan');
     };
 
     const logout = () => {
+        setIsLoading(true);
         setUser(null);
+        localStorage.removeItem('user');
+        router.push('/');
     };
 
     return (
