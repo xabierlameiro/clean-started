@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { Submenu } from '@/components/Submenu';
+import { SubmenuPlan } from '@/components/Submenu/SubmenuPlan';
 
 type FilterParams = {
     id_plan: string;
@@ -48,7 +48,7 @@ export const Filters = () => {
     return (
         <>
             <section className="w-full mb-4 border-2 shadow-lg">
-                <Submenu />
+                <SubmenuPlan />
                 <div className="flex flex-col gap-4 bg-white p-4">
                     <section className="flex items-center gap-2">
                         <input
