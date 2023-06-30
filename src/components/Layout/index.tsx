@@ -1,11 +1,9 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { BarsArrowDown } from '../../assets/icons/BarsArrowDown';
 import { Xmark } from '../../assets/icons/Xmark';
 import { Plus } from '../../assets/icons/plus';
 import { useRouter } from 'next/router';
 import { availableRoutes } from '@/constants/routes';
-import { useAuthContext } from '@/src/context/auth/AuthContext';
-import { Spinner } from '@/src/assets/icons/Spinner';
 
 type Props = {
     sidebar: ReactElement;
@@ -19,19 +17,12 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
     const router = useRouter();
     const isPLan = router.pathname === availableRoutes.plan;
 
-    const { isLoading, setIsLoading } = useAuthContext();
-
-    useEffect(() => {
-        setIsLoading(false);
-    }, []);
-
     const GoToNewPlan = () => {
         router.push(availableRoutes.plan_newPlan);
     };
 
     return (
         <div className="flex relative bg-gray-100 min-h-screen w-full">
-            {isLoading && <Spinner />}
             {isMenuOpen ? (
                 <button
                     className="absolute z-10 m-2 mt-3 flex items-center justify-center lg:hidden"

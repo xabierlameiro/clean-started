@@ -1,13 +1,15 @@
-import { api } from '@/src/constants/api';
-const { baseUrl } = api;
+// TODO: Borrar cuando esté conectado a la api con el useFetch
 
-export async function getAllService<T>(endpoint: string): Promise<T[]> {
-    const url = baseUrl + endpoint;
-    return await fetch(url)
-        .then((response) => response.json())
-        .then((data) => data.results || [])
-        .catch((error) => console.log(error));
-}
+// import { api } from '@/src/constants/api';
+// const { baseUrl } = api;
+
+// export async function getAllService<T>(endpoint: string): Promise<T[]> {
+//     const url = baseUrl + endpoint;
+//     return await fetch(url)
+//         .then((response) => response.json())
+//         .then((data) => data.results || [])
+//         .catch((error) => console.log(error));
+// }
 
 // export async function getOneMorty<T>(id: number): Promise<T> {
 //     return await axios.get(baseUrl + endpoint.getOne(id));

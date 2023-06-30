@@ -7,7 +7,8 @@ import { EyeSlash } from '../assets/icons/EyeSlash';
 import { loginService } from '../services/auth/auth.services';
 import { useAuthContext } from '../context/auth/AuthContext';
 import { useRouter } from 'next/router';
-import { Spinner } from '../assets/icons/Spinner';
+import { Modal } from '../components/Modal';
+import { Spinner } from '../components/Spinner';
 
 type LoginFormType = {
     email: string;
@@ -25,12 +26,6 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { login, isLoading, setIsLoading } = useAuthContext();
 
-    useEffect(() => {
-        const userStored = localStorage.getItem('user');
-        if (userStored) router.back();
-        setIsLoading(false);
-    }, []);
-
     const togglePassword = () => {
         setShowPassword(!showPassword);
     };
@@ -41,9 +36,20 @@ const Login = () => {
         login(result);
     };
 
-    if (isLoading) return <Spinner />;
+    useEffect(() => {
+        setIsLoading(true);
+        const userStored = localStorage.getItem('user');
+        if (userStored) router.back();
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500);
+    }, []);
 
-    return (
+    return isLoading ? (
+        <Modal>
+            <Spinner />
+        </Modal>
+    ) : (
         <>
             <Head>
                 <title>Inicio de sesión</title>

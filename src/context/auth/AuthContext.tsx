@@ -44,7 +44,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
         setIsLoading(true);
         const userStored = localStorage.getItem('user');
         if (!userStored) router.push('/');
-        setIsLoading(false);
     }, []);
 
     const login = (user: User) => {
