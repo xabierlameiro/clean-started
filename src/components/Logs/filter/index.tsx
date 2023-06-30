@@ -1,7 +1,7 @@
 import { IsLogDetailProps } from '@/pages/logs/[logId]';
 
 interface LogsFilterProps {
-    isLogDetail: IsLogDetailProps;
+    isLogDetail?: IsLogDetailProps;
 }
 
 const LogsFilter: React.FC<LogsFilterProps> = ({ isLogDetail }) => {
