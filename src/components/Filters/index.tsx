@@ -2,26 +2,35 @@ import React, { ChangeEvent, useState } from 'react';
 import { Submenu } from '@/components/Submenu';
 
 type FilterParams = {
-    documentType: string | undefined;
-    documentNumber: string | undefined;
-    campaign: string | undefined;
-    startDate: string | undefined;
-    endDate: string | undefined;
-    clientName: string | undefined;
-    channelName: string | undefined;
+    id_plan: string;
+    titular: string;
+    cliente: string;
+    canal: string;
+    anunciante: string;
+    marca: string;
+    campaña: string;
+    fecha_inicio: String;
+    fecha_fin: String;
+    importe: string;
+    estado: string;
 };
 
 export const Filters = () => {
     const [filterParams, setFilterParams] = useState<FilterParams>({
-        documentType: '',
-        documentNumber: '',
-        campaign: '',
-        startDate: '',
-        endDate: '',
-        clientName: '',
-        channelName: '',
+        id_plan: '',
+        titular: '',
+        cliente: '',
+        canal: '',
+        anunciante: '',
+        marca: '',
+        campaña: '',
+        fecha_inicio: '',
+        fecha_fin: '',
+        importe: '',
+        estado: '',
     });
-    const { documentType, documentNumber, campaign, startDate, endDate, clientName, channelName } = filterParams;
+    const { id_plan, titular, cliente, canal, anunciante, marca, campaña, fecha_inicio, fecha_fin, estado } =
+        filterParams;
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -41,95 +50,110 @@ export const Filters = () => {
             <section className="w-full mb-4 border-2 shadow-lg">
                 <Submenu />
                 <div className="flex flex-col gap-4 bg-white p-4">
-                    <div className="flex items-center gap-2 gap-y-4 flex-wrap">
-                        <h3 className="w-24 font-bold">Documento</h3>
-                        <select
-                            className="w-24 px-2 py-1 text-sm font-semibold border-2 rounded"
-                            name="documentType"
-                            value={documentType}
-                            onChange={(e) => handleInputChange(e)}
-                        >
-                            <option value="">Tipo</option>
-                            <option value="txt">.txt</option>
-                            <option value="xls">.xls</option>
-                            <option value="doc">.doc</option>
-                        </select>
+                    <section className="flex items-center gap-2">
                         <input
                             type="text"
                             placeholder="Nº Documento"
-                            className={`text-md px-2 py-1 border rounded w-32 flex-grow ${
-                                !documentType ? 'bg-gray-200' : null
-                            }`}
-                            name="documentNumber"
-                            value={documentNumber}
+                            className="px-2 py-1 border rounded w-1/2 lg:w-2/12"
+                            name="id_plan"
+                            value={id_plan}
                             onChange={(e) => handleInputChange(e)}
-                            disabled={!documentType}
                         />
 
                         <input
                             type="text"
                             placeholder="Campaña"
-                            className={`px-2 py-1 border rounded w-32 flex-grow ${
-                                !documentType ? 'bg-gray-200' : null
-                            }`}
-                            name="campaign"
-                            value={campaign}
+                            className="px-2 py-1 border rounded w-1/2 lg:w-6/12"
+                            name="campaña"
+                            value={campaña}
                             onChange={(e) => handleInputChange(e)}
-                            disabled={!documentType}
                         />
-                        <div className="ml-auto flex gap-2">
+                        <div className="flex gap-2 lg:w-4/12">
                             <input
-                                type={!documentType ? 'text' : 'date'}
+                                type={fecha_inicio ? 'date' : 'text'}
                                 placeholder="Fecha Contable Desde"
-                                className={`text-sm px-2 py-1 border rounded w-40 ${
-                                    !documentType ? 'bg-gray-200' : null
-                                }`}
+                                className={`text-sm px-2 py-1 border rounded w-1/2 `}
                                 name="startDate"
-                                value={startDate}
+                                value=""
                                 onChange={(e) => handleInputChange(e)}
-                                disabled={!documentType}
+                                onFocus={(e) => {
+                                    e.target.type = 'date';
+                                }}
+                                onBlur={(e) => {
+                                    if (e.target.value === '') e.target.type = 'text';
+                                }}
                             />
                             <input
-                                type={!documentType ? 'text' : 'date'}
+                                type={fecha_fin ? 'date' : 'text'}
                                 placeholder="Fecha Contable Hasta"
-                                className={`text-sm px-2 py-1 border rounded w-40 ${
-                                    !documentType ? 'bg-gray-200' : null
-                                }`}
+                                className={`text-sm px-2 py-1 border rounded w-1/2`}
                                 name="endDate"
-                                value={endDate}
+                                value=""
                                 onChange={(e) => handleInputChange(e)}
-                                disabled={!documentType}
+                                onFocus={(e) => {
+                                    e.target.type = 'date';
+                                }}
+                                onBlur={(e) => {
+                                    if (e.target.value === '') e.target.type = 'text';
+                                }}
                             />
                         </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <h3 className="w-24 font-bold">Cliente</h3>
+                    </section>
+                    <section className="flex items-center gap-2">
                         <input
                             type="text"
-                            placeholder="Nombre"
-                            className={`px-2 py-1 border rounded flex-grow lg:w-1/2 lg:flex-grow-0 ${
-                                !documentType ? 'bg-gray-200' : null
-                            }`}
+                            placeholder="Nombre del Cliente"
+                            className={`px-2 py-1 border rounded w-4/12 lg:w-4/12`}
                             name="clientName"
-                            value={clientName}
+                            value={cliente}
                             onChange={(e) => handleInputChange(e)}
-                            disabled={!documentType}
                         />
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <h3 className="w-24 font-bold">Canal</h3>
+                        <input
+                            type="text"
+                            placeholder="Anunciante"
+                            className={`px-2 py-1 border rounded w-4/12 lg:w-4/12`}
+                            name="anunciante"
+                            value={anunciante}
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Marca"
+                            className={`px-2 py-1 border rounded w-4/12 lg:w-4/12`}
+                            name="marca"
+                            value={marca}
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                    </section>
+                    <section className="flex items-center gap-2">
                         <input
                             type="text"
                             placeholder="Nombre del Canal"
-                            className={`px-2 py-1 border rounded flex-grow lg:w-1/2 lg:flex-grow-0 ${
-                                !documentType ? 'bg-gray-200' : null
-                            }`}
-                            name="channelName"
-                            value={channelName}
+                            className={`px-2 py-1 border rounded w-11/12 lg:w-4/12`}
+                            name="canal"
+                            value={canal}
                             onChange={(e) => handleInputChange(e)}
-                            disabled={!documentType}
                         />
-                    </div>
+                        <input
+                            type="text"
+                            placeholder="Titular del Plan"
+                            className={`px-2 py-1 border rounded w-11/12 lg:w-4/12`}
+                            name="titular"
+                            value={titular}
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                        <select
+                            className="px-2 py-1 border rounded w-11/12 lg:w-4/12 text-gray-500"
+                            name="estado"
+                            onChange={(e) => handleInputChange(e)}
+                        >
+                            <option value={estado} hidden>
+                                Estado del Canal
+                            </option>
+                            <option value="abierto">Abierto</option>
+                            <option value="cerrado">Cerrado</option>
+                        </select>
+                    </section>
                 </div>
             </section>
             <button
