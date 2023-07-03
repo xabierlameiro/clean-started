@@ -97,7 +97,8 @@ const useColumns = (
     handleAddRow: any
 ) => {
     const router = useRouter();
-    const isPlanRoute = router.pathname.startsWith('/plan');
+    const asPlanRoute = router.pathname.startsWith('/plan');
+    const isPlanRoute = router.pathname === '/plan';
 
     const columns = useMemo<ColumnDef<Plan | PlanDetail | Log | LogDetail, any>[]>(() => {
         const defaultData = showDetails
@@ -127,7 +128,7 @@ const useColumns = (
                   margen_estimado: null,
               };
 
-        const columnDefinitions = Object.keys(data || defaultData).map((key) => {
+        let columnDefinitions = Object.keys(data || defaultData).map((key) => {
             return columnHelper.accessor(key, {
                 header: () => <span>{capitalize(key)}</span>,
                 footer: (props: any) => props.column.id,
@@ -138,6 +139,12 @@ const useColumns = (
                 filterFn: key === 'titular' || key === 'id' ? 'fuzzy' : undefined,
             });
         });
+
+        // Remove the canal column definition from the array when the route is /plan
+        if (isPlanRoute) {
+            columnDefinitions = columnDefinitions.filter((column) => column.accessorKey !== 'canal');
+        }
+
         {
             isEditable &&
                 columnDefinitions.unshift(
@@ -187,7 +194,7 @@ const useColumns = (
                             return (
                                 <Link
                                     href={
-                                        isPlanRoute ? `/plan/${row.original.id_plan}` : `/logs/${row.original.ID_Plan}`
+                                        asPlanRoute ? `/plan/${row.original.id_plan}` : `/logs/${row.original.ID_Plan}`
                                     }
                                     className="flex justify-center"
                                 >
