@@ -1,11 +1,16 @@
+/* eslint-disable */
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState, useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
-import { Person } from '@/mocks/mockMakeDataList';
-import { LogEntry } from '@/mocks/mockLogsDataList';
+import { Plan } from '@/mocks/mockPlansDataList';
+import { PlanDetail } from '@/mocks/mockPlanDetailDataList';
+import { Log } from '@/mocks/mockLogsDataList';
+import { LogDetail } from '@/mocks/mockLogDetailDataList';
 import { Eye } from '@/assets/icons/Eye';
 import { Plus } from '@/assets/icons/plus';
 import { Minus } from '@/assets/icons/Minus';
+import { capitalize } from '@/helpers/capitalize.helper';
 
 type EditableCellProps = {
     getValue: () => any;
@@ -21,35 +26,111 @@ const EditableCell = ({ getValue, row, column, table, isEditable }: EditableCell
     const onBlur = () => {
         table.options.meta?.updateData(row.index, column.id, value);
     };
+    const optionsDocType = ['Compra', 'Venta', 'Compra y Venta'];
+    const optionsClientType = ['New Business', 'Regular Business', 'Upselling'];
+    const optionsCvType = [
+        'Coste fijo',
+        'Coste por click',
+        'Coste por lead',
+        'Coste por mil unidades',
+        'Coste por unidad',
+    ];
+
     useEffect(() => {
         setValue(initialValue);
     }, [initialValue]);
 
-    if (isEditable) {
+    if (
+        isEditable &&
+        ['tipo_documento', 'tipo_cliente', 'canal', 'tipo_cv', 'proveedor', 'formato', 'soporte'].includes(column.id)
+    ) {
+        return (
+            <select className="text-center" value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur}>
+                <option value={value} hidden>
+                    {value}
+                </option>
+                {column.id === 'tipo_documento' &&
+                    optionsDocType.map((option) => (
+                        <option key={option} value={option}>
+                            {option}
+                        </option>
+                    ))}
+                {column.id === 'tipo_cliente' &&
+                    optionsClientType.map((option) => (
+                        <option key={option} value={option}>
+                            {option}
+                        </option>
+                    ))}
+                {column.id === 'tipo_cv' &&
+                    optionsCvType.map((option) => (
+                        <option key={option} value={option}>
+                            {option}
+                        </option>
+                    ))}
+            </select>
+        );
+    } else if (isEditable && ['fecha_inicio', 'fecha_fin'].includes(column.id)) {
+        return (
+            <input
+                className="text-center"
+                type="date"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onBlur={onBlur}
+            />
+        );
+    } else if (isEditable) {
         return (
             <input className="text-center" value={value} onChange={(e) => setValue(e.target.value)} onBlur={onBlur} />
         );
     } else {
-        return <span>{value}</span>;
+        return <input className="text-center bg-white" value={value} disabled />;
     }
 };
 
 const useColumns = (
-    data: Person | LogEntry,
+    data: Plan | PlanDetail | Log | LogDetail,
     columnHelper: any,
     isEditable: boolean,
     showDetails: boolean,
     handleRemoveRow: any,
     handleAddRow: any
 ) => {
-    const columns = useMemo<ColumnDef<Person | LogEntry, any>[]>(() => {
-        const defaultData = showDetails
-            ? { id: null, person: null, page: null, action: null }
-            : { id: null, titular: null, amount: null, stateDoc: null, campaing: null, customer: null, numDoc: null };
+    const router = useRouter();
+    const asPlanRoute = router.pathname.startsWith('/plan');
+    const isPlanRoute = router.pathname === '/plan';
 
-        const columnDefinitions = Object.keys(data || defaultData).map((key) => {
+    const columns = useMemo<ColumnDef<Plan | PlanDetail | Log | LogDetail, any>[]>(() => {
+        const defaultData = showDetails
+            ? { id: null, Plan: null, page: null, action: null }
+            : {
+                  id_linea: null,
+                  orden_compra: null,
+                  panificador: null,
+                  tipo_documento: null,
+                  tipo_cliente: null,
+                  canal: null,
+                  descripción: null,
+                  proveedor: null,
+                  suporte: null,
+                  formato: null,
+                  comentários: null,
+                  fecha_inicio: null,
+                  fecha_fin: null,
+                  tipo_cv: null,
+                  cantidad_compra: null,
+                  precio_compra: null,
+                  importe_venta: null,
+                  margen_real: null,
+                  venta_fee: null,
+                  referencia_cliente: null,
+                  importe_venta_estimado: null,
+                  margen_estimado: null,
+              };
+
+        let columnDefinitions = Object.keys(data || defaultData).map((key) => {
             return columnHelper.accessor(key, {
-                header: () => <span>{key}</span>,
+                header: () => <span>{capitalize(key)}</span>,
                 footer: (props: any) => props.column.id,
                 cell: (props: EditableCellProps) => EditableCell({ ...props, isEditable }),
                 meta: {
@@ -58,6 +139,12 @@ const useColumns = (
                 filterFn: key === 'titular' || key === 'id' ? 'fuzzy' : undefined,
             });
         });
+
+        // Remove the canal column definition from the array when the route is /plan
+        if (isPlanRoute) {
+            columnDefinitions = columnDefinitions.filter((column) => column.accessorKey !== 'canal');
+        }
+
         {
             isEditable &&
                 columnDefinitions.unshift(
@@ -78,7 +165,7 @@ const useColumns = (
                         ),
                         cell: ({ row }: any) => {
                             return (
-                                <div className="flex justify-center items-center">
+                                <div className="flex justify-center items-center bg-white">
                                     <button
                                         title="Delete Current Row"
                                         aria-label="Delete Current Row"
@@ -105,7 +192,12 @@ const useColumns = (
                         header: () => <span>Details</span>,
                         cell: ({ row }: any) => {
                             return (
-                                <Link href={`/logs/logDetails=${row.original.id}`} className="flex justify-center">
+                                <Link
+                                    href={
+                                        asPlanRoute ? `/plan/${row.original.id_plan}` : `/logs/${row.original.ID_Plan}`
+                                    }
+                                    className="flex justify-center"
+                                >
                                     <Eye className="h-4 w-4" alt="delete row" />
                                 </Link>
                             );
@@ -123,7 +215,7 @@ const useColumns = (
                 columns: columnDefinitions,
             },
         ];
-    }, [columnHelper, handleRemoveRow, handleAddRow, data, showDetails, isEditable]);
+    }, [columnHelper, handleRemoveRow, handleAddRow, data, showDetails, isEditable, isPlanRoute]);
 
     return columns;
 };

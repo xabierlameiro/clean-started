@@ -1,19 +1,18 @@
-import LogsFilter from '@/components/Logs/filter';
 import { Layout } from '@/components/Layout';
 import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
+import { FilterPlanDetails } from '@/components/Filters/FilterPlanDetails';
 import { EditableTable } from '@/components/Table';
+import { PlanDataList } from '@/mocks/mockPlanDetailDataList';
 
-import { logData } from '@/mocks/mockLogsDataList';
-
-const Logs = () => {
+const Plan = () => {
     return (
         <Layout
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
-            subheader={<LogsFilter />}
-            content={<EditableTable dataList={logData} showDetails />}
+            subheader={<FilterPlanDetails />}
+            content={<EditableTable dataList={PlanDataList} isEditable />}
         />
     );
 };
@@ -38,4 +37,4 @@ export async function getServerSideProps() {
     };
 }
 
-export default Logs;
+export default Plan;

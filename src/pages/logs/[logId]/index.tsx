@@ -1,18 +1,37 @@
-import DateRangePicker from '@/components/Logs/CalendarFilter';
 import { Layout } from '@/components/Layout';
 import { Header } from '@/components/Header';
 import { Menu } from '@/components/Menu';
 import { menuList } from '@/mocks/mockMenuItemList';
 import { EditableTable } from '@/components/Table';
-import { logDetails } from '@/mocks/mockLogsDataList';
+import { logData } from '@/mocks/mockLogsDataList';
+import { logDetails } from '@/mocks/mockLogDetailDataList';
+
+import { useRouter } from 'next/router';
+import LogsFilter from '@/components/Logs/filter';
+
+export type IsLogDetailProps = {
+    ID_Plan: string;
+    campaña: string;
+};
 
 const LogDetails = () => {
+    const router = useRouter();
+    const logId = router.query.logId;
+    const filteredLogDetails = logDetails.filter((item) => {
+        return item.ID_Plan === logId;
+    });
+
+    const isLogDetail: IsLogDetailProps = {
+        ID_Plan: logId as string,
+        campaña: logData.find((item) => item.ID_Plan === logId)?.campaña || '',
+    };
+
     return (
         <Layout
             sidebar={<Menu menuList={menuList} />}
             header={<Header />}
-            subheader={<DateRangePicker />}
-            content={<EditableTable dataList={logDetails} showDetails />}
+            subheader={<LogsFilter isLogDetail={isLogDetail} />}
+            content={<EditableTable dataList={filteredLogDetails} />}
         />
     );
 };

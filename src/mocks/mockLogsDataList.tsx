@@ -1,43 +1,75 @@
-export type LogEntry = {
-    id: string;
-    person: string;
-    page: string;
-    action: string;
+export type Log = {
+    ID_Plan: string;
+    campaña: string;
+    última_acción_realizada: string;
+    fecha_última_modificación: string;
 };
 
-export type LogDetail = {
-    state: string;
-    id: string;
-    person: string;
-    page: string;
-    action: string;
-};
-
-export const logData: LogEntry[] = [
-    { id: '7892', person: 'Alice', page: 'Dashboard', action: 'Edit' },
-    { id: '5027', person: 'Sergio', page: 'Settings', action: 'Delete' },
-    { id: '1234', person: 'Gabriel', page: 'Settings', action: 'Create' },
-    { id: '6789', person: 'Emma', page: 'Dashboard', action: 'Create' },
-    { id: '9401', person: 'Grace', page: 'Settings', action: 'Edit' },
-    { id: '3158', person: 'Jack', page: 'Dashboard', action: 'Delete' },
-    { id: '8210', person: 'Sergio', page: 'Dashboard', action: 'Create' },
-    { id: '4596', person: 'Henry', page: 'Settings', action: 'Delete' },
-    { id: '7423', person: 'Frank', page: 'Dashboard', action: 'Edit' },
-    { id: '1937', person: 'Iris', page: 'Settings', action: 'Create' },
-    { id: '7892', person: 'Emma', page: 'Settings', action: 'Edit' },
-    { id: '5027', person: 'Sergio', page: 'Dashboard', action: 'Delete' },
-    { id: '1234', person: 'Gabriel', page: 'Dashboard', action: 'Create' },
-    { id: '6789', person: 'Sergio', page: 'Settings', action: 'Delete' },
-    { id: '9401', person: 'Frank', page: 'Dashboard', action: 'Edit' },
-    { id: '3158', person: 'Gabriel', page: 'Settings', action: 'Create' },
-    { id: '8210', person: 'Henry', page: 'Dashboard', action: 'Delete' },
-    { id: '4596', person: 'Grace', page: 'Dashboard', action: 'Create' },
-    { id: '7423', person: 'David', page: 'Settings', action: 'Edit' },
-    { id: '1937', person: 'Iris', page: 'Dashboard', action: 'Delete' },
-    // Agrega más registros de log aquí...
-];
-
-export const logDetails: LogDetail[] = [
-    { state: 'Dados Previos', id: '7892', person: 'Alice', page: 'Dashboard', action: 'Edit' },
-    { state: 'Dados Nuevos', id: '7893', person: 'Alice', page: 'Dashboard', action: 'Edit' },
+export const logData: Log[] = [
+    {
+        ID_Plan: '5782',
+        campaña: 'SEO Web - Jun-Sept2023',
+        última_acción_realizada: 'modificado',
+        fecha_última_modificación: '2023-02-12',
+    },
+    {
+        ID_Plan: '2578',
+        campaña: 'New Campaign - Fall2022',
+        última_acción_realizada: 'cerrado',
+        fecha_última_modificación: '2022-07-05',
+    },
+    {
+        ID_Plan: '8395',
+        campaña: 'SEO Web - Winter2023',
+        última_acción_realizada: 'modificado',
+        fecha_última_modificación: '2022-09-28',
+    },
+    {
+        ID_Plan: '4827',
+        campaña: 'New Campaign - Spring2023',
+        última_acción_realizada: 'cerrado',
+        fecha_última_modificación: '2023-03-19',
+    },
+    {
+        ID_Plan: '7214',
+        campaña: 'SEO Web - Summer2023',
+        última_acción_realizada: 'creada',
+        fecha_última_modificación: '2022-11-07',
+    },
+    {
+        ID_Plan: '1536',
+        campaña: 'New Campaign - Winter2023',
+        última_acción_realizada: 'cerrado',
+        fecha_última_modificación: '2023-01-31',
+    },
+    {
+        ID_Plan: '6897',
+        campaña: 'SEO Web - Spring2023',
+        última_acción_realizada: 'modificado',
+        fecha_última_modificación: '2022-08-16',
+    },
+    {
+        ID_Plan: '3265',
+        campaña: 'New Campaign - Summer2023',
+        última_acción_realizada: 'creada',
+        fecha_última_modificación: '2022-06-23',
+    },
+    {
+        ID_Plan: '4803',
+        campaña: 'SEO Web - Fall2023',
+        última_acción_realizada: 'creada',
+        fecha_última_modificación: '2022-12-09',
+    },
+    {
+        ID_Plan: '7502',
+        campaña: 'New Campaign - Spring2023',
+        última_acción_realizada: 'modificado',
+        fecha_última_modificación: '2023-04-14',
+    },
+    {
+        ID_Plan: '9658',
+        campaña: 'SEO Web - Summer2023',
+        última_acción_realizada: 'cerrado',
+        fecha_última_modificación: '2023-02-27',
+    },
 ];

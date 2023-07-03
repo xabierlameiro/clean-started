@@ -1,32 +1,48 @@
 import { useCallback } from 'react';
 import { FilterFn } from '@tanstack/react-table';
 import { rankItem } from '@tanstack/match-sorter-utils';
-import { Person } from '@/mocks/mockMakeDataList';
-import { LogEntry } from '@/mocks/mockLogsDataList';
-
+import { Plan } from '@/mocks/mockPlansDataList';
+import { PlanDetail } from '@/mocks/mockPlanDetailDataList';
+import { Log } from '@/mocks/mockLogsDataList';
+import { LogDetail } from '@/mocks/mockLogDetailDataList';
 const useTable = (
-    data: (Person | LogEntry)[],
-    setData: React.Dispatch<React.SetStateAction<(Person | LogEntry)[]>>
+    data: (Plan | PlanDetail | Log | LogDetail)[],
+    setData: React.Dispatch<React.SetStateAction<(Plan | PlanDetail | Log | LogDetail)[]>>
 ) => {
     const handleAddRow = () => {
-        let newData = {} as Person | LogEntry;
+        let newPlanLine = {} as PlanDetail;
 
-        newData = {
-            id: crypto.randomUUID().slice(0, 8),
-            titular: '',
-            amount: null as unknown as number,
-            stateDoc: '',
-            campaing: '',
-            customer: '',
-            numDoc: null as unknown as number,
+        newPlanLine = {
+            id_linea: `${data.length + 1}`,
+            orden_compra: crypto.randomUUID().slice(0, 6),
+            panificador: '',
+            tipo_documento: '',
+            tipo_cliente: '',
+            canal: '',
+            descripción: '',
+            proveedor: '',
+            suporte: '',
+            formato: '',
+            comentários: '',
+            fecha_inicio: '',
+            fecha_fin: '',
+            tipo_cv: '',
+            cantidad_compra: '',
+            precio_compra: '',
+            importe_venta: '',
+            margen_real: '',
+            venta_fee: '',
+            referencia_cliente: '',
+            importe_venta_estimado: '',
+            margen_estimado: '',
         };
 
-        setData([...data, newData]);
+        setData([...data, newPlanLine]);
     };
 
     const handleRemoveRow = useCallback(
         (row: any) => {
-            const updatedData = data.filter((d: any) => d.id !== row.original.id);
+            const updatedData = data.filter((d: any) => d.id_linea !== row.original.id_linea);
             setData(updatedData);
         },
         [data, setData]
