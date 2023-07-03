@@ -9,8 +9,13 @@ export const useLocalStorage = () => {
         return localStorage.getItem(key);
     };
 
+    const removeFromStorage = (key: Keyword) => {
+        localStorage.removeItem(key);
+    };
+
     return {
         setOnStorage,
         getFromStorage,
+        removeFromStorage,
     };
 };

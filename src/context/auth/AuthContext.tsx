@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(initialAuthState.isLoading);
-    const { setOnStorage, getFromStorage } = useLocalStorage();
+    const { setOnStorage, getFromStorage, removeFromStorage } = useLocalStorage();
 
     useEffect(() => {
         setIsLoading(true);
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     const logout = () => {
         setIsLoading(true);
         setUser(null);
-        localStorage.removeItem('user');
+        removeFromStorage(Keyword.user);
         router.push('/');
     };
 
