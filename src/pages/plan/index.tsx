@@ -5,36 +5,30 @@ import { menuList } from '@/mocks/mockMenuItemList';
 import { Filters } from '@/components/Filters';
 import { EditableTable } from '@/components/Table';
 import { PersonsDataList } from '@/mocks/mockMakeDataList';
+import { Modal } from '@/src/components/Modal';
+import { api } from '../../constants/api';
+import { useFetch } from '@/src/hooks/useFetch';
+import { Spinner } from '@/src/components/Spinner';
 
 const Plan = () => {
+    const { isFetching } = useFetch(api.endpoint.morty.getAll);
+
     return (
-        <Layout
-            sidebar={<Menu menuList={menuList} />}
-            header={<Header />}
-            subheader={<Filters />}
-            content={<EditableTable dataList={PersonsDataList} isEditable />}
-        />
+        <>
+            {isFetching && (
+                <Modal>
+                    <Spinner />
+                </Modal>
+            )}
+
+            <Layout
+                sidebar={<Menu menuList={menuList} />}
+                header={<Header />}
+                subheader={<Filters />}
+                content={<EditableTable dataList={PersonsDataList} isEditable />}
+            />
+        </>
     );
 };
-
-export async function getServerSideProps() {
-    // Get user from server
-    const user = 'John Doe';
-
-    if (!user) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false,
-            },
-        };
-    }
-
-    return {
-        props: {
-            user,
-        },
-    };
-}
 
 export default Plan;

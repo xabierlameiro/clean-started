@@ -17,6 +17,7 @@
         "incremental": true,
         "baseUrl": ".",
         "paths": {
+            "@/src/*": ["src/*"],
             "@/components/*": ["src/components/*"],
             "@/styles/*": ["src/styles/*"],
             "@/pages/*": ["src/pages/*"],
@@ -25,7 +26,9 @@
             "@/test": ["./jest.setup.js"],
             "@/helpers/*": ["src/helpers/*"],
             "@/assets/*": ["src/assets/*"],
-            "@/hooks/*": ["src/hooks/*"]
+            "@/hooks/*": ["src/hooks/*"],
+            "@/interceptors/*": ["src/interceptors/*"],
+            "@/types/*": ["src/types/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

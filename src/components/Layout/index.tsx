@@ -22,7 +22,7 @@ export const Layout: React.FC<Props> = ({ sidebar, header, subheader, content })
     };
 
     return (
-        <div className="relative flex bg-gray-100 min-h-screen w-full">
+        <div className="flex relative bg-gray-100 min-h-screen w-full">
             {isMenuOpen ? (
                 <button
                     className="absolute z-10 m-2 mt-3 flex items-center justify-center lg:hidden"

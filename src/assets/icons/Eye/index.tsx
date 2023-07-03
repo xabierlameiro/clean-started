@@ -1,11 +1,13 @@
 type Props = {
     alt: string;
     className: string;
+    onClick?: () => void;
 };
 
-export const Eye = ({ className, alt }: Props): JSX.Element => {
+export const Eye = ({ onClick, className, alt }: Props): JSX.Element => {
     return (
         <svg
+            onClick={onClick}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

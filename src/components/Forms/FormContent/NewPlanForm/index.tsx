@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from '@/hooks/useForm';
 import { NewPlanSubmenu } from './components/NewPlanSubmenu';
 import { Save } from '@/assets/icons/Save';
 import { mockSelectorOptions } from '@/mocks/mocksNewPlan';
-import { DialogModal } from '@/components/Modal';
-import { Header, Body, Footer } from '@/components/Modal/ModalContent/NewPlan';
+import { Modal } from '@/src/components/Modal';
+import { BaseDialogContent } from '@/src/components/Modal/content/BaseDialogContent';
 
 type NewPlanFormType = {
     customerName: string;
@@ -33,7 +33,6 @@ export type PlanType = {
 };
 
 export const NewPlanForm = () => {
-    const dialogRef = useRef(null);
     const [open, setOpen] = useState(false);
     const { formData, handleInputChange, setFormData, resetForm } = useForm<NewPlanFormType>(initialFormValues);
     const { customerName, campain, docDate, status, startDate, endDate, documentType, isCreated } = formData;
@@ -55,14 +54,14 @@ export const NewPlanForm = () => {
     return (
         <>
             {isCreated && open && (
-                <DialogModal
-                    borderColor={'red'}
-                    dialogRef={dialogRef}
-                    open={open}
-                    header={<Header setOpen={setOpen} />}
-                    body={<Body title={`Plan nº ${plan.id} guardado con éxito`} />}
-                    footer={<Footer setOpen={setOpen} />}
-                />
+                <Modal>
+                    <BaseDialogContent
+                        header={'Grabación realizada con éxito'}
+                        body={`Plan nº ${plan.id} guardado con éxito`}
+                        footer={'Cerrar'}
+                        setOpen={setOpen}
+                    />
+                </Modal>
             )}
             <section className="w-full mb-4 border-2 shadow-lg bg-white">
                 <NewPlanSubmenu plan={plan} onSave={onSavePlan} isCreated={isCreated} />
