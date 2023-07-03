@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { api } from '../constants/api';
+import { api } from '../constants/api.constants';
 const { baseUrl } = api;
 
 export const useFetch = (endpoint: string) => {

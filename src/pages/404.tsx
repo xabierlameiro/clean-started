@@ -1,4 +1,4 @@
-import { availableRoutes } from '@/constants/routes';
+import { availableRoutes } from '@/src/constants/routes.constants';
 import Link from 'next/link';
 
 const Custom404 = () => {

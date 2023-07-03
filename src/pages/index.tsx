@@ -9,6 +9,8 @@ import { useAuthContext } from '../context/auth/AuthContext';
 import { useRouter } from 'next/router';
 import { Modal } from '../components/Modal';
 import { Spinner } from '../components/Spinner';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { Keyword } from '../constants/keywords.contants';
 
 type LoginFormType = {
     email: string;
@@ -25,6 +27,7 @@ const Login = () => {
     const { formData, handleInputChange } = useForm<LoginFormType>(initialValues);
     const [showPassword, setShowPassword] = useState(false);
     const { login, isLoading, setIsLoading } = useAuthContext();
+    const { getFromStorage } = useLocalStorage();
 
     const togglePassword = () => {
         setShowPassword(!showPassword);
@@ -38,7 +41,7 @@ const Login = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        const userStored = localStorage.getItem('user');
+        const userStored = getFromStorage(Keyword.user);
         if (userStored) router.back();
         setTimeout(() => {
             setIsLoading(false);

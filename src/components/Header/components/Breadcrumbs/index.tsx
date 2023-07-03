@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { Crumb } from './components/Crumb';
-import { availableCrumbs } from '@/constants/routes';
+import { availableCrumbs } from '@/src/constants/routes.constants';
 
 export const Breadcrumbs = () => {
     const location = useRouter();

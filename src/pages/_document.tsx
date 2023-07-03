@@ -1,4 +1,4 @@
-import { image } from '@/constants/images';
+import { image } from '@/src/constants/images.constants';
 import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {

@@ -1,3 +1,5 @@
+import { Keyword } from '@/src/constants/keywords.contants';
+import { useLocalStorage } from '@/src/hooks/useLocalStorage';
 import { useRouter } from 'next/router';
 import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
 
@@ -39,17 +41,18 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(initialAuthState.isLoading);
+    const { setOnStorage, getFromStorage } = useLocalStorage();
 
     useEffect(() => {
         setIsLoading(true);
-        const userStored = localStorage.getItem('user');
+        const userStored = getFromStorage(Keyword.user);
         if (!userStored) router.push('/');
     }, []);
 
     const login = (user: User) => {
         setIsLoading(true);
         setUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
+        setOnStorage(Keyword.user, user);
         router.push('/plan');
     };
 

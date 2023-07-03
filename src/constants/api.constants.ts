@@ -1,3 +1,4 @@
+// TODO: Borrar cuando ya no se use
 export const api = {
     baseUrl: 'https://rickandmortyapi.com/api',
     endpoint: {
