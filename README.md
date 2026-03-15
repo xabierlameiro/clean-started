@@ -1,44 +1,48 @@
-# Clean starter
-## Commands
-- `yarn` - Install dependencies
-- `yarn dev` - Start the development server
-- `yarn build` - Build the app for production
-- `yarn start` - Start the production server
-- `yarn lint` - Run ESLint
-- `yarn test` - Run unit tests
+# Clean Started — Next.js 14 Starter Template
 
-## Apllication paths
-- `http://localhost:3000` - Development server
-- `http://localhost:3000/api` - API routes
+A production-ready Next.js 14 starter template with data tables (TanStack Table), Husky git hooks, Jest testing, and pagination out of the box.
 
-## Curl examples
-- `curl -X GET http://localhost:3000/api/hello` - Greeting example
+[![CI](https://github.com/xabierlameiro/clean-started/actions/workflows/ci.yml/badge.svg)](https://github.com/xabierlameiro/clean-started/actions/workflows/ci.yml)
 
-## Folder structure
-- `public` - Static files (images, fonts, etc.)
-- `src/__tests__` - Tests for page files
-- `src/components` - React components
-- `src/constants` - Constants values
-- `src/contexts` - React contexts
-- `src/helpers` - Helper functions
-- `src/hooks` - React custom hooks
-- `src/pages` - Apllication pages
-- `src/pages/_app.tsx` - Application wrapper
-- `src/pages/_document.tsx` - Document wrapper
-- `src/pages/api` - API routes
-- `src/styles` - Global styles
+## Features
 
-## Libs
-- Nextjs
-- React
-- Typescript
-- EsLint
-- Prettier
-- Husky
-- Jest
-- React Testing Library
-- Tailwindcss
+- 📊 Data tables with [@tanstack/react-table](https://tanstack.com/table)
+- 🧪 Unit testing with Jest + Testing Library
+- 🐶 Git hook enforcement with Husky + lint-staged
+- 📐 TypeScript strict mode
+- 🎨 Tailwind CSS styling
 
-## Links
-- [Custom theme](https://tailwindcss.com/docs/theme)
-- [Custom colors](https://tailwindcss.com/docs/customizing-colors)
+## Stack
+
+| Layer           | Choice                  |
+| --------------- | ----------------------- |
+| Framework       | Next.js 14 (App Router) |
+| Language        | TypeScript              |
+| Tables          | @tanstack/react-table   |
+| Testing         | Jest + Testing Library  |
+| Git hooks       | Husky + lint-staged     |
+| Package manager | npm                     |
+
+## Getting started
+
+```bash
+git clone https://github.com/xabierlameiro/clean-started.git
+cd clean-started
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Scripts
+
+| Script          | Description              |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start development server |
+| `npm run build` | Production build         |
+| `npm run lint`  | ESLint                   |
+| `npm test`      | Jest unit tests          |
+
+## License
+
+[MIT](./LICENSE) — © 2026 Xabier Lameiro
